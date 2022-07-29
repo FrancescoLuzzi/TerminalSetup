@@ -1,7 +1,6 @@
 # TerminalSetup
 
-Download [Inconsolata Nerd Font](https://www.nerdfonts.com/font-downloads) and [Cascadia Code PL](https://github.com/microsoft/cascadia-code) (install the ttf files, not in the static dir)
-
+Download [Caskaydia Cove Nerd Font](https://www.nerdfonts.com/font-downloads)
 
 Download and install "Oh My Posh" for [Windows](https://ohmyposh.dev/docs/installation/windows) or for [Linux/wsl](https://ohmyposh.dev/docs/installation/linux)
 - For Linux setup:
@@ -16,4 +15,4 @@ Download and install [VsCode](https://code.visualstudio.com/download)
 
 
 Download and install [Windows Terminal](https://aka.ms/terminal)
-- select as font "Inconsola NF"
+- select as font "CaskaydiaCove NF"
