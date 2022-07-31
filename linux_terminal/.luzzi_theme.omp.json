@@ -29,7 +29,7 @@
           "foreground": "black",
           "background_templates": [
             "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#d43b3b{{ end }}",
-            "{{ if gt .Ahead 0 }}#5fb2ce{{ end }}",
+            "{{ if gt .Ahead 0 }}#b3ffb3{{ end }}",
             "{{ if gt .Behind 0 }}#ffb732{{ end }}",
             "{{ if or (.Working.Changed) (.Staging.Changed) }}#ffeb95{{ end }}"
           ],
