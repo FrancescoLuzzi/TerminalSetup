@@ -17,6 +17,7 @@ Download and install [VsCode](https://code.visualstudio.com/download)
 Download and install [Windows Terminal](https://aka.ms/terminal)
 - select as font "CaskaydiaCove NF"
 
+```sudo apt install vim vim-gui-common vim-runtime```
 Copy .vimrc in your home directory
 
 
