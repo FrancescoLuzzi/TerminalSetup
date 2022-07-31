@@ -2,6 +2,7 @@
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
 
+set encoding=UTF-8
 set noerrorbells        " no bells
 set number              " show line numbers
 set relativenumber      " show relative line numbers
