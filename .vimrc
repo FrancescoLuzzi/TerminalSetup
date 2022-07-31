@@ -28,7 +28,7 @@ set hidden
 let g:netrw_banner = 0
 let g:netrw_liststyle= 3
 let g:netrw_winsize = 20
-let g:netrw_browse_split = 4
+let g:netrw_browse_split = 0
 let g:netrw_altv = 1
 
 " remap to move within windows without pressing ctrl+w
@@ -36,3 +36,10 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" remap to move between tabs
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+
+" key remap to open Explorer in new tab
+map <F2> :Texplore<Enter>
