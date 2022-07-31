@@ -57,6 +57,13 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" resize windows
+nnoremap <S-Right> :vertical resize -2<CR>
+nnoremap <S-Left> :vertical resize +2<CR>
+nnoremap <S-Up> :resize -2<CR>
+nnoremap <S-Down> :resize +2<CR>
+
 " fast move with Shift + k/j
 nnoremap <buffer> <S-K> 10k
 nnoremap <buffer> <S-J> 10j
@@ -111,7 +118,6 @@ let g:airline_powerline_fonts = 1
 " custom remaps with front <Space>
 
 let mapleader = " "
-nnoremap <leader>+ <C-W>+
-nnoremap <leader>- <C-W>-
 nnoremap <leader>= <C-W>=
 nmap <leader>v <C-w>v<C-L>
+nmap <leader>s <C-w>s<C-J>
