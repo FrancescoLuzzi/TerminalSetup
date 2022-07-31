@@ -5,7 +5,7 @@ let &t_EI = "\e[2 q"
 set noerrorbells        " no bells
 set number              " show line numbers
 set relativenumber      " show relative line numbers
-set background=dark     " dark mode to code faster  
+set background=dark     " dark mode to code faster
 set incsearch           " incremental research
 set scrolloff=8         " start scrolling before end on visual
 set nowrap              " long lines stay on the same line
@@ -31,10 +31,14 @@ let g:netrw_winsize = 20
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 " add event listeners mapping
-augroup netrw_mapping
+augroup my_mappings
     autocmd!
     " call mappings on netrw open
-    autocmd filetype netrw call NetrwMapping()
+    autocmd filetype netrw :call NetrwMapping()
+    " trim spaces
+    autocmd BufWritePre * :%s/\s\+$//e
+    " trim spaces for ruby files
+    autocmd BufWritePre *.rb :%s/\s\+$//e
 augroup END
 
 " add mapping to netrw
@@ -42,6 +46,7 @@ function! NetrwMapping()
     " map F2 to close Explore when open
     map <buffer> <F2> :Rex<CR>
 endfunction
+
 
 " NORMAL MODE MAPPINGS
 
@@ -52,7 +57,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 " fast move with Shift + k/j
 nnoremap <buffer> <S-K> 10k
-nnoremap <buffer> <S-J> 10j 
+nnoremap <buffer> <S-J> 10j
 
 " remap to move between buffers Ctrl + ->/<-
 nnoremap <C-Left> :bp<CR>
@@ -77,7 +82,7 @@ noremap <buffer> <F2> <Esc>:Explore<CR>
 
 " PLUGINS
 
-" load vim-plug 
+" load vim-plug
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -104,7 +109,7 @@ let g:airline_powerline_fonts = 1
 " custom remaps with front <Space>
 
 let mapleader = " "
-nnoremap <leader>+ <C-W>+ 
+nnoremap <leader>+ <C-W>+
 nnoremap <leader>- <C-W>-
 nnoremap <leader>= <C-W>=
 nmap <leader>v <C-w>v<C-L>
