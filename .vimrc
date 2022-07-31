@@ -22,6 +22,7 @@ set foldlevelstart=99   " open most folds by default
 set foldlevel=99        " open most folds by default
 set foldmethod=indent   " fold based on indent level
 set wildmenu            " menu for completion
+set cursorline
 set completeopt=menu,menuone,noselect
 set hidden
 
