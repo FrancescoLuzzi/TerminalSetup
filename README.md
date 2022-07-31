@@ -16,3 +16,8 @@ Download and install [VsCode](https://code.visualstudio.com/download)
 
 Download and install [Windows Terminal](https://aka.ms/terminal)
 - select as font "CaskaydiaCove NF"
+
+Copy .vimrc in your home directory
+
+
+# TODO script file to configure automatically
