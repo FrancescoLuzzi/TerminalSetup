@@ -65,7 +65,7 @@ nnoremap <S-Up> :resize -2<CR>
 nnoremap <S-Down> :resize +2<CR>
 
 " fast move with Shift + k/j
-nnoremap <buffer> <S-K> 10k
+nnoremap <special> <S-K> 10k
 nnoremap <buffer> <S-J> 10j
 
 " remap to move between buffers Ctrl + ->/<-
@@ -85,8 +85,8 @@ vnoremap K :m '>-2<CR>gv=gv
 " ALL MODES REMAPS
 
 " key remap to open Explorer in new tab
-noremap <buffer> <F1> <Esc>:FZF<CR>
-noremap <buffer> <F2> <Esc>:Explore<CR>
+noremap <special> <F1> <Esc>:FZF<CR>
+noremap <special> <F2> <Esc>:Explore<CR>
 
 
 " PLUGINS
