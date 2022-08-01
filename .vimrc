@@ -65,7 +65,7 @@ nnoremap <S-Up> :resize -2<CR>
 nnoremap <S-Down> :resize +2<CR>
 
 " fast move with Shift + k/j
-nnoremap <special> <S-K> 10k
+nnoremap <buffer> <S-K> 10k
 nnoremap <buffer> <S-J> 10j
 
 " remap to move between buffers Ctrl + ->/<-
