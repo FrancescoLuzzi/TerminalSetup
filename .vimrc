@@ -79,7 +79,7 @@ nnoremap <C-D> :bdelete<CR>
 
 " move selected lines with Shift + k/j
 vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '>-2<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 
 " ALL MODES REMAPS
