@@ -41,6 +41,8 @@ augroup my_mappings
     autocmd BufWritePre * :%s/\s\+$//e
     " trim spaces for ruby files
     autocmd BufWritePre *.rb :%s/\s\+$//e
+    " reset cursor
+    autocmd VimLeave * silent !echo -ne "\e[6 q"
 augroup END
 
 " add mapping to netrw
