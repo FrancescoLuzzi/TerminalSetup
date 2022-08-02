@@ -1,7 +1,4 @@
 " In insert mode steady bar (|) else steady block
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
-
 set encoding=UTF-8
 set noerrorbells        " no bells
 set number              " show line numbers
@@ -41,6 +38,8 @@ augroup my_mappings
     autocmd BufWritePre * :%s/\s\+$//e
     " trim spaces for ruby files
     autocmd BufWritePre *.rb :%s/\s\+$//e
+    " set cursor
+    autocmd VimEnter * silent !echo -ne "\e[2 q"
     " reset cursor
     autocmd VimLeave * silent !echo -ne "\e[6 q"
 augroup END
