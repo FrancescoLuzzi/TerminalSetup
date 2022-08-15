@@ -25,6 +25,7 @@ set wildmenu            " menu for completion
 set cursorline
 set completeopt=menu,menuone,noselect
 set hidden
+set mouse=a
 
 " Netrw
 let g:netrw_banner = 0
