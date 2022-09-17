@@ -115,6 +115,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'rust-lang/rust.vim'
 call plug#end()
 
+" enable rust plugin
+syntax enable
+filetype plugin indent on
+
 " set color scheme
 colorscheme gruvbox
 
