@@ -1,0 +1,15 @@
+code --install-extension dsznajder.es7-react-js-snippets
+code --install-extension esbenp.prettier-vscode
+code --install-extension humao.rest-client
+code --install-extension ms-azuretools.vscode-docker
+code --install-extension ms-python.isort
+code --install-extension ms-python.python
+code --install-extension ms-python.vscode-pylance
+code --install-extension ms-toolsai.jupyter
+code --install-extension ms-toolsai.jupyter-keymap
+code --install-extension ms-toolsai.jupyter-renderers
+code --install-extension ms-toolsai.vscode-jupyter-cell-tags
+code --install-extension ms-toolsai.vscode-jupyter-slideshow
+code --install-extension ms-vscode-remote.remote-containers
+code --install-extension njpwerner.autodocstring
+code --install-extension PKief.material-icon-theme
