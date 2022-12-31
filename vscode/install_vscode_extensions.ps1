@@ -1,6 +1,8 @@
+code --install-extension DavidAnson.vscode-markdownlint
 code --install-extension dsznajder.es7-react-js-snippets
 code --install-extension esbenp.prettier-vscode
 code --install-extension humao.rest-client
+code --install-extension mhutchie.git-graph
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-python.isort
 code --install-extension ms-python.python
@@ -12,5 +14,5 @@ code --install-extension ms-toolsai.vscode-jupyter-cell-tags
 code --install-extension ms-toolsai.vscode-jupyter-slideshow
 code --install-extension ms-vscode-remote.remote-containers
 code --install-extension njpwerner.autodocstring
-code --install-extension mhutchie.git-graph
 code --install-extension PKief.material-icon-theme
+code --install-extension yzhang.markdown-all-in-one
