@@ -5,6 +5,7 @@ Download [Caskaydia Cove Nerd Font](https://www.nerdfonts.com/font-downloads) ->
 Download and install "Oh My Posh" for [Windows](https://ohmyposh.dev/docs/installation/windows) or for [Linux/wsl](https://ohmyposh.dev/docs/installation/linux)
 
 - For Linux setup:
+  - run ``` sudo apt install git bash-completion curl tree zip vim vim-gui-common vim-runtime -y ```
   - add the content of .bashrc to the **.bashrc** in your home directory.
 - Windows setup
   - Download and install [VsCode](https://code.visualstudio.com/download)
