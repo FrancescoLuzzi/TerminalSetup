@@ -38,10 +38,8 @@ augroup my_mappings
     autocmd!
     " call mappings on netrw open
     autocmd filetype netrw :call NetrwMapping()
-    " trim spaces
+    " trim spaces, for reference, after the * you can add the wanted extension (example *.py)
     autocmd BufWritePre * :%s/\s\+$//e
-    " trim spaces for ruby files
-    autocmd BufWritePre *.rb :%s/\s\+$//e
     " set cursor
     autocmd VimEnter * silent !echo -ne "\e[2 q"
     " reset cursor
