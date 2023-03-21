@@ -121,6 +121,11 @@ let g:airline_powerline_fonts = 1
 " custom remaps with front <Space>
 
 let mapleader = " "
+" equalize split views
 nnoremap <leader>= <C-W>=
+" split view vertically
 nmap <leader>v <C-w>v<C-L>
+" split view horizontally
 nmap <leader>s <C-w>s<C-J>
+" close all views but the one you are editing
+nmap <leader>d <Esc>:only<CR>
