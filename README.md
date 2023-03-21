@@ -6,6 +6,7 @@ Download and install "Oh My Posh" for [Windows](https://ohmyposh.dev/docs/instal
 
 - For Linux setup:
   - run ``` sudo apt install git bash-completion curl tree zip vim vim-gui-common vim-runtime tmux -y ```
+  - to update tmux packages `` tmux new ``` then press ``` Ctrl+a I ```
   - add the content of .bashrc to the **.bashrc** in your home directory.
 - Windows setup
   - Download and install [VsCode](https://code.visualstudio.com/download)
