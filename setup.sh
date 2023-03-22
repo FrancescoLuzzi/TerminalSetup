@@ -5,10 +5,19 @@ ln -sf ${_pwd}/linux_terminal/.vimrc $HOME/.vimrc
 ln -sf ${_pwd}/linux_terminal/.git.plugin.sh $HOME/.git.plugin.sh
 ln -sf ${_pwd}/linux_terminal/.luzzi_theme.omp.json $HOME/.luzzi_theme.omp.json
 ln -sf ${_pwd}/linux_terminal/.tmux.conf $HOME/.tmux.conf
+
+is_ping_usable=$(ping -q -c 1 -W 1 8.8.8.8 1>/dev/null 2>&1; echo $?)
+
+if [ $is_ping_usable = "130" ];then
+    echo "Enabling use of ping in wsl"
+    sudo setcap cap_net_raw+p /bin/ping
+fi
+
 if ! nvm;then
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    source ~/.nvm/nvm.sh
 fi
-source ~/.bashrc
+
 if ! node;then
     nvm install --lts
 fi
