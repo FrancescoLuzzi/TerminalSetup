@@ -3,5 +3,6 @@
 	"terminal.integrated.cursorBlinking": true,
 	"terminal.integrated.fontSize": 13,
 	"editor.fontLigatures": true,
-	"editor.stickyScroll.enabled": true
+	"editor.stickyScroll.enabled": true,
+	"files.trimTrailingWhitespace": true
 }
