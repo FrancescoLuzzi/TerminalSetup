@@ -9,23 +9,26 @@ ln -sf ${_pwd}/linux_terminal/.git.plugin.sh $HOME/.git.plugin.sh
 ln -sf ${_pwd}/linux_terminal/.luzzi_theme.omp.json $HOME/.luzzi_theme.omp.json
 ln -sf ${_pwd}/linux_terminal/.tmux.conf $HOME/.tmux.conf
 
-is_ping_usable=$(ping -q -c 1 -W 1 8.8.8.8 1>/dev/null 2>&1; echo $?)
+is_ping_usable=$(
+    ping -q -c 1 -W 1 8.8.8.8 1>/dev/null 2>&1
+    echo $?
+)
 
-if [ $is_ping_usable = "2" ];then
+if [ $is_ping_usable = "2" ]; then
     echo "Enabling use of ping in wsl"
     sudo setcap cap_net_raw+p /bin/ping
 fi
 
-if ! nvm --version;then
+if ! nvm --version; then
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
     source ~/.nvm/nvm.sh
 fi
 
-if ! node --version;then
+if ! node --version; then
     nvm install --lts
 fi
 
-if [ ! -d ~/.tmux/plugins/tpm ];then
+if [ ! -d ~/.tmux/plugins/tpm ]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     # start a server but don't attach to it
     tmux start-server
@@ -38,3 +41,24 @@ if [ ! -d ~/.tmux/plugins/tpm ];then
     # killing the server is not required, I guess
     tmux kill-server
 fi
+
+# idea for installer
+
+# if nothing is passed, interactive mode (aks continue [Y/n]?, if n return helper and exit)
+
+# by default apt install:
+# build-essential libssl-dev libffi-dev
+
+# options
+# -h show help
+# -i [vim|nvim] (installs -p -G -r -n)
+# -w [tmux|zelij]
+# -p (python3-dev, python3-pip, python3-venv)
+# -r (rust+cargo)
+# -n (nvm+node+npm)
+# -g (golang)
+# -G (git+.git.plugin.sh)
+# -u (update)
+
+# we ended correctly, create file ~/.terminal_setup/.setted_up
+# all calls without option -u will result in failure with explanation

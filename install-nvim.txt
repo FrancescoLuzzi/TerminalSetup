@@ -1,0 +1,32 @@
+sudo apt update && sudo apt upgrade
+sudo apt install wget curl python3 python3-pip git -y
+
+# rust/cargo
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# nvm and node
+if ! nvm --version;then
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    source ~/.nvm/nvm.sh
+fi
+
+if ! node --version;then
+    nvm install --lts
+fi
+
+# install latest stable neovim
+
+latest_deb=$(curl -L  -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/neovim/neovim/releases/tags/stable| grep browser_download_url | cut -d '"' -f 4 | grep nvim-linux64.deb$)
+wget $latest_deb -i --
+sudo apt install ./nvim-linux64.deb
+rm nvim-linux64.deb
+
+LV_BRANCH='release-1.2/neovim-0.8' bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/fc6873809934917b470bff1b072171879899a36b/utils/installer/install.sh)
+
+
+# config files https://www.youtube.com/watch?v=BHlR_GJaNbI
+# hot reload https://www.youtube.com/watch?v=uLfGCb6_FAk
+# Add lines to lunarvim config file
+# TODO, script that appends those configs
+lvim.keys.normal_mode["|"] = ":vsplit<CR>"
+lvim.keys.normal_mode["-"] = ":split<CR>"
