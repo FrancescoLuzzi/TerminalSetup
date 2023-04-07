@@ -1,13 +1,5 @@
 #!/bin/bash
-DEL_PREV_LINE=$'\r\033[K'
 
-function cursor_to(){
-    printf "\033[$1;${2:-1}H"
-}
-
-function get_cursor_row(){
-    IFS=';' read -sdR -p $'\E[6n' ROW COL; echo ${ROW#*[}
-}
 
 function is_selected(){
     egrep -q ".+ \*$" <<< "$1"
@@ -21,11 +13,17 @@ function toggle_text(){
         echo "$1 *"
     fi
 }
+el_line=$(tput el1)
+up_one_line=$(tput cuu1)
 
-PS3="${DEL_PREV_LINE}Select items to be installed: "
+function delete_last_lines(){
+    echo -e $el_line$(printf "%0.s$up_one_line$el_line" $(seq $1))\c
+}
+
+PS3="Select items to be installed: "
 
 items=("Vim" "Nvim" "Tmux")
-number_options=$((${#items[@]} + 3))
+number_options=$((${#items[@]} + 4))
 while true; do
     select item in "${items[@]}" Done Quit
     do
@@ -35,6 +33,5 @@ while true; do
             *) if [ $REPLY -le ${#items[@]} ]; then items[$REPLY-1]=$(toggle_text "$item"); else echo "Ooops - unknown choice $REPLY"; fi; break;
         esac
     done
-    lastrow=`get_cursor_row`
-    cursor_to $(($lastrow - $number_options))
+    delete_last_lines $number_options
 done
