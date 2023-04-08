@@ -1,90 +1,243 @@
 #!/bin/bash
 
-# load nvm just to be sure
-source ~/.nvm/nvm.sh 2>/dev/null
-
-_pwd=$(pwd)
-ln -sf ${_pwd}/linux_terminal/.vimrc $HOME/.vimrc
-ln -sf ${_pwd}/linux_terminal/.git.plugin.sh $HOME/.git.plugin.sh
-ln -sf ${_pwd}/linux_terminal/.luzzi_theme.omp.json $HOME/.luzzi_theme.omp.json
-ln -sf ${_pwd}/linux_terminal/.tmux.conf $HOME/.tmux.conf
-
-is_ping_usable=$(
-    ping -q -c 1 -W 1 8.8.8.8 1>/dev/null 2>&1
-    echo $?
-)
-
-if [ $is_ping_usable = "2" ]; then
-    echo "Enabling use of ping in wsl"
-    sudo setcap cap_net_raw+p /bin/ping
-fi
-
-if ! nvm --version; then
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    source ~/.nvm/nvm.sh
-fi
-
-if ! node --version; then
-    nvm install --lts
-fi
-
-if [ ! -d ~/.tmux/plugins/tpm ]; then
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    # start a server but don't attach to it
-    tmux start-server
-    # source .tmux.conf
-    tmux source $HOME/.tmux.conf
-    # create a new session but don't attach to it either
-    tmux new-session -d
-    # install the plugins
-    ~/.tmux/plugins/tpm/scripts/install_plugins.sh
-    # killing the server is not required, I guess
-    tmux kill-server
-fi
-
-# idea for installer
-
-# if nothing is passed, interactive mode (aks continue [Y/n]?, if n return helper and exit)
-
-# by default apt install:
-# build-essential libssl-dev libffi-dev
-if [ -e ~/.terminal_setup/.setted_up]; then
-    exit 1
-fi
-
-# options
-# -h show help
-# -i [vim|nvim] (installs -p -G -r -n)
-# -w [tmux|zelij]
-# -p (python3-dev, python3-pip, python3-venv)
-# -r (rust+cargo)
-# -n (nvm+node+npm)
-# -g (golang)
-# -o (install and configure oh-my-posh)
-# -U (update)
-# -I (interactive install)
-
-# we ended correctly, create file ~/.terminal_setup/.setted_up
-# all calls without option -u will result in failure with explanation
+# filename: setup.sh
+# author: @FrancescoLuzzi
 
 showHelp() {
-    # `cat << EOF` This means that cat should stop reading when EOF is detected
     cat >&2 <<EOF
-Usage: ./installer [-hvrV] args
+Usage: ./installer [-i vim|lvim] [-w tmux|zellij] [-IU] [-gnopr]
 Install Pre-requisites for EspoCRM with docker in Development mode
 
 -h                   Display help
 
--v                   Set and Download specific version of EspoCRM
+-I                   Interactive installer
 
--r                   Rebuild php vendor directory using composer and compiled css using grunt
+-U                   Update terminal setup after first installation
 
--V                   Run script in verbose mode. Will print out each step of execution.
+-e [vim|lvim]        Optional text editor with custom configuration
 
+-w [tmux|zellij]     Optional window manager with custom keybindings and packages
+
+-g                   Install golang for developement
+
+-n                   Install nvm/node/npm for developement (also installed with lvim and vim)
+
+-p                   Install python for developement (also installed with lvim)
+
+-r                   Install rust for developement (also installed with lvim)
 EOF
-    # EOF is found above and hence cat command stops reading. This is equivalent to echo but much neater when printing out.
+
 }
 
+if [ $# -eq 0 ]; then
+    showHelp
+    exit 0
+fi
+
+_pwd=$(pwd)
+
+function install_golang() {
+    curl https://go.dev/dl/go1.20.3.linux-amd64.tar.gz -o golang.tgz
+    rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz
+
+    if ! grep -q 'export PATH=$PATH:/usr/local/go/bin' ~/.bashrc; then
+        echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.bashrc
+    fi
+
+    if [ ! -d ~/go ]; then
+        mkdir ~/go
+    fi
+}
+
+function install_node() {
+    if ! nvm --version >/dev/null 2>&1; then
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+        source ~/.nvm/nvm.sh
+    fi
+
+    if ! node --version >/dev/null 2>&1; then
+        nvm install --lts
+    fi
+
+    if [ ! -d ~/node ]; then
+        mkdir ~/node
+    fi
+}
+
+function install_rust() {
+    curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+    if [ ! -d ~/rust ]; then
+        mkdir ~/rust
+    fi
+}
+
+function install_python() {
+    sudo apt install python3-dev python3-pip python3-venv -y
+
+    python3 -m pip install --upgrade pip
+    if [ ! -d ~/python ]; then
+        mkdir ~/python
+    fi
+}
+
+function install_vim() {
+    sudo apt install vim vim-gui-common vim-runtime -y
+    ln -sf ${_pwd}/linux_terminal/.vimrc $HOME/.vimrc
+}
+
+function get_github_release_artifact_url() {
+    # $1 author name
+    # $2 repo name
+    # $3 release tag
+    # $4 filename searched
+    if [ $# -ne 3 ]; then
+        return 1
+    fi
+    curl -L \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        https://api.github.com/repos/$1/$2/releases/tags/$3 |
+        grep browser_download_url |
+        cut -d '"' -f 4 |
+        grep "$4$"
+}
+
+function download_github_release_artifact() {
+    local file_name=$(basename $1)
+    wget $1 -r -O $file_name
+    echo $file_name
+}
+
+function install_nvim() {
+    local url=$(get_github_release_artifact_url neovim neovim stable "nvim-linux64.deb")
+    local file=$(download_github_release_artifact $url)
+    sudo apt install $file -y
+    rm $file
+}
+
+function install_lvim() {
+    install_nvim
+    curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/fc6873809934917b470bff1b072171879899a36b/utils/installer/install.sh -o install.sh
+    chmod +x install.sh
+    if [ -z ${LV_BRANCH+x} ]; then
+        export LV_BRANCH='release-1.2/neovim-0.8'
+    fi
+    ./install.sh -y
+    rm install.sh
+}
+
+function install_tmux() {
+    sudo apt install tmux -y
+    ln -sf ${_pwd}/linux_terminal/.tmux.conf $HOME/.tmux.conf
+    if [ ! -d ~/.tmux/plugins/tpm ]; then
+        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+        # start a server but don't attach to it
+        tmux start-server
+        # source .tmux.conf
+        tmux source $HOME/.tmux.conf
+        # create a new session but don't attach to it either
+        tmux new-session -d
+        # install the plugins
+        ~/.tmux/plugins/tpm/scripts/install_plugins.sh
+        # killing the server is not required, I guess
+        tmux kill-server
+    fi
+}
+
+function install_zellij() {
+    local url=$(get_github_release_artifact_url zellij-org zellij latest "zellij-x96_64-unknown-linux-musl.tar.gz")
+    local file=$(download_github_release_artifact $url)
+    tar xzvf $file
+    sudo install zellij /usr/local/bin
+    rm $file
+}
+
+function install_oh_my_posh() {
+    if ! oh_my_posh --version 2>/dev/null; then
+        sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+        sudo chmod +x /usr/local/bin/oh-my-posh
+    fi
+    ln -sf ${_pwd}/linux_terminal/.luzzi_theme.omp.json $HOME/.luzzi_theme.omp.json
+
+    if ! grep -q 'eval "$(oh-my-posh --init --shell bash --config ~/.luzzi_theme.omp.json)"' ~/.bashrc; then
+        echo 'eval "$(oh-my-posh --init --shell bash --config ~/.luzzi_theme.omp.json)"' >>~/.bashrc
+    fi
+}
+
+unset editor
+unset window_manager
+unset programs
+interactive=false
+update=false
+declare -a programs
+
+while getopts ':IUgnpre:w:' OPTION; do
+    case $OPTION in
+    h)
+        showHelp
+        exit 0
+        ;;
+
+    I)
+        interactive=true
+        ;;
+
+    U)
+        update=true
+        ;;
+
+    e)
+        if [[ $OPTARG =~ (^vim$|^lvim$) ]]; then
+            editor=$OPTARG
+        else
+            echo "unsupported value for -e: $OPTARG"
+            showHelp
+            exit 0
+        fi
+        ;;
+
+    w)
+        if [[ $OPTARG =~ (^tmux$|^zellij$) ]]; then
+            window_manager=$OPTARG
+        else
+            echo "unsupported value for -w: $OPTARG"
+            showHelp
+            exit 0
+        fi
+        ;;
+
+    g)
+        program+=("golang")
+        ;;
+
+    n)
+        program+=("node")
+        ;;
+
+    p)
+        program+=("python")
+        ;;
+
+    r)
+        program+=("rust")
+        ;;
+
+    ?)
+        showHelp
+        exit 1
+        ;;
+    esac
+done
+
+# getopts cycles over $*, doesn't shift it
+shift $(($OPTIND - 1))
+
+# by default apt install:
+# build-essential libssl-dev libffi-dev
+if ! $update && [ -e ~/.terminal_setup/.setted_up ]; then
+    echo 'terminal already setup, run "setup.sh -h" for help'
+    exit 1
+fi
 ### SOURCES
 # multiple output overwrite:
 # - https://unix.stackexchange.com/questions/360198/can-i-overwrite-multiple-lines-of-stdout-at-the-command-line-without-losing-term
@@ -99,6 +252,24 @@ declare -a pid_to_watch
 
 function dots() {
     printf "%0.s." $(seq $1)
+}
+
+function wait_pids() {
+    # $1 output
+    # $2-n pids to wait
+    local output=$1
+    shift
+    local i=0
+    while true; do
+        # go up one line
+        echo "$output$(dots $i)"
+        i=$((++i % 3))
+        if ! ps "$*" >/dev/null; then
+            break
+        fi
+        sleep 0.5
+        echo -e "$__up_one_line$__el_line\c"
+    done
 }
 
 function interactive_install() {
@@ -172,50 +343,50 @@ function interactive_install() {
             restore_screen
         fi
     }
+    if [ -z ${editor+x} ]; then
+        PS3="Select editor to be installed: "
 
-    PS3="Select editor to be installed: "
+        items=("vim" "lvim" "none" "quit")
 
-    items=("vim" "nvim" "lvim" "none" "quit")
+        SCREEN="save"
+        while true; do
+            custom_select "${items[@]}"
+            case $REPLY in
+            [1-3])
+                echo "Editor selection done!"
+                break
+                ;;
+            4)
+                echo "Quitting... bye!"
+                exit 0
+                ;;
+            esac
+        done
 
-    SCREEN="save"
-    while true; do
-        custom_select "${items[@]}"
-        case $REPLY in
-        0) ;;
-        [1-4])
-            echo "Editor selection done!"
-            break
-            ;;
-        5)
-            echo "Quitting... bye!"
-            exit 0
-            ;;
-        esac
-    done
+        editor=$item
+    fi
 
-    unset editor
-    editor=$item
+    if [ -z ${window_manager+x} ]; then
+        PS3="Select terminal window manager to be installed: "
 
-    PS3="Select terminal window manager to be installed: "
+        items=("tmux" "zellij" "none" "quit")
 
-    items=("tmux" "zellij" "none" "quit")
+        while true; do
+            custom_select "${items[@]}"
+            case $REPLY in
+            [1-3])
+                echo "Terminal window manager selection done!"
+                break
+                ;;
+            4)
+                echo "Quitting... bye!"
+                exit 0
+                ;;
+            esac
+        done
 
-    while true; do
-        custom_select "${items[@]}"
-        case $REPLY in
-        [1-3])
-            echo "Terminal window manager selection done!"
-            break
-            ;;
-        4)
-            echo "Quitting... bye!"
-            exit 0
-            ;;
-        esac
-    done
-
-    unset window_manager
-    window_manager=$item
+        window_manager=$item
+    fi
 
     PS3="Select programs to be installed: "
 
@@ -232,12 +403,12 @@ function interactive_install() {
     while true; do
         custom_select "${items[@]}"
         case $REPLY in
-        2)
+        2) # node
             if [ $editor == "vim" ]; then
                 continue
             fi
             ;;&
-        [2-4])
+        [2-4]) # node, python, rust
             if [ $editor == "lvim" ]; then
                 continue
             fi
@@ -260,35 +431,12 @@ function interactive_install() {
     declare -a programs
 
     for program in "${items[@]}"; do
-        if is_selected $program; then
+        if is_selected "$program"; then
             programs+=("$(unselect_text $program)")
         fi
     done
     unset items
     restore_screen
-}
-
-function get_github_release_artifact_url() {
-    # $1 author name
-    # $2 repo name
-    # $3 release tag
-    # $4 filename searched
-    if [ $# -ne 3 ]; then
-        return 1
-    fi
-    curl -L \
-        -H "Accept: application/vnd.github+json" \
-        -H "X-GitHub-Api-Version: 2022-11-28" \
-        https://api.github.com/repos/$1/$2/releases/tags/$3 |
-        grep browser_download_url |
-        cut -d '"' -f 4 |
-        grep "$4$"
-}
-
-function download_github_release_artifact() {
-    local file_name=$(basename $1)
-    wget $1 -r -O $file_name
-    echo $file_name
 }
 
 echo "unlock sudo for this installation!"
@@ -300,32 +448,61 @@ pid_to_watch+=("$?")
 sudo apt install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev -y >/dev/null 2>&1 &
 pid_to_watch+=("$?")
 
-unset i
-i=0
-while true; do
-    # go up one line
-    echo setting up$(dots "$i")
-    i=$((++i % 3))
-    if ! ps "${pid_to_watch[@]}" >/dev/null; then
-        break
-    fi
-    sleep 0.5
-    echo -e "$__up_one_line$__el_line\c"
+wait_pids "setting up" "${pid_to_watch[@]}"
+
+# interactive install
+if $interactive; then
+    interactive_install
+fi
+
+# load nvm just to be sure
+source ~/.nvm/nvm.sh 2>/dev/null
+
+ln -sf ${_pwd}/linux_terminal/.git.plugin.sh $HOME/.git.plugin.sh
+if ! grep -q 'source ~/.git.plugin.sh' ~/.bashrc; then
+    echo 'source ~/.git.plugin.sh' >>~/.bashrc
+fi
+
+is_ping_usable=$(
+    ping -q -c 1 -W 1 8.8.8.8 1>/dev/null 2>&1
+    echo $?
+)
+
+if [ $is_ping_usable = "2" ]; then
+    echo "Enabling use of ping in wsl"
+    sudo setcap cap_net_raw+p /bin/ping
+fi
+
+for program in $programs; do
+    case $program in
+    golang)
+        install_golang
+        ;;
+
+    node)
+        install_node
+        ;;
+
+    python)
+        install_python
+        ;;
+
+    rust)
+        install_rust
+        ;;
+
+    esac
+
 done
 
-_pwd=$(pwd)
-ln -sf ${_pwd}/linux_terminal/.vimrc $HOME/.vimrc
-ln -sf ${_pwd}/linux_terminal/.git.plugin.sh $HOME/.git.plugin.sh
-ln -sf ${_pwd}/linux_terminal/.luzzi_theme.omp.json $HOME/.luzzi_theme.omp.json
-if ! nvm; then
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-fi
-source ~/.bashrc
-
-if ! node; then
-    nvm install --lts
+if [ $editor == "vim" ]; then
+    install_vim
+elif [ $editor == "lvim" ]; then
+    install_lvim
 fi
 
-# install oh-my-posh
-# sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
-# sudo chmod +x /usr/local/bin/oh-my-posh
+if [ $window_manager == "tmux" ]; then
+    install_tmux
+elif [ $window_manager == "zellij" ]; then
+    install_zellij
+fi

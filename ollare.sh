@@ -4,57 +4,97 @@
 # author: @FrancescoLuzzi
 
 showHelp() {
-# `cat << EOF` This means that cat should stop reading when EOF is detected
-cat >&2 << EOF  
-Usage: ./installer [-hvrV] args
+    cat >&2 <<EOF
+Usage: ./installer [-i vim|lvim] [-w tmux|zellij] [-IU] [-gnopr]
 Install Pre-requisites for EspoCRM with docker in Development mode
 
 -h                   Display help
 
--v                   Set and Download specific version of EspoCRM
+-I                   Interactive installer
 
--r                   Rebuild php vendor directory using composer and compiled css using grunt
+-U                   Update terminal setup after first installation
 
--V                   Run script in verbose mode. Will print out each step of execution.
+-e [vim|lvim]        Optional text editor with custom configuration
 
+-w [tmux|zellij]     Optional window manager with custom keybindings and packages
+
+-g                   Install golang for developement
+
+-n                   Install nvm/node/npm for developement (also installed with lvim and vim)
+
+-p                   Install python for developement (also installed with lvim)
+
+-r                   Install rust for developement (also installed with lvim)
 EOF
-# EOF is found above and hence cat command stops reading. This is equivalent to echo but much neater when printing out.
-}
 
+}
 
 export version=0
 export verbose=0
 export rebuilt=0
 
-if [ $# -eq 0 ];then
+if [ $# -eq 0 ]; then
     showHelp
     exit 0
 fi
 
-
-while getopts ':rhVv:' OPTION ; do
+while getopts ':IUgnpre:w:' OPTION; do
     case $OPTION in
-        h) 
+    h)
+        showHelp
+        exit 0
+        ;;
+
+    I)
+        interactive=true
+        ;;
+
+    U)
+        update=true
+        ;;
+
+    e)
+        if [[ $OPTARG =~ (^vim$|^lvim$) ]]; then
+            echo "-e ok"
+            editor=$OPTARG
+        else
+            echo "unsupported value for -e: $OPTARG"
             showHelp
             exit 0
-            ;;
+        fi
+        ;;
 
-        v) 
-            echo "$OPTARG"
-            ;;
-
-        V)
-            echo "VERBOSE"
-            ;;
-        
-        r)
-            echo "rebuild"
-            ;;
-
-        ?) 
+    w)
+        if [[ $OPTARG =~ (tmux|zellij) ]]; then
+            echo "-w ok"
+            window_manager=$OPTARG
+        else
+            echo "unsupported value for -w: $OPTARG"
             showHelp
-            exit 1
-            ;;
+            exit 0
+        fi
+        ;;
+
+    g)
+        program+=("golang")
+        ;;
+
+    n)
+        program+=("node")
+        ;;
+
+    p)
+        program+=("python")
+        ;;
+
+    r)
+        program+=("rust")
+        ;;
+
+    ?)
+        showHelp
+        exit 1
+        ;;
     esac
 done
 
