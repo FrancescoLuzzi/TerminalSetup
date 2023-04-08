@@ -331,6 +331,7 @@ function interactive_install() {
                 ((i++))
             done
             read -p "$PS3"
+            REPLY=$(echo "$REPLY" | tr -d '[:space:]')
             if [[ $REPLY =~ ^[0-9]+$ && $REPLY -le $# ]]; then
                 item=${!REPLY}
                 break
