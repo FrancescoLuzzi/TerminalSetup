@@ -38,10 +38,11 @@ _pwd=$(pwd)
 
 function install_golang() {
     curl https://go.dev/dl/go1.20.3.linux-amd64.tar.gz -o golang.tgz
-    rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz
+    rm -rf /usr/local/go && tar -C /usr/local -xzf golang.tgz
 
     if ! grep -q 'export PATH=$PATH:/usr/local/go/bin' ~/.bashrc; then
         echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.bashrc
+        source "~/.bashrc"
     fi
 
     if [ ! -d ~/go ]; then
@@ -65,10 +66,14 @@ function install_node() {
 }
 
 function install_rust() {
-    curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+    curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf >rustup-init.sh
+    chmod +x rustup-init.sh
+    ./rustup-init.sh -y
     if [ ! -d ~/rust ]; then
         mkdir ~/rust
     fi
+    rm rustup-init.sh
+    source "~/.cargo/env"
 }
 
 function install_python() {
@@ -83,6 +88,21 @@ function install_python() {
 function install_vim() {
     sudo apt install vim vim-gui-common vim-runtime -y
     ln -sf ${_pwd}/linux_terminal/.vimrc $HOME/.vimrc
+    vim +'PlugInstall --sync' +qa
+}
+
+function get_github_latest_tag() {
+    # $1 author name
+    # $2 repo name
+    if [ $# -ne 2 ]; then
+        return 1
+    fi
+    curl -s -L \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        https://api.github.com/repos/$1/$2/tags |
+        grep -m 1 name |
+        cut -d '"' -f 4
 }
 
 function get_github_release_artifact_url() {
@@ -90,10 +110,10 @@ function get_github_release_artifact_url() {
     # $2 repo name
     # $3 release tag
     # $4 filename searched
-    if [ $# -ne 3 ]; then
+    if [ $# -ne 4 ]; then
         return 1
     fi
-    curl -L \
+    curl -s -L \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         https://api.github.com/repos/$1/$2/releases/tags/$3 |
@@ -109,9 +129,9 @@ function download_github_release_artifact() {
 }
 
 function install_nvim() {
-    local url=$(get_github_release_artifact_url neovim neovim stable "nvim-linux64.deb")
+    local url=$(get_github_release_artifact_url neovim neovim "v0.8.3" "nvim-linux64.deb")
     local file=$(download_github_release_artifact $url)
-    sudo apt install $file -y
+    sudo apt install ./$file -y
     rm $file
 }
 
@@ -122,8 +142,11 @@ function install_lvim() {
     if [ -z ${LV_BRANCH+x} ]; then
         export LV_BRANCH='release-1.2/neovim-0.8'
     fi
-    ./install.sh -y
+    ./install.sh -y --no-install-dependencies
     rm install.sh
+    if ! grep -q 'export PATH=/root/.local/bin:$PATH' "~/.bashrc"; then
+        echo 'export PATH=/root/.local/bin:$PATH' >>~/.bashrc
+    fi
 }
 
 function install_tmux() {
@@ -145,7 +168,7 @@ function install_tmux() {
 }
 
 function install_zellij() {
-    local url=$(get_github_release_artifact_url zellij-org zellij latest "zellij-x96_64-unknown-linux-musl.tar.gz")
+    local url=$(get_github_release_artifact_url zellij-org zellij $(get_github_latest_tag zellij-org zellij) "zellij-x86_64-unknown-linux-musl.tar.gz")
     local file=$(download_github_release_artifact $url)
     tar xzvf $file
     sudo install zellij /usr/local/bin
@@ -254,12 +277,9 @@ function dots() {
     printf "%0.s." $(seq $1)
 }
 
-__el_line=$(tput el1)
-__up_one_line=$(tput cuu1)
-
-function wait_pids() {
+function __wait() {
     # $1 output
-    # $2-n pids to wait
+    # launch it in bg and kill it with "kill %1"
     local output=$1
     shift
     local i=0
@@ -267,11 +287,10 @@ function wait_pids() {
         # go up one line
         echo -e "\r$output$(dots $(($i + 1)))"
         i=$((++i % 3))
-        if ! ps "$@" >/dev/null; then
-            break
-        fi
         sleep 0.5
-        echo -e "$__up_one_line$__el_line\c"
+        tput el
+        tput cuu1
+        tput el
     done
 }
 
@@ -430,8 +449,7 @@ function interactive_install() {
         esac
     done
 
-    unset programs
-    declare -a programs
+    programs=()
 
     for program in "${items[@]}"; do
         if is_selected "$program"; then
@@ -445,14 +463,12 @@ function interactive_install() {
 if [ "$UP_TO_DATE" != "up to date" ]; then
     echo "unlock sudo for this installation!"
     sudo echo "done"
-    sudo apt update >/dev/null 2>&1 &
-    pid_to_watch+=("$!")
-    sudo apt upgrade -y >/dev/null 2>&1 &
-    pid_to_watch+=("$!")
-    sudo apt install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev -y >/dev/null 2>&1 &
-    pid_to_watch+=("$!")
+    __wait "setting up" &
+    sudo apt update >/dev/null 2>&1
+    sudo apt upgrade -y >/dev/null 2>&1
+    sudo apt install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev -y >/dev/null 2>&1
 
-    wait_pids "setting up" "${pid_to_watch[@]}"
+    kill %1
 fi
 
 # interactive install
@@ -480,7 +496,7 @@ fi
 
 install_oh_my_posh
 
-for program in $programs; do
+for program in "${programs[@]}"; do
     case $program in
     golang)
         install_golang
