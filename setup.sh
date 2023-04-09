@@ -192,10 +192,10 @@ function install_oh_my_posh() {
         sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
         sudo chmod +x /usr/local/bin/oh-my-posh
     fi
-    ln -sf ${_pwd}/linux_terminal/.luzzi_theme.omp.json $HOME/.luzzi_theme.omp.json
+    ln -sf ${_pwd}/linux_terminal/.theme.omp.json $HOME/.theme.omp.json
 
-    if ! grep -q 'eval "$(oh-my-posh --init --shell bash --config ~/.luzzi_theme.omp.json)"' ~/.bashrc; then
-        echo 'eval "$(oh-my-posh --init --shell bash --config ~/.luzzi_theme.omp.json)"' >>~/.bashrc
+    if ! grep -q 'eval "$(oh-my-posh --init --shell bash --config ~/.theme.omp.json)"' ~/.bashrc; then
+        echo 'eval "$(oh-my-posh --init --shell bash --config ~/.theme.omp.json)"' >>~/.bashrc
     fi
 }
 
