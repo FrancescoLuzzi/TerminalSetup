@@ -39,6 +39,8 @@ _pwd=$(pwd)
 function install_golang() {
     local latest_go_version="$(curl --silent https://go.dev/VERSION?m=text)";
 
+    echo "Downloading and installing $latest_go_version"
+
     curl -OJ -L https://golang.org/dl/$latest_go_version.linux-amd64.tar.gz
 
     sudo rm -rf /usr/local/go
@@ -151,7 +153,12 @@ function install_lvim() {
     rm install.sh
     if ! grep -q 'export PATH=/root/.local/bin:$PATH' "~/.bashrc"; then
         echo 'export PATH=/root/.local/bin:$PATH' >>~/.bashrc
+        echo 'alias vim=lvim' >>~/.bashrc
+        echo 'alias vi=lvim' >>~/.bashrc
     fi
+
+    if ! grep -q 'lvim.transparent_window = true' "~/.config/lvim/config.lua";then
+        cat ./linux_terminal/config.lua >>~/.config/lvim/config.lua
 }
 
 function install_tmux() {
