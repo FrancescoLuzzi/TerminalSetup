@@ -37,8 +37,12 @@ fi
 _pwd=$(pwd)
 
 function install_golang() {
-    curl https://go.dev/dl/go1.20.3.linux-amd64.tar.gz -o golang.tgz
-    rm -rf /usr/local/go && tar -C /usr/local -xzf golang.tgz
+    local latest_go_version="$(curl --silent https://go.dev/VERSION?m=text)";
+
+    curl -OJ -L https://golang.org/dl/$latest_go_version.linux-amd64.tar.gz
+
+    sudo rm -rf /usr/local/go
+    sudo tar -C /usr/local -xzf $latest_go_version.linux-amd64.tar.gz
 
     if ! grep -q 'export PATH=$PATH:/usr/local/go/bin' ~/.bashrc; then
         echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.bashrc
@@ -48,6 +52,7 @@ function install_golang() {
     if [ ! -d ~/go ]; then
         mkdir ~/go
     fi
+    rm ./$latest_go_version.linux-amd64.tar.gz
 }
 
 function install_node() {
