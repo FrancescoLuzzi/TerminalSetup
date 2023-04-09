@@ -442,16 +442,18 @@ function interactive_install() {
     restore_screen
 }
 
-echo "unlock sudo for this installation!"
-sudo echo "done"
-sudo apt update >/dev/null 2>&1 &
-pid_to_watch+=("$!")
-sudo apt upgrade -y >/dev/null 2>&1 &
-pid_to_watch+=("$!")
-sudo apt install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev -y >/dev/null 2>&1 &
-pid_to_watch+=("$!")
+if [ "$UP_TO_DATE" != "up to date" ]; then
+    echo "unlock sudo for this installation!"
+    sudo echo "done"
+    sudo apt update >/dev/null 2>&1 &
+    pid_to_watch+=("$!")
+    sudo apt upgrade -y >/dev/null 2>&1 &
+    pid_to_watch+=("$!")
+    sudo apt install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev -y >/dev/null 2>&1 &
+    pid_to_watch+=("$!")
 
-wait_pids "setting up" "${pid_to_watch[@]}"
+    wait_pids "setting up" "${pid_to_watch[@]}"
+fi
 
 # interactive install
 if $interactive; then
@@ -475,6 +477,8 @@ if [ $is_ping_usable = "2" ]; then
     echo "Enabling use of ping in wsl"
     sudo setcap cap_net_raw+p /bin/ping
 fi
+
+install_oh_my_posh
 
 for program in $programs; do
     case $program in
@@ -509,3 +513,5 @@ if [ $window_manager == "tmux" ]; then
 elif [ $window_manager == "zellij" ]; then
     install_zellij
 fi
+
+touch ~/.terminal_setup/.setted_up
