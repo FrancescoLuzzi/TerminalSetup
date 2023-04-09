@@ -254,6 +254,9 @@ function dots() {
     printf "%0.s." $(seq $1)
 }
 
+__el_line=$(tput el1)
+__up_one_line=$(tput cuu1)
+
 function wait_pids() {
     # $1 output
     # $2-n pids to wait
@@ -262,9 +265,9 @@ function wait_pids() {
     local i=0
     while true; do
         # go up one line
-        echo "$output$(dots $i)"
+        echo -e "\r$output$(dots $(($i + 1)))"
         i=$((++i % 3))
-        if ! ps "$*" >/dev/null; then
+        if ! ps "$@" >/dev/null; then
             break
         fi
         sleep 0.5
@@ -274,8 +277,6 @@ function wait_pids() {
 
 function interactive_install() {
     unset SCREEN
-    local __el_line=$(tput el1)
-    local __up_one_line=$(tput cuu1)
 
     function restore_screen() {
         tput rmcup
@@ -327,10 +328,10 @@ function interactive_install() {
         while true; do
             local i=1
             for el in "$@"; do
-                echo "$i) $el"
+                echo -e "\r$i) $el"
                 ((i++))
             done
-            read -p "$PS3"
+            read -p "$(echo -e "\r$PS3")"
             REPLY=$(echo "$REPLY" | tr -d '[:space:]')
             if [[ $REPLY =~ ^[0-9]+$ && $REPLY -le $# ]]; then
                 item=${!REPLY}
@@ -344,6 +345,7 @@ function interactive_install() {
             restore_screen
         fi
     }
+
     if [ -z ${editor+x} ]; then
         PS3="Select editor to be installed: "
 
@@ -443,11 +445,11 @@ function interactive_install() {
 echo "unlock sudo for this installation!"
 sudo echo "done"
 sudo apt update >/dev/null 2>&1 &
-pid_to_watch+=("$?")
+pid_to_watch+=("$!")
 sudo apt upgrade -y >/dev/null 2>&1 &
-pid_to_watch+=("$?")
+pid_to_watch+=("$!")
 sudo apt install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev -y >/dev/null 2>&1 &
-pid_to_watch+=("$?")
+pid_to_watch+=("$!")
 
 wait_pids "setting up" "${pid_to_watch[@]}"
 
