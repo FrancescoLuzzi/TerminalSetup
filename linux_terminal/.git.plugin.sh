@@ -4,7 +4,7 @@
 #
 
 function current_branch() {
-  git rev-parse –-abbrev-ref HEAD
+  git rev-parse --abbrev-ref HEAD
 }
 
 # Pretty log messages
