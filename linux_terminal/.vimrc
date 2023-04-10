@@ -112,8 +112,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf.vim'
 call plug#end()
 
-" set color scheme
-colorscheme gruvbox
+" set color scheme, silent to prevent error if not installed with :PlugInstall
+silent! colorscheme gruvbox
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
