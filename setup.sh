@@ -36,6 +36,10 @@ fi
 
 _pwd=$(pwd)
 
+function in_docker(){
+    [ -e /.dockerenv ] || [ $IN_DOCKER == "true" ]
+}
+
 function install_golang() {
     local latest_go_version="$(curl --silent https://go.dev/VERSION?m=text)";
 
@@ -80,7 +84,7 @@ function install_rust() {
         mkdir ~/rust
     fi
     rm rustup-init.sh
-    source "~/.cargo/env"
+    source "$HOME/.cargo/env"
 }
 
 function install_python() {
@@ -136,10 +140,21 @@ function download_github_release_artifact() {
 }
 
 function install_nvim() {
-    local url=$(get_github_release_artifact_url neovim neovim "v0.8.3" "nvim-linux64.deb")
+    local url=$(get_github_release_artifact_url neovim neovim "v0.8.3" "nvim.appimage")
     local file=$(download_github_release_artifact $url)
-    sudo apt install ./$file -y
-    rm $file
+    if in_docker ; then
+        mkdir -p /tmp/nvim
+        chmod a+x ./$file
+        mv ./$file /tmp/nvim
+        cd /tmp/nvim
+        ./nvim.appimage --appimage-extract
+        sudo ln -sf /tmp/nvim/squashfs-root/AppRun /usr/local/bin/nvim
+        cd -
+    else
+        sudo apt install fuse
+        chmod u+x ./$file
+        mv ./$file /usr/local/bin/nvim
+    fi
 }
 
 function install_lvim() {
@@ -151,14 +166,14 @@ function install_lvim() {
     fi
     ./install.sh -y --no-install-dependencies
     rm install.sh
-    if ! grep -q 'export PATH=/root/.local/bin:$PATH' "~/.bashrc"; then
+    if ! grep -q 'export PATH=/root/.local/bin:$PATH' ~/.bashrc; then
         echo 'export PATH=/root/.local/bin:$PATH' >>~/.bashrc
         echo 'alias vim=lvim' >>~/.bashrc
         echo 'alias vi=lvim' >>~/.bashrc
     fi
-
-    if ! grep -q 'lvim.transparent_window = true' "~/.config/lvim/config.lua";then
-        cat ./linux_terminal/config.lua >>~/.config/lvim/config.lua
+    if ! grep -q 'lvim.transparent_window = true' ~/.config/lvim/config.lua;then
+        cat ${_pwd}/linux_terminal/config.lua >>~/.config/lvim/config.lua
+    fi
 }
 
 function install_tmux() {
@@ -328,7 +343,7 @@ function interactive_install() {
 
     function toggle_text() {
         if is_selected "$1"; then
-            uselect_text $1
+            unselect_text $1
         else
             echo "$1 *"
         fi
@@ -465,7 +480,7 @@ function interactive_install() {
 
     for program in "${items[@]}"; do
         if is_selected "$program"; then
-            programs+=("$(unselect_text $program)")
+            programs+=("$(unselect_text "$program")")
         fi
     done
     unset items
@@ -478,7 +493,7 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     __wait "setting up" &
     sudo apt update >/dev/null 2>&1
     sudo apt upgrade -y >/dev/null 2>&1
-    sudo apt install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev -y >/dev/null 2>&1
+    sudo apt -y install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev  >/dev/null 2>&1
 
     kill %1
 fi
