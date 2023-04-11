@@ -15,9 +15,7 @@ Download and install "Oh My Posh" for [Windows](https://ohmyposh.dev/docs/instal
 
 ## Linux setup: setup.sh
 
-``` chmod +x setup.sh && ./setup -I ```
-
-To use this script locate yourself in the root of this repo, ```sudo chmod +x setup.sh``` the just execute it.
+```curl -o- https://raw.githubusercontent.com/FrancescoLuzzi/TerminalSetup/main/remote_setup.sh | bash```
 
 This script will install and configure the developement enviroment with what you need:
 

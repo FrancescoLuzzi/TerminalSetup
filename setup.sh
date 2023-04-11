@@ -288,6 +288,10 @@ if ! $update && [ -e ~/.terminal_setup/.setted_up ]; then
     echo 'terminal already setup, run "setup.sh -h" for help'
     exit 1
 fi
+
+echo "unlock sudo for this installation!"
+sudo echo "done"
+
 ### SOURCES
 # multiple output overwrite:
 # - https://unix.stackexchange.com/questions/360198/can-i-overwrite-multiple-lines-of-stdout-at-the-command-line-without-losing-term
@@ -488,8 +492,6 @@ function interactive_install() {
 }
 
 if [ "$UP_TO_DATE" != "up to date" ]; then
-    echo "unlock sudo for this installation!"
-    sudo echo "done"
     __wait "setting up" &
     sudo apt update >/dev/null 2>&1
     sudo apt upgrade -y >/dev/null 2>&1
