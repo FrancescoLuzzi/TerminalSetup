@@ -36,12 +36,12 @@ fi
 
 _pwd=$(pwd)
 
-function in_docker(){
+function in_docker() {
     [ -e /.dockerenv ] || [ $IN_DOCKER == "true" ]
 }
 
 function install_golang() {
-    local latest_go_version="$(curl --silent https://go.dev/VERSION?m=text)";
+    local latest_go_version="$(curl --silent https://go.dev/VERSION?m=text)"
 
     echo "Downloading and installing $latest_go_version"
 
@@ -142,7 +142,7 @@ function download_github_release_artifact() {
 function install_nvim() {
     local url=$(get_github_release_artifact_url neovim neovim "v0.8.3" "nvim.appimage")
     local file=$(download_github_release_artifact $url)
-    if in_docker ; then
+    if in_docker; then
         mkdir -p /tmp/nvim
         chmod a+x ./$file
         mv ./$file /tmp/nvim
@@ -171,7 +171,7 @@ function install_lvim() {
         echo 'alias vim=lvim' >>~/.bashrc
         echo 'alias vi=lvim' >>~/.bashrc
     fi
-    if ! grep -q 'lvim.transparent_window = true' ~/.config/lvim/config.lua;then
+    if ! grep -q 'lvim.transparent_window = true' ~/.config/lvim/config.lua; then
         cat ${_pwd}/linux_terminal/config.lua >>~/.config/lvim/config.lua
     fi
 }
@@ -328,6 +328,10 @@ function __wait() {
 function interactive_install() {
     unset SCREEN
 
+    function clean_stdin() {
+        while read -e -t 0.1; do :; done
+    }
+
     function restore_screen() {
         tput rmcup
     }
@@ -381,6 +385,7 @@ function interactive_install() {
                 echo -e "\r$i) $el"
                 ((i++))
             done
+            clean_stdin
             read -p "$(echo -e "\r$PS3")"
             REPLY=$(echo "$REPLY" | tr -d '[:space:]')
             if [[ $REPLY =~ ^[0-9]+$ && $REPLY -le $# ]]; then
@@ -495,7 +500,7 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     __wait "setting up" &
     sudo apt update >/dev/null 2>&1
     sudo apt upgrade -y >/dev/null 2>&1
-    sudo apt -y install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev  >/dev/null 2>&1
+    sudo apt -y install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev >/dev/null 2>&1
 
     kill %1
 fi
