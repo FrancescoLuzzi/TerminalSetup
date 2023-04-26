@@ -9,7 +9,7 @@
 echo "unlock sudo for this installation!"
 sudo echo "done"
 
-git --version >/dev/null 2/&1
+git --version >/dev/null 2>&1
 
 if [ $? -ne 0 ];then
     sudo apt install git

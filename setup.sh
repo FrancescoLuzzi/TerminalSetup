@@ -379,6 +379,7 @@ function interactive_install() {
 
         tput clear
         tput sc
+        local __ask_out=$(echo -e "\r$PS3")
         while true; do
             local i=1
             for el in "$@"; do
@@ -386,7 +387,7 @@ function interactive_install() {
                 ((i++))
             done
             clean_stdin
-            read -p "$(echo -e "\r$PS3")"
+            read -p "$__ask_out"
             REPLY=$(echo "$REPLY" | tr -d '[:space:]')
             if [[ $REPLY =~ ^[0-9]+$ && $REPLY -le $# ]]; then
                 item=${!REPLY}
