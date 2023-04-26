@@ -15,6 +15,7 @@ Download and install "Oh My Posh" for [Windows](https://ohmyposh.dev/docs/instal
 
 ## Linux setup: setup.sh
 
+```sudo apt update && sudo apt upgrade && sudo apt install curl```
 ```curl -o- https://raw.githubusercontent.com/FrancescoLuzzi/TerminalSetup/main/remote_setup.sh | bash```
 
 This script will install and configure the developement enviroment with what you need:
