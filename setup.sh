@@ -37,7 +37,7 @@ fi
 _pwd=$(pwd)
 
 function in_docker() {
-    [ -e /.dockerenv ] || [ $IN_DOCKER == "true" ]
+    [ -e /.dockerenv ] || [ $IN_DOCKER = "true" ]
 }
 
 function install_golang() {
@@ -151,9 +151,9 @@ function install_nvim() {
         sudo ln -sf /tmp/nvim/squashfs-root/AppRun /usr/local/bin/nvim
         cd -
     else
-        sudo apt install fuse
+        sudo apt install fuse -y
         chmod u+x ./$file
-        mv ./$file /usr/local/bin/nvim
+        sudo mv ./$file /usr/local/bin/nvim
     fi
 }
 
@@ -166,8 +166,8 @@ function install_lvim() {
     fi
     ./install.sh -y --no-install-dependencies
     rm install.sh
-    if ! grep -q 'export PATH=/root/.local/bin:$PATH' ~/.bashrc; then
-        echo 'export PATH=/root/.local/bin:$PATH' >>~/.bashrc
+    if ! grep -q 'export PATH=/$HOME/.local/bin:$PATH' ~/.bashrc; then
+        echo 'export PATH=/$HOME/.local/bin:$PATH' >>~/.bashrc
         echo 'alias vim=lvim' >>~/.bashrc
         echo 'alias vi=lvim' >>~/.bashrc
     fi
