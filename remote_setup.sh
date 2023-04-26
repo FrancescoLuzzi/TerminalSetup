@@ -24,6 +24,21 @@ git clone https://github.com/FrancescoLuzzi/TerminalSetup.git .terminal_setup
 cd ./.terminal_setup
 
 chmod +x ./setup.sh
-./setup.sh -I
+
+if [ ! -t 0 ]; then
+    # The installer is going to want to ask for confirmation by
+    # reading stdin.  This script was piped into `sh` though and
+    # doesn't have stdin to pass to its children. Instead we're going
+    # to explicitly connect /dev/tty to the installer's stdin.
+    if [ ! -t 1 ]; then
+        err "Unable to run interactively. Run the setup by yourself!"
+    fi
+
+    ./setup.sh -I < /dev/tty
+else
+    ./setup.sh -I
+fi
+
+
 
 cd "$__old_pwd"
