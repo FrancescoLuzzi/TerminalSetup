@@ -371,7 +371,7 @@ function interactive_install() {
         # $REPLY variable containing number selected
         # $item variable containing item selected
 
-        if [ $SCREEN == "save" -o $SCREEN == "restore" ]; then
+        if [ $SCREEN = "save" -o $SCREEN = "restore" ]; then
             save_screen
             $SCREEN="none"
         fi
@@ -396,7 +396,7 @@ function interactive_install() {
             tput ed
             echo "Error during selection"
         done
-        if [ $SCREEN == "restore" ]; then
+        if [ $SCREEN = "restore" ]; then
             restore_screen
         fi
     }
@@ -450,9 +450,9 @@ function interactive_install() {
 
     items=("golang" "node" "python" "rust" "done" "quit")
     err_str="(since $editor selected)"
-    if [ $editor == "vim" ]; then
+    if [ $editor = "vim" ]; then
         items[1]="$(toggle_text ${items[1]}) $err_str"
-    elif [ $editor == "lvim" ]; then
+    elif [ $editor = "lvim" ]; then
         items[1]="$(toggle_text ${items[1]}) $err_str"
         items[2]="$(toggle_text ${items[2]}) $err_str"
         items[3]="$(toggle_text ${items[3]}) $err_str"
@@ -462,12 +462,12 @@ function interactive_install() {
         custom_select "${items[@]}"
         case $REPLY in
         2) # node
-            if [ $editor == "vim" ]; then
+            if [ $editor = "vim" ]; then
                 continue
             fi
             ;;&
         [2-4]) # node, python, rust
-            if [ $editor == "lvim" ]; then
+            if [ $editor = "lvim" ]; then
                 continue
             fi
             ;;&
@@ -552,15 +552,15 @@ for program in "${programs[@]}"; do
 
 done
 
-if [ $editor == "vim" ]; then
+if [ $editor = "vim" ]; then
     install_vim
-elif [ $editor == "lvim" ]; then
+elif [ $editor = "lvim" ]; then
     install_lvim
 fi
 
-if [ $window_manager == "tmux" ]; then
+if [ $window_manager = "tmux" ]; then
     install_tmux
-elif [ $window_manager == "zellij" ]; then
+elif [ $window_manager = "zellij" ]; then
     install_zellij
 fi
 
