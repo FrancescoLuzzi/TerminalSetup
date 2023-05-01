@@ -5,7 +5,7 @@
 
 showHelp() {
     cat >&2 <<EOF
-Usage: ./installer [-i vim|lvim] [-w tmux|zellij] [-IU] [-gnopr]
+Usage: ./installer [-e vim|lvim] [-w tmux|zellij] [-IU] [-gnopr]
 Install Pre-requisites for EspoCRM with docker in Development mode
 
 -h                   Display help
@@ -240,7 +240,7 @@ while getopts ':IUgnpre:w:' OPTION; do
         ;;
 
     e)
-        if [[ $OPTARG =~ (^vim$|^lvim$) ]]; then
+        if [[ "$OPTARG" =~ (^vim$|^lvim$) ]]; then
             editor=$OPTARG
         else
             echo "unsupported value for -e: $OPTARG"
@@ -250,7 +250,7 @@ while getopts ':IUgnpre:w:' OPTION; do
         ;;
 
     w)
-        if [[ $OPTARG =~ (^tmux$|^zellij$) ]]; then
+        if [[ "$OPTARG" =~ (^tmux$|^zellij$) ]]; then
             window_manager=$OPTARG
         else
             echo "unsupported value for -w: $OPTARG"
@@ -375,7 +375,7 @@ function interactive_install() {
         # $REPLY variable containing number selected
         # $item variable containing item selected
 
-        if [ $SCREEN = "save" -o $SCREEN = "restore" ]; then
+        if [ "$SCREEN" = "save" -o "$SCREEN" = "restore" ]; then
             save_screen
             $SCREEN="none"
         fi
@@ -400,12 +400,12 @@ function interactive_install() {
             tput ed
             echo "Error during selection"
         done
-        if [ $SCREEN = "restore" ]; then
+        if [ "$SCREEN" = "restore" ]; then
             restore_screen
         fi
     }
 
-    if [ -z ${editor+x} ]; then
+    if [ -z "${editor+x}" ]; then
         PS3="Select editor to be installed: "
 
         items=("vim" "lvim" "none" "quit")
@@ -428,7 +428,7 @@ function interactive_install() {
         editor=$item
     fi
 
-    if [ -z ${window_manager+x} ]; then
+    if [ -z "${window_manager+x}" ]; then
         PS3="Select terminal window manager to be installed: "
 
         items=("tmux" "zellij" "none" "quit")
@@ -454,9 +454,9 @@ function interactive_install() {
 
     items=("golang" "node" "python" "rust" "done" "quit")
     err_str="(since $editor selected)"
-    if [ $editor = "vim" ]; then
+    if [ "$editor" = "vim" ]; then
         items[1]="$(toggle_text ${items[1]}) $err_str"
-    elif [ $editor = "lvim" ]; then
+    elif [ "$editor" = "lvim" ]; then
         items[1]="$(toggle_text ${items[1]}) $err_str"
         items[2]="$(toggle_text ${items[2]}) $err_str"
         items[3]="$(toggle_text ${items[3]}) $err_str"
@@ -466,12 +466,12 @@ function interactive_install() {
         custom_select "${items[@]}"
         case $REPLY in
         2) # node
-            if [ $editor = "vim" ]; then
+            if [ "$editor" = "vim" ]; then
                 continue
             fi
             ;;&
         [2-4]) # node, python, rust
-            if [ $editor = "lvim" ]; then
+            if [ "$editor" = "lvim" ]; then
                 continue
             fi
             ;;&
@@ -527,7 +527,7 @@ is_ping_usable=$(
     echo $?
 )
 
-if [ $is_ping_usable = "2" ]; then
+if [ "$is_ping_usable" = "2" ]; then
     echo "Enabling use of ping in wsl"
     sudo setcap cap_net_raw+p /bin/ping
 fi
@@ -556,15 +556,15 @@ for program in "${programs[@]}"; do
 
 done
 
-if [ $editor = "vim" ]; then
+if [ "$editor" = "vim" ]; then
     install_vim
-elif [ $editor = "lvim" ]; then
+elif [ "$editor" = "lvim" ]; then
     install_lvim
 fi
 
-if [ $window_manager = "tmux" ]; then
+if [ "$window_manager" = "tmux" ]; then
     install_tmux
-elif [ $window_manager = "zellij" ]; then
+elif [ "$window_manager" = "zellij" ]; then
     install_zellij
 fi
 
