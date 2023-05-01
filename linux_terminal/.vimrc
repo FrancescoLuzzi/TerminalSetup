@@ -46,13 +46,6 @@ augroup my_mappings
     autocmd VimLeave * silent !echo -ne "\e[6 q"
 augroup END
 
-" add mapping to netrw
-function! NetrwMapping()
-    " map F2 to close Explore when open
-    map <buffer> <F2> :Rex<CR>
-endfunction
-
-
 " NORMAL MODE MAPPINGS
 
 " remap to move within windows without pressing ctrl+w
@@ -83,13 +76,6 @@ nnoremap <C-D> :bdelete<CR>
 " move selected lines with Shift + k/j
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-
-
-" ALL MODES REMAPS
-
-" key remap to open Explorer in new tab
-noremap <special> <F1> <Esc>:FZF<CR>
-noremap <special> <F2> <Esc>:Explore<CR>
 
 
 " PLUGINS
@@ -124,8 +110,11 @@ let mapleader = " "
 " equalize split views
 nnoremap <leader>= <C-W>=
 " split view vertically
-nmap <leader>v <C-w>v<C-L>
+nmap <leader>- <C-w>v<C-L>
 " split view horizontally
-nmap <leader>s <C-w>s<C-J>
+nmap <leader>\ <C-w>s<C-J>
 " close all views but the one you are editing
 nmap <leader>d <Esc>:only<CR>
+
+noremap <leader>f <Esc>:FZF<CR>
+noremap <leader>e <Esc>:Explore<CR>
