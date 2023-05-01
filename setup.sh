@@ -202,7 +202,7 @@ function install_zellij() {
 }
 
 function install_oh_my_posh() {
-    if ! oh_my_posh --version 2>/dev/null; then
+    if ! oh-my-posh --version 2>/dev/null; then
         sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
         sudo chmod +x /usr/local/bin/oh-my-posh
     fi
@@ -564,6 +564,6 @@ elif [ $window_manager == "zellij" ]; then
     install_zellij
 fi
 
-source "~/.bashrc"
+source ~/.bashrc
 
 touch ~/.terminal_setup/.setted_up
