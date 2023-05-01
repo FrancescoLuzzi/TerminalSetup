@@ -214,7 +214,11 @@ function install_oh_my_posh() {
 }
 
 unset editor
+editor=""
+
 unset window_manager
+window_manager=""
+
 unset programs
 interactive=false
 update=false
