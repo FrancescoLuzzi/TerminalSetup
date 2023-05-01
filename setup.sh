@@ -52,7 +52,6 @@ function install_golang() {
 
     if ! grep -q 'export PATH=$PATH:/usr/local/go/bin' ~/.bashrc; then
         echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.bashrc
-        source "~/.bashrc"
     fi
 
     if [ ! -d ~/go ]; then
@@ -564,5 +563,7 @@ if [ $window_manager == "tmux" ]; then
 elif [ $window_manager == "zellij" ]; then
     install_zellij
 fi
+
+source "~/.bashrc"
 
 touch ~/.terminal_setup/.setted_up
