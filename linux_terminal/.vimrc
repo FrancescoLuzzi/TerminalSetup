@@ -38,22 +38,13 @@ augroup my_mappings
     autocmd!
     " call mappings on netrw open
     autocmd filetype netrw :call NetrwMapping()
-    " trim spaces
+    " trim spaces, for reference, after the * you can add the wanted extension (example *.py)
     autocmd BufWritePre * :%s/\s\+$//e
-    " trim spaces for ruby files
-    autocmd BufWritePre *.rb :%s/\s\+$//e
     " set cursor
     autocmd VimEnter * silent !echo -ne "\e[2 q"
     " reset cursor
     autocmd VimLeave * silent !echo -ne "\e[6 q"
 augroup END
-
-" add mapping to netrw
-function! NetrwMapping()
-    " map F2 to close Explore when open
-    map <buffer> <F2> :Rex<CR>
-endfunction
-
 
 " NORMAL MODE MAPPINGS
 
@@ -85,13 +76,6 @@ nnoremap <C-D> :bdelete<CR>
 " move selected lines with Shift + k/j
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-
-
-" ALL MODES REMAPS
-
-" key remap to open Explorer in new tab
-noremap <special> <F1> <Esc>:FZF<CR>
-noremap <special> <F2> <Esc>:Explore<CR>
 
 
 " PLUGINS
@@ -148,8 +132,39 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" set color scheme
-colorscheme gruvbox
+" enable rust plugin
+syntax enable
+filetype plugin indent on
+
+" configure rustfmt
+let g:rustfmt_autosave = 1
+let g:rustfmt_emit_files = 1
+let g:rustfmt_fail_silently = 0
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" set color scheme, silent to prevent error if not installed with :PlugInstall
+silent! colorscheme gruvbox
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
@@ -157,6 +172,14 @@ let g:airline_powerline_fonts = 1
 " custom remaps with front <Space>
 
 let mapleader = " "
+" equalize split views
 nnoremap <leader>= <C-W>=
-nmap <leader>v <C-w>v<C-L>
-nmap <leader>s <C-w>s<C-J>
+" split view vertically
+nmap <leader>- <C-w>v<C-L>
+" split view horizontally
+nmap <leader>\ <C-w>s<C-J>
+" close all views but the one you are editing
+nmap <leader>d <Esc>:only<CR>
+
+noremap <leader>f <Esc>:FZF<CR>
+noremap <leader>e <Esc>:Explore<CR>
