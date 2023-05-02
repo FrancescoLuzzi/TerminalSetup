@@ -169,8 +169,12 @@ function install_lvim() {
         echo 'alias vim=lvim' >>~/.bashrc
         echo 'alias vi=lvim' >>~/.bashrc
     fi
-    if ! grep -q 'lvim.transparent_window = true' ~/.config/lvim/config.lua; then
-        cat ${_pwd}/linux_terminal/config.lua >>~/.config/lvim/config.lua
+    if ! grep -q 'require("custom")' ~/.config/lvim/config.lua; then
+        echo 'require("custom")' >>~/.config/lvim/config.lua
+        if [ ! -d $HOME/.config/lvim/lua ];then
+            mkdir $HOME/.config/lvim/lua
+        fi
+        ln -sf ${_pwd}/linux_terminal/custom.lua $HOME/.config/lvim/lua/custom.lua
     fi
 }
 
