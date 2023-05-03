@@ -95,7 +95,8 @@ function install_python() {
 }
 
 function install_vim() {
-    sudo apt install vim vim-gui-common vim-runtime -y
+    local vim_version='2:8.2.2434-3+deb11u1'
+    sudo apt install vim="$vim_version" vim-gui-common="$vim_version" vim-runtime="$vim_version" -y
     ln -sf ${_pwd}/linux_terminal/.vimrc $HOME/.vimrc
     vim +'PlugInstall --sync' +qa
 }
@@ -171,7 +172,7 @@ function install_lvim() {
     fi
     if ! grep -q 'require("custom")' ~/.config/lvim/config.lua; then
         echo 'require("custom")' >>~/.config/lvim/config.lua
-        if [ ! -d $HOME/.config/lvim/lua ];then
+        if [ ! -d $HOME/.config/lvim/lua ]; then
             mkdir $HOME/.config/lvim/lua
         fi
         ln -sf ${_pwd}/linux_terminal/custom.lua $HOME/.config/lvim/lua/custom.lua
