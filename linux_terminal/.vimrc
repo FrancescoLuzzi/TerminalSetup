@@ -30,14 +30,13 @@ set mouse=a
 " Netrw
 let g:netrw_banner = 0
 let g:netrw_liststyle= 3
-let g:netrw_winsize = 20
+let g:netrw_winsize = 50
 let g:netrw_browse_split = 4
-let g:netrw_altv = 1
+let g:netrw_altv = 0
+let g:netrw_browse_split = 0
 " add event listeners mapping
 augroup my_mappings
     autocmd!
-    " call mappings on netrw open
-    autocmd filetype netrw :call NetrwMapping()
     " trim spaces, for reference, after the * you can add the wanted extension (example *.py)
     autocmd BufWritePre * :%s/\s\+$//e
     " set cursor
@@ -45,8 +44,6 @@ augroup my_mappings
     " reset cursor
     autocmd VimLeave * silent !echo -ne "\e[6 q"
 augroup END
-
-" NORMAL MODE MAPPINGS
 
 " remap to move within windows without pressing ctrl+w
 nnoremap <C-J> <C-W><C-J>
@@ -65,8 +62,8 @@ nnoremap <S-K> 10k
 nnoremap <S-J> 10j
 
 " remap to move between buffers Ctrl + ->/<-
-nnoremap <C-Left> :bp<CR>
-nnoremap <C-Right> :bn<CR>
+nnoremap <S-L> :bp<CR>
+nnoremap <S-H> :bn<CR>
 
 " delete current buffer Ctrl + k
 nnoremap <C-D> :bdelete<CR>
@@ -115,6 +112,11 @@ nmap <leader>\ <C-w>v<C-L>
 nmap <leader>- <C-w>s<C-J>
 " close all views but the one you are editing
 nmap <leader>d <Esc>:only<CR>
+" open terminal splitting view vertically
+nmap <leader>t <Esc>:vert ter<CR>
+" open terminal splitting view horizontally
+nmap <leader>T <Esc>:ter<CR>
 
+" open fuzzy finder
 noremap <leader>f <Esc>:FZF<CR>
 noremap <leader>e <Esc>:Explore<CR>
