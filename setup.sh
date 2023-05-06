@@ -458,9 +458,7 @@ function interactive_install() {
 
     items=("golang" "node" "python" "rust" "done" "quit")
     err_str="(since $editor selected)"
-    if [ "$editor" = "vim" ]; then
-        items[1]="$(toggle_text ${items[1]}) $err_str"
-    elif [ "$editor" = "lvim" ]; then
+    if [ "$editor" = "lvim" ]; then
         items[1]="$(toggle_text ${items[1]}) $err_str"
         items[2]="$(toggle_text ${items[2]}) $err_str"
         items[3]="$(toggle_text ${items[3]}) $err_str"
@@ -469,11 +467,6 @@ function interactive_install() {
     while true; do
         custom_select "${items[@]}"
         case $REPLY in
-        2) # node
-            if [ "$editor" = "vim" ]; then
-                continue
-            fi
-            ;;&
         [2-4]) # node, python, rust
             if [ "$editor" = "lvim" ]; then
                 continue
@@ -509,7 +502,7 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     sudo apt update >/dev/null 2>&1
     sudo apt upgrade -y >/dev/null 2>&1
     sudo apt -y install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev >/dev/null 2>&1
-
+    # kill __wait
     kill %1
 fi
 
