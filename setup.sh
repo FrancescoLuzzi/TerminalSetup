@@ -95,8 +95,7 @@ function install_python() {
 }
 
 function install_vim() {
-    local vim_version='2:8.2.2434-3+deb11u1'
-    sudo apt install vim="$vim_version" vim-gui-common="$vim_version" vim-runtime="$vim_version" -y
+    sudo apt install vim vim-gui-common vim-runtime -y
     ln -sf ${_pwd}/linux_terminal/.vimrc $HOME/.vimrc
     vim +'PlugInstall --sync' +qa
 }
