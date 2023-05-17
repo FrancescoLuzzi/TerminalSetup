@@ -62,6 +62,19 @@ function add_to_set ()
   fi
 }
 
+function remove_from_set() {
+  # $1 array-set variable name
+  # $2 element to be removed
+  eval __arr="(\"\${$1[@]}\")"
+  for i in "${!__arr[@]}"; do
+    if [ "${__arr[i]}" = "$2" ]; then
+     unset '__arr[i]'
+    fi
+  done
+  eval $1="(\"\${__arr[@]}\")"
+  unset __arr
+}
+
 function install_golang() {
     local latest_go_version="$(curl --silent https://go.dev/VERSION?m=text)"
 
