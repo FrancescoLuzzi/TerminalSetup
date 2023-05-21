@@ -202,15 +202,12 @@ function install_lvim() {
     rm install.sh
     if ! grep -q 'export PATH=/$HOME/.local/bin:$PATH' ~/.bashrc; then
         echo 'export PATH=/$HOME/.local/bin:$PATH' >>~/.bashrc
-        echo 'alias vim=lvim' >>~/.bashrc
         echo 'alias vi=lvim' >>~/.bashrc
     fi
-    if ! grep -q 'require("custom")' ~/.config/lvim/config.lua; then
-        echo 'require("custom")' >>~/.config/lvim/config.lua
-        if [ ! -d $HOME/.config/lvim/lua ]; then
-            mkdir $HOME/.config/lvim/lua
-        fi
-        ln -sf ${_pwd}/linux_terminal/custom.lua $HOME/.config/lvim/lua/custom.lua
+    # if config file is still the original one, move it and link the new one
+    if file ~/.config/lvim/config.lua | grep -q 'ASCII'; then
+        mv ~/.config/lvim/config.lua ~/.config/lvim/config.lua.bck
+        ln -sf ${_pwd}/linux_terminal/config.lua $HOME/.config/lvim/config.lua
     fi
 }
 
@@ -542,7 +539,7 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     __wait "setting up" &
     sudo apt update >/dev/null 2>&1
     sudo apt upgrade -y >/dev/null 2>&1
-    sudo apt -y install git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev >/dev/null 2>&1
+    sudo apt -y install file git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev >/dev/null 2>&1
     # kill __wait
     kill %1
 fi
