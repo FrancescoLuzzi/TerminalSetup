@@ -26,8 +26,6 @@ lvim.keys.normal_mode["<leader>\\"] = ":vsplit<CR>"
 lvim.keys.normal_mode["<leader>-"] = ":split<CR>"
 lvim.keys.normal_mode["<leader>d"] = ":only<CR>"
 lvim.keys.normal_mode["<leader>d"] = ":only<CR>"
-lvim.keys.normal_mode["<leader>t"] = ":vert ter<CR>"
-lvim.keys.normal_mode["<leader>T"] = ":ter<CR>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 -- unmap a default keymapping
@@ -74,6 +72,7 @@ lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
+lvim.builtin.terminal.open_mapping = "<c-t>"
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 
