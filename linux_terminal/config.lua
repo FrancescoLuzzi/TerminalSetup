@@ -21,6 +21,9 @@ lvim.use_icons = true
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<C-k>"] = "<C-u>"
+lvim.keys.normal_mode["<C-j>"] = "<C-d>"
+
 lvim.transparent_window = true
 lvim.keys.normal_mode["<leader>\\"] = ":vsplit<CR>"
 lvim.keys.normal_mode["<leader>-"] = ":split<CR>"
@@ -80,15 +83,20 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "c",
+  "html",
   "javascript",
   "json",
+  "jsonc",
   "lua",
+  "markdown",
+  "markdown_inline",
   "python",
   "typescript",
   "tsx",
   "css",
+  "regex",
   "rust",
-  "java",
+  "toml",
   "yaml",
 }
 
