@@ -5,19 +5,19 @@ Download [Caskaydia Cove Nerd Font](https://www.nerdfonts.com/font-downloads) ->
 Download and install "Oh My Posh" for [Windows](https://ohmyposh.dev/docs/installation/windows) or for [Linux/wsl](https://ohmyposh.dev/docs/installation/linux)
 
 - Windows setup
-  - Download and install [VsCode](https://code.visualstudio.com/download)
-  - Execute ``` install_extensions.ps1 ```
-  - Add lines of **vscode/settings.json** to your **settings.json**
   - Download and install [Windows Terminal](https://aka.ms/terminal)
     - select as font "CaskaydiaCove NF"
   - Check if virtualization is enabled in your bios
-  - Execute ``` wsl --install ``` and follow [wsl install guide](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 ## Linux setup: setup.sh
 
-```sudo apt update && sudo apt upgrade && sudo apt install curl```
+```bash
+sudo apt update && sudo apt upgrade && sudo apt install curl
+```
 
-```curl -o- https://raw.githubusercontent.com/FrancescoLuzzi/TerminalSetup/main/remote_setup.sh | bash```
+```bash
+curl -o- https://raw.githubusercontent.com/FrancescoLuzzi/TerminalSetup/main/remote_setup.sh | bash
+```
 
 This script will install and configure the developement enviroment with what you need:
 
@@ -33,4 +33,14 @@ Notes:
 
 - to add and update tmux packages  ``` tmux new ``` then ``` Ctrl+<Space> +I ```
 
-## Windows autosetup: setup.ps1 TODO
+## Windows autosetup: setup.ps1
+ 
+ ```posershell
+ (Invoke-WebRequest https://raw.githubusercontent.com/FrancescoLuzzi/TerminalSetup/main/remote_setup.ps1).Content | powershell -
+ ```
+
+ Installs:
+ 
+ - downloads and installs vscode, then links `keybindings.json` and `settings.json`
+ - [initialize wsl](https://learn.microsoft.com/en-us/windows/wsl/install) `wsl --install -d Debian`
+ - Executes `install_vscode_extensions.ps1`
