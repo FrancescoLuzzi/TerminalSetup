@@ -4,5 +4,14 @@
 	"terminal.integrated.fontSize": 13,
 	"editor.fontLigatures": true,
 	"editor.stickyScroll.enabled": true,
-	"files.trimTrailingWhitespace": true
+	"files.trimTrailingWhitespace": true,
+	// Vim extension configuration //
+	"vim.leader": " ",
+	"vim.visualModeKeyBindings": [
+		{
+		  "before": ["<leader>", "/"],
+		  "commands": ["editor.action.commentLine"],
+		  "when": "editorTextFocus && !editorReadonly"
+		}
+	]
 }
