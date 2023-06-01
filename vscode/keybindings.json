@@ -24,6 +24,10 @@
   {
     "key": "ctrl+j",
     "command": "workbench.action.navigateDown"
+  },
+  {
+    "key": "ctrl+alt+w",
+    "command": "toggleVim"
   }
 ]
   
