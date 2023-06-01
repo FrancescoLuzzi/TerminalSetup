@@ -8,7 +8,9 @@
 	// Vim extension configuration //
 	"vim.leader": " ",
 	"vim.handleKeys": {
-	  "<C-x>": false
+	  "<C-x>": false,
+	  "<C-d>": false,
+	  "<C-y>": false
 	},
 	"vim.visualModeKeyBindings": [
 	  {
