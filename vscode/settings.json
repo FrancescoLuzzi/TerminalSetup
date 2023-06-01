@@ -7,11 +7,32 @@
 	"files.trimTrailingWhitespace": true,
 	// Vim extension configuration //
 	"vim.leader": " ",
+	"vim.handleKeys": {
+	  "<C-x>": false
+	},
 	"vim.visualModeKeyBindings": [
-		{
-		  "before": ["<leader>", "/"],
-		  "commands": ["editor.action.commentLine"],
-		  "when": "editorTextFocus && !editorReadonly"
-		}
+	  {
+		"before": ["<leader>", "/"],
+		"commands": ["editor.action.commentLine"],
+		"when": "editorTextFocus && !editorReadonly"
+	  },
+	  {
+		"before": [">"],
+		"commands": ["editor.action.indentLines"]
+	  },
+	  {
+		"before": ["<"],
+		"commands": ["editor.action.outdentLines"]
+	  }
+	],
+	"vim.normalModeKeyBindings": [
+	  {
+		"before": ["<leader>", "-"],
+		"commands": [":split", "<esc>"]
+	  },
+	  {
+		"before": ["<leader>", "\\"],
+		"commands": [":vsplit", "<esc>"]
+	  }
 	]
-}
+  }
