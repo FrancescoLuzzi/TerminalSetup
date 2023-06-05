@@ -28,6 +28,11 @@
   {
     "key": "ctrl+alt+w",
     "command": "toggleVim"
+  },
+  {
+    "key": "ctrl+shift+t",
+    "command": "workbench.action.terminal.new",
+    "when": "terminalProcessSupported || terminalWebExtensionContributedProfile"
   }
 ]
   
