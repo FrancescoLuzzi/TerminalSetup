@@ -35,6 +35,10 @@
 	  {
 		"before": ["<leader>", "\\"],
 		"commands": [":vsplit", "<esc>"]
+	  },
+	  {
+		"before": ["<leader>","c"],
+		"commands":["workbench.action.closeActiveEditor"]
 	  }
 	]
   }
