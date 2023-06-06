@@ -12,7 +12,7 @@ ENV UP_TO_DATE="up to date"
 
 RUN apt update && \
     apt upgrade -y && \
-    apt -y install sudo procps file git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev apt-utils iputils-ping locales
+    apt -y install sudo procps file git bash-completion curl wget tree zip build-essential libssl-dev libffi-dev apt-utils iputils-ping locales ripgrep
 
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 ENV LANG="en_US.UTF-8"
