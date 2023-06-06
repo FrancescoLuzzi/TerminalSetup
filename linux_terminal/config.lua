@@ -17,6 +17,9 @@ lvim.use_icons = true
 
 -- .lua -> vim.g
 -- .vimrc -> g:
+vim.g.VM_theme = 'iceblue'
+vim.g.VM_leader = 'm'
+vim.g.VM_mouse_mappings = 1
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
@@ -177,12 +180,12 @@ lvim.builtin.treesitter.highlight.enable = true
 -- }
 
 -- Additional Plugins
--- lvim.plugins = {
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
--- }
+lvim.plugins = {
+  {
+    "mg979/vim-visual-multi",
+    branch = "master",
+  }
+}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
