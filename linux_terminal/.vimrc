@@ -93,6 +93,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline-themes'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
+    Plug 'preservim/nerdtree'
 call plug#end()
 
 " set color scheme, silent to prevent error if not installed with :PlugInstall
@@ -119,4 +120,4 @@ nmap <leader>T <Esc>:ter<CR>
 
 " open fuzzy finder
 noremap <leader>f <Esc>:FZF<CR>
-noremap <leader>e <Esc>:Explore<CR>
+noremap <leader>e <Esc>:NERDTreeToggle<CR>
