@@ -5,7 +5,7 @@ if (! $?){
 
 cd $HOME
 
-git clone git clone https://github.com/FrancescoLuzzi/TerminalSetup.git .terminal_setup
+git clone https://github.com/FrancescoLuzzi/TerminalSetup.git .terminal_setup
 
 cd .terminal_setup
 
