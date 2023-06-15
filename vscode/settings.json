@@ -4,5 +4,41 @@
 	"terminal.integrated.fontSize": 13,
 	"editor.fontLigatures": true,
 	"editor.stickyScroll.enabled": true,
-	"files.trimTrailingWhitespace": true
-}
+	"files.trimTrailingWhitespace": true,
+	// Vim extension configuration //
+	"vim.leader": " ",
+	"vim.handleKeys": {
+	  "<C-x>": false,
+	  "<C-d>": false,
+	  "<C-y>": false
+	},
+	"vim.visualModeKeyBindings": [
+	  {
+		"before": ["<leader>", "/"],
+		"commands": ["editor.action.commentLine"],
+		"when": "editorTextFocus && !editorReadonly"
+	  },
+	  {
+		"before": [">"],
+		"commands": ["editor.action.indentLines"]
+	  },
+	  {
+		"before": ["<"],
+		"commands": ["editor.action.outdentLines"]
+	  }
+	],
+	"vim.normalModeKeyBindings": [
+	  {
+		"before": ["<leader>", "-"],
+		"commands": [":split", "<esc>"]
+	  },
+	  {
+		"before": ["<leader>", "\\"],
+		"commands": [":vsplit", "<esc>"]
+	  },
+	  {
+		"before": ["<leader>","c"],
+		"commands":["workbench.action.closeActiveEditor"]
+	  }
+	]
+  }
