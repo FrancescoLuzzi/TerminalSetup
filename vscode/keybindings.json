@@ -32,6 +32,16 @@
   {
     "key": "ctrl+t",
     "command": "workbench.action.togglePanel"
+  },
+  {
+    "key": "shift+L",
+    "command": "workbench.action.nextEditorInGroup",
+    "when": "editorTextFocus && inputFocus && vim.mode == 'Normal' && notebookEditorCursorAtBoundary != 'none' && notebookEditorCursorAtBoundary != 'top'"
+  },
+  {
+    "key": "shift+H",
+    "command": "workbench.action.previousEditorInGroup",
+    "when": "editorTextFocus && inputFocus && vim.mode == 'Normal' && notebookEditorCursorAtBoundary != 'none' && notebookEditorCursorAtBoundary != 'top'"
   }
 ]
   
