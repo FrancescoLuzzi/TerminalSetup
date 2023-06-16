@@ -30,9 +30,8 @@
     "command": "toggleVim"
   },
   {
-    "key": "ctrl+shift+t",
-    "command": "workbench.action.terminal.new",
-    "when": "terminalProcessSupported || terminalWebExtensionContributedProfile"
+    "key": "ctrl+t",
+    "command": "workbench.action.togglePanel"
   }
 ]
   
