@@ -23,15 +23,13 @@ vim.g.VM_mouse_mappings = 1
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-
 lvim.transparent_window = true
 lvim.keys.normal_mode["<leader>\\"] = ":vsplit<CR>"
 lvim.keys.normal_mode["<leader>-"] = ":split<CR>"
-lvim.keys.normal_mode["<leader>d"] = ":only<CR>"
-lvim.keys.normal_mode["<leader>d"] = ":only<CR>"
+lvim.keys.normal_mode["<leader>o"] = ":only<CR>"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
+
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
