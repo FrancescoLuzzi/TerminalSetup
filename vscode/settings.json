@@ -41,6 +41,18 @@
 		"before": ["<leader>","c"],
 		"commands":["workbench.action.closeActiveEditor"]
 	  },
-	  { "before": ["K"], "after": ["g", "h"] }
+	  { "before": ["K"], "after": ["g", "h"] },
+	  {
+		"before": ["<leader>", "o"],
+		"commands": ["workbench.action.closeEditorsInOtherGroups","workbench.action.closeOtherEditors"]
+	  },
+	  {
+		"before": ["<leader>", "f"],
+		"commands": ["workbench.action.quickOpen"]
+	  },
+	  {
+		"before": ["<leader>", "e"],
+		"commands": ["workbench.action.toggleSidebarVisibility"]
+	  }
 	]
   }
