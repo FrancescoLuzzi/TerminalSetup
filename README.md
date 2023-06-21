@@ -1,6 +1,6 @@
 # TerminalSetup
 
-Download [Caskaydia Cove Nerd Font](https://www.nerdfonts.com/font-downloads) -> Inastall all .otf files with "Windows Compatible" in their name (install for all users)
+Download [Caskaydia Cove Nerd Font](https://www.nerdfonts.com/font-downloads) -> Install all .ttf files for all users 
 
 Download and install "Oh My Posh" for [Windows](https://ohmyposh.dev/docs/installation/windows) or for [Linux/wsl](https://ohmyposh.dev/docs/installation/linux)
 
