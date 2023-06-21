@@ -1,0 +1,97 @@
+; Copyright � Microsoft Corp.
+
+[Theme]
+DisplayName=DarkWolf
+; Windows - IDS_THEME_DISPLAYNAME_AERO
+DisplayName=@%SystemRoot%\System32\themeui.dll,-2013
+ThemeId={FCE9FF89-D883-45EF-971F-0DA54CB78E73}
+
+; Computer - SHIDI_SERVER
+[CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\DefaultIcon]
+DefaultValue=%SystemRoot%\System32\imageres.dll,-109
+
+; UsersFiles - SHIDI_USERFILES
+[CLSID\{59031A47-3F72-44A7-89C5-5595FE6B30EE}\DefaultIcon]
+DefaultValue=%SystemRoot%\System32\imageres.dll,-123
+
+; Network - SHIDI_MYNETWORK
+[CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\DefaultIcon]
+DefaultValue=%SystemRoot%\System32\imageres.dll,-25
+
+; Recycle Bin - SHIDI_RECYCLERFULL SHIDI_RECYCLER
+[CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\DefaultIcon]
+Full=%SystemRoot%\System32\imageres.dll,-54
+Empty=%SystemRoot%\System32\imageres.dll,-55
+
+[Control Panel\Cursors]
+AppStarting=%SystemRoot%\cursors\aero_working.ani
+Arrow=%SystemRoot%\cursors\aero_arrow.cur
+Hand=%SystemRoot%\cursors\aero_link.cur
+Help=%SystemRoot%\cursors\aero_helpsel.cur
+No=%SystemRoot%\cursors\aero_unavail.cur
+NWPen=%SystemRoot%\cursors\aero_pen.cur
+SizeAll=%SystemRoot%\cursors\aero_move.cur
+SizeNESW=%SystemRoot%\cursors\aero_nesw.cur
+SizeNS=%SystemRoot%\cursors\aero_ns.cur
+SizeNWSE=%SystemRoot%\cursors\aero_nwse.cur
+SizeWE=%SystemRoot%\cursors\aero_ew.cur
+UpArrow=%SystemRoot%\cursors\aero_up.cur
+Wait=%SystemRoot%\cursors\aero_busy.ani
+DefaultValue=Predefinito di Windows
+
+[Control Panel\Desktop]
+Wallpaper=DesktopBackground\wallpaper.png
+Pattern=
+MultimonBackgrounds=0
+PicturePosition=4
+
+[VisualStyles]
+Path=%SystemRoot%\resources\themes\Aero\Aero.msstyles
+ColorStyle=NormalColor
+Size=NormalSize
+AutoColorization=1
+ColorizationColor=0X1B495A
+VisualStyleVersion=10
+AppMode=Dark
+SystemMode=Dark
+
+
+[MasterThemeSelector]
+MTSM=RJSPBS
+
+[Sounds]
+; IDS_SCHEME_DEFAULT
+SchemeName=@mmres.dll,-800
+
+[Control Panel\Colors]
+Scrollbar=64 64 64
+Background=55 55 55
+ActiveTitle=153 180 209
+InactiveTitle=191 205 219
+Menu=64 64 64
+Window=255 255 255
+WindowFrame=100 100 100
+MenuText=164 164 164
+WindowText=0 0 0
+TitleText=0 0 0
+ActiveBorder=180 180 180
+InactiveBorder=128 128 128
+AppWorkspace=171 171 171
+Hilight=0 120 215
+HilightText=255 255 255
+ButtonFace=240 240 240
+ButtonShadow=64 64 64
+GrayText=109 109 109
+ButtonText=0 0 0
+InactiveTitleText=0 0 0
+ButtonHilight=64 64 64
+ButtonDkShadow=45 45 45
+ButtonLight=45 45 45
+InfoText=192 192 192
+InfoWindow=64 64 64
+ButtonAlternateFace=192 192 192
+HotTrackingColor=0 102 204
+GradientActiveTitle=192 192 192
+GradientInactiveTitle=192 192 192
+MenuHilight=51 153 255
+MenuBar=64 64 64
