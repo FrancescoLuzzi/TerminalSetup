@@ -174,7 +174,7 @@ function download_github_release_artifact() {
 }
 
 function install_nvim() {
-    local url=$(get_github_release_artifact_url neovim neovim "v0.8.3" "nvim.appimage")
+    local url=$(get_github_release_artifact_url neovim neovim "v0.9.1" "nvim.appimage")
     local file=$(download_github_release_artifact $url)
     if in_docker; then
         mkdir -p /tmp/nvim
@@ -193,10 +193,10 @@ function install_nvim() {
 
 function install_lvim() {
     install_nvim
-    curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/fc6873809934917b470bff1b072171879899a36b/utils/installer/install.sh -o install.sh
+    curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh -o install.sh
     chmod +x install.sh
     if [ -z ${LV_BRANCH+x} ]; then
-        export LV_BRANCH='release-1.2/neovim-0.8'
+        export LV_BRANCH='release-1.3/neovim-0.9'
     fi
     ./install.sh -y --no-install-dependencies --overwrite
     rm install.sh
