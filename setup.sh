@@ -47,7 +47,7 @@ function in_set() {
   # get array from variable
   eval __arr="(\"\${$1[@]}\")"
   for item in "${__arr[@]}"; do
-    [[ "$2" == "$item" ]] && return 0 
+    [[ "$2" == "$item" ]] && return 0
   done
   unset __arr
   return 1
@@ -198,7 +198,7 @@ function install_lvim() {
     if [ -z ${LV_BRANCH+x} ]; then
         export LV_BRANCH='release-1.2/neovim-0.8'
     fi
-    ./install.sh -y --no-install-dependencies
+    ./install.sh -y --no-install-dependencies --overwrite
     rm install.sh
     if ! grep -q 'export PATH=/$HOME/.local/bin:$PATH' ~/.bashrc; then
         echo 'export PATH=/$HOME/.local/bin:$PATH' >>~/.bashrc
