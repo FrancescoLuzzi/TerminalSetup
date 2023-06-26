@@ -54,13 +54,13 @@ Download and install [Windows Terminal](https://aka.ms/terminal), then edit the 
         "defaults":
         {
             "backgroundImage": "desktopWallpaper",
-			"backgroundImageOpacity": 0.3,
-			"colorScheme": "Campbell",
-			"font": {
-				"face": "CaskaydiaCove NF"
-			},
-			"opacity": 100,
-			"bellStyle": "none"
+	    "backgroundImageOpacity": 0.3,
+	    "colorScheme": "Campbell",
+	    "font": {
+	        "face": "CaskaydiaCove NF"
+	    },
+	    "opacity": 100,
+	    "bellStyle": "none"
         },
         //...
     }
