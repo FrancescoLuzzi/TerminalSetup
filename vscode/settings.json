@@ -30,6 +30,11 @@
 	],
 	"vim.normalModeKeyBindings": [
 	  {
+		"before": ["<leader>", "/"],
+		"commands": ["editor.action.commentLine"],
+		"when": "editorTextFocus && !editorReadonly"
+	  },
+	  {
 		"before": ["<leader>", "-"],
 		"commands": [":split", "<esc>"]
 	  },
