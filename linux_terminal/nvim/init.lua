@@ -26,6 +26,10 @@ vim.g.maplocalleader = ' '
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- set single status bar
+
+vim.opt.laststatus = 3
+
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
 
@@ -95,7 +99,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',    opts = {} },
+  { 'folke/which-key.nvim',          opts = {} },
 
   {
     "mg979/vim-visual-multi",
@@ -158,6 +162,7 @@ require('lazy').setup({
         theme = 'onedark',
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
+        globalstatus = true,
       },
     },
   },
@@ -437,8 +442,8 @@ require('nvim-treesitter.configs').setup {
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set('n', '<leader>le', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', '<leader>lq', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- nvim-tree keymaps
 vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<CR>', { desc = '[F]ile [E]xplorer' })
@@ -467,7 +472,7 @@ local on_attach = function(_, bufnr)
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+  nmap('<leader>wd', require('telescope.builtin').lsp_document_symbols, '[ ]Document [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
   -- See `:help K` for why this keymap
@@ -595,6 +600,8 @@ vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move to upper window' })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to left window' })
 
+vim.keymap.set('n', '<leader>d', '<C-w>c', { desc = 'Close current window' })
+
 -- resize windows
 
 vim.keymap.set('n', '<A-Up>', ':resize -2<CR>', { desc = '' })
@@ -616,7 +623,7 @@ vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { desc = 'Move line up' })
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>==gv-gv", { desc = 'Move line down' })
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>==gv-gv", { desc = 'Move line up' })
 
--- comment line
+-- Comment line
 
 vim.keymap.set('n', '<leader>/', '<Plug>(comment_toggle_linewise_current)', { desc = 'Comment toggle current line' })
 vim.keymap.set('v', '<leader>/', '<Plug>(comment_toggle_linewise_visual)', { desc = 'Comment toggle line (visual)' })
