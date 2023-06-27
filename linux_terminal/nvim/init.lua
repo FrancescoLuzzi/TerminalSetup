@@ -1,9 +1,9 @@
 --[[
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
+If you don't know anything about Lua, I recommend taking some time to read through
+a guide. One possible example:
+- https://learnxinyminutes.com/docs/lua/
 
-  And then you can explore or search through `:help lua-guide`
+And then you can explore or search through `:help lua-guide`
 
 
 Guide:
@@ -554,7 +554,7 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'nvim_lsp' },
+    { name = 'nvim_lsp', keyword_length = 2 },
     { name = 'luasnip' },
   },
 }
