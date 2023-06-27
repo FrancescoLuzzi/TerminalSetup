@@ -17,7 +17,7 @@ curl -o- https://raw.githubusercontent.com/FrancescoLuzzi/TerminalSetup/main/rem
 This script will install and configure the developement enviroment with what you need:
 
 - install and configure oh-my-posh (always)
-- install [vim](https://www.vim.org/)/[lvim](https://www.lunarvim.org/) or none
+- install [vim](https://www.vim.org/)/[nvim](https://neovim.io/) or none
 - install [tmux](https://github.com/tmux/tmux)/[zellij](https://github.com/zellij-org/zellij) none
 - python (python3-dev, python3-pip, python3-venv)
 - golang
@@ -54,13 +54,13 @@ Download and install [Windows Terminal](https://aka.ms/terminal), then edit the 
         "defaults":
         {
             "backgroundImage": "desktopWallpaper",
-	    "backgroundImageOpacity": 0.3,
-	    "colorScheme": "Campbell",
-	    "font": {
-	        "face": "CaskaydiaCove NF"
-	    },
-	    "opacity": 100,
-	    "bellStyle": "none"
+            "backgroundImageOpacity": 0.3,
+            "colorScheme": "Campbell",
+            "font": {
+                "face": "CaskaydiaCove NF"
+            },
+            "opacity": 100,
+            "bellStyle": "none"
         },
         //...
     }
