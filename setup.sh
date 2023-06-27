@@ -5,7 +5,7 @@
 
 showHelp() {
     cat >&2 <<EOF
-Usage: ./setup.sh [-e vim|lvim] [-w tmux|zellij] [-IU] [-gnopr]
+Usage: ./setup.sh [-e vim|nvim] [-w tmux|zellij] [-IU] [-gnopr]
 
 -h                   Display help
 
@@ -13,17 +13,17 @@ Usage: ./setup.sh [-e vim|lvim] [-w tmux|zellij] [-IU] [-gnopr]
 
 -U                   Update terminal setup after first installation
 
--e [vim|lvim]        Optional text editor with custom configuration
+-e [vim|nvim]        Optional text editor with custom configuration
 
 -w [tmux|zellij]     Optional window manager with custom keybindings and packages
 
 -g                   Install golang for developement
 
--n                   Install nvm/node/npm for developement (also installed with lvim and vim)
+-n                   Install nvm/node/npm for developement (also installed with nvim and vim)
 
--p                   Install python for developement (also installed with lvim)
+-p                   Install python for developement (also installed with nvim)
 
--r                   Install rust for developement (also installed with lvim)
+-r                   Install rust for developement (also installed with nvim)
 EOF
 
 }
@@ -189,26 +189,11 @@ function install_nvim() {
         chmod u+x ./$file
         sudo mv ./$file /usr/local/bin/nvim
     fi
-}
-
-function install_lvim() {
-    install_nvim
-    curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh -o install.sh
-    chmod +x install.sh
-    if [ -z ${LV_BRANCH+x} ]; then
-        export LV_BRANCH='release-1.3/neovim-0.9'
+    # backup old nvim config
+    if file ~/.config/nvim | grep -q 'directory'; then
+        mv ~/.config/nvim ~/.config/nvim_bck
     fi
-    ./install.sh -y --no-install-dependencies --overwrite
-    rm install.sh
-    if ! grep -q 'export PATH=/$HOME/.local/bin:$PATH' ~/.bashrc; then
-        echo 'export PATH=/$HOME/.local/bin:$PATH' >>~/.bashrc
-        echo 'alias vi=lvim' >>~/.bashrc
-    fi
-    # if config file is still the original one, move it and link the new one
-    if file ~/.config/lvim/config.lua | grep -q 'ASCII'; then
-        mv ~/.config/lvim/config.lua ~/.config/lvim/config.lua.bck
-        ln -sf ${_pwd}/linux_terminal/config.lua $HOME/.config/lvim/config.lua
-    fi
+    ln -sfT ${_pwd}/linux_terminal/nvim $HOME/.config/nvim
 }
 
 function install_tmux() {
@@ -278,7 +263,7 @@ while getopts ':IUgnpre:w:' OPTION; do
     e)
         if [ "$OPTARG" = "vim" ]; then
             editor=$OPTARG
-        elif [ "$OPTARG" = "lvim" ]; then
+        elif [ "$OPTARG" = "nvim" ]; then
             editor=$OPTARG
             add_to_set programs "rust"
             add_to_set programs "python"
@@ -449,7 +434,7 @@ function interactive_install() {
     if [ -z "${editor}" ]; then
         PS3="Select editor to be installed: "
 
-        items=("vim" "lvim" "none" "quit")
+        items=("vim" "nvim" "none" "quit")
 
         SCREEN="save"
         while true; do
@@ -495,7 +480,7 @@ function interactive_install() {
 
     items=("golang" "node" "python" "rust" "done" "quit")
     err_str="(since $editor selected)"
-    if [ "$editor" = "lvim" ]; then
+    if [ "$editor" = "nvim" ]; then
         items[1]="$(toggle_text ${items[1]}) $err_str"
         items[2]="$(toggle_text ${items[2]}) $err_str"
         items[3]="$(toggle_text ${items[3]}) $err_str"
@@ -505,7 +490,7 @@ function interactive_install() {
         custom_select "${items[@]}"
         case $REPLY in
         [2-4]) # node, python, rust
-            if [ "$editor" = "lvim" ]; then
+            if [ "$editor" = "nvim" ]; then
                 continue
             fi
             ;;&
@@ -593,8 +578,8 @@ done
 
 if [ "$editor" = "vim" ]; then
     install_vim
-elif [ "$editor" = "lvim" ]; then
-    install_lvim
+elif [ "$editor" = "nvim" ]; then
+    install_nvim
 fi
 
 if [ "$window_manager" = "tmux" ]; then
