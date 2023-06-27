@@ -571,6 +571,18 @@ vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move to upper window' })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to left window' })
 
+-- resize windows
+
+vim.keymap.set('n', '<A-Up>', ':resize -2<CR>', { desc = '' })
+vim.keymap.set('n', '<A-Down>', ':resize +2<CR>', { desc = '' })
+vim.keymap.set('n', '<A-Left>', ':vertical resize -2<CR>', { desc = '' })
+vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', { desc = '' })
+
+-- visual indenting
+
+vim.keymap.set('v', '<', '<gv', { desc = 'Stay in visual mode while indenting' })
+vim.keymap.set('v', '>', '>gv', { desc = 'Stay in visual mode while indenting' })
+
 -- Move line
 
 vim.keymap.set('n', '<A-j>', ':m .+1<CR>', { desc = 'Move line down' })
@@ -580,6 +592,7 @@ vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>gi', { desc = 'Move line up' })
 
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv-gv", { desc = 'Move line down' })
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv-gv", { desc = 'Move line up' })
+
 -- Toggle term
 
 vim.keymap.set('n', '<C-t>', ':ToggleTerm<CR>', { desc = 'Move to left window' })
