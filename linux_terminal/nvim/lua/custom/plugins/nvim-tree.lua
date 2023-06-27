@@ -27,6 +27,15 @@ return {
 			---
 			on_attach = my_on_attach,
 			---
-		}
+			diagnostics = {
+				enable = true,
+			},
+			modified = {
+				enable = true,
+			},
+			renderer = {
+				highlight_modified = "icon"
+			}
+	}
 	end
 }
