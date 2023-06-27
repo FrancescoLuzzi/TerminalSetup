@@ -239,7 +239,7 @@ require('lazy').setup({
 -- NOTE: You can change these options as you wish!
 
 -- Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.wo.number = true
@@ -273,8 +273,6 @@ vim.o.timeoutlen = 300
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
--- NOTE: You should make sure your terminal supports this
-vim.o.termguicolors = true
 
 -- [[ Basic Keymaps ]]
 
@@ -577,8 +575,8 @@ vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to left window' })
 
 vim.keymap.set('n', '<A-j>', ':m .+1<CR>', { desc = 'Move line down' })
 vim.keymap.set('n', '<A-k>', ':m .-2<CR>', { desc = 'Move line up' })
-vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>zzgi', { desc = 'Move line down' })
-vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>zzgi', { desc = 'Move line up' })
+vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>gi', { desc = 'Move line down' })
+vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>gi', { desc = 'Move line up' })
 
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv-gv", { desc = 'Move line down' })
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv-gv", { desc = 'Move line up' })
