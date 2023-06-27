@@ -22,7 +22,7 @@ are first encountering a few different constructs in your nvim config.
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- disable netrw at the very start of init.lua
+-- disable netrw at the very start of your init.lua
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
@@ -96,6 +96,12 @@ require('lazy').setup({
 
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim',    opts = {} },
+
+  {
+    "mg979/vim-visual-multi",
+    branch = "master",
+  },
+
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
