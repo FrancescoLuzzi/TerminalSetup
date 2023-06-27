@@ -179,7 +179,18 @@ require('lazy').setup({
     dependencies = 'nvim-tree/nvim-web-devicons',
   },
 
-  { 'akinsho/toggleterm.nvim', version = "*" },
+  {
+    -- add comment
+    'numToStr/Comment.nvim',
+    -- See :help comment-nvim
+  },
+
+  {
+    -- add toggleterm
+    'akinsho/toggleterm.nvim',
+    -- See :help toggleterm
+    version = "*"
+  },
 
   {
     -- Add indentation guides even on blank lines
@@ -322,8 +333,18 @@ vim.keymap.set('n', '<leader>sb', function()
   })
 end, { desc = 'Fuzzily [s]earch in current [b]uffer' })
 
-vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+-- smart telescope file search
+
+local function find_project_files(opts)
+  opts = opts or {}
+  local ok = pcall(require('telescope.builtin').git_files, opts)
+
+  if not ok then
+    require('telescope.builtin').find_files(opts)
+  end
+end
+
+vim.keymap.set('n', '<leader>sf', find_project_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
@@ -564,8 +585,11 @@ cmp.setup {
 vim.keymap.set('n', '<leader>\\', ':vsplit<CR>', { desc = 'Split window vertically' })
 vim.keymap.set('n', '<leader>-', ':split<CR>', { desc = 'Split window orizzontally' })
 vim.keymap.set('n', '<leader>o', ':only<CR>', { desc = 'Close all other windows' })
+vim.keymap.set('n', '<leader>c', '<cmd>BufferKill<CR>', { desc = 'Close Buffer' })
+
 vim.keymap.set('n', '<S-l>', ':BufferLineCycleNext<CR>', { desc = 'Cycle to next buffer' })
 vim.keymap.set('n', '<S-h>', ':BufferLineCyclePrev<CR>', { desc = 'Cycle to previous buffer' })
+
 vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to right window' })
 vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move to upper window' })
@@ -591,6 +615,11 @@ vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { desc = 'Move line down' })
 vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { desc = 'Move line up' })
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>==gv-gv", { desc = 'Move line down' })
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>==gv-gv", { desc = 'Move line up' })
+
+-- comment line
+
+vim.keymap.set('n', '<leader>/', '<Plug>(comment_toggle_linewise_current)', { desc = 'Comment toggle current line' })
+vim.keymap.set('v', '<leader>/', '<Plug>(comment_toggle_linewise_visual)', { desc = 'Comment toggle line (visual)' })
 
 -- Toggle term
 
