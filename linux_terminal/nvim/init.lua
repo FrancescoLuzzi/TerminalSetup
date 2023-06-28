@@ -164,6 +164,12 @@ require('lazy').setup({
         section_separators = { left = '', right = '' },
         globalstatus = true,
       },
+      sections = {
+        lualine_c = {
+          { 'filename',    path = 1 },
+          { 'diagnostics', sources = { 'nvim_diagnostic' }, symbols = { error = ' ', warn = ' ', info = ' ' } },
+        },
+      },
     },
   },
 
