@@ -14,6 +14,8 @@ return {
 			"NvimTreeNormalNC",
 			"EndOfBuffer",
 			"MsgArea",
+			-- inlay hints have trasparent bg
+			"LspInlayHint"
 		}
 		for _, name in ipairs(hl_groups) do
 			vim.cmd(string.format("highlight %s ctermbg=none guibg=none", name))
