@@ -43,6 +43,10 @@ Installs:
 - Executes `install_vscode_extensions.ps1`
 - `-wsl` [initialize wsl](https://learn.microsoft.com/en-us/windows/wsl/install) `wsl --install -d Debian`
 - `-theme` copies the theme and the background image
+- (WIP) installs nvim on windows
+  - install [gcc Mingw64](https://winlibs.com/#download-release)
+  - install make [`winget install gnuwin32.make`]
+  - install nvim [`winget install Neovim.Neovim` or from github]
 
 Download and install [Windows Terminal](https://aka.ms/terminal), then edit the Json config file:
 
