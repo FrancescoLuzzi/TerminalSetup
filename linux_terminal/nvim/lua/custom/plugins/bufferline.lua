@@ -1,5 +1,9 @@
 return {
+	-- add bufferline to view opened buffers
+	-- See `:help bufferline` and `:help bufferline-styling`
 	'akinsho/bufferline.nvim',
+	version = "*",
+	dependencies = 'nvim-tree/nvim-web-devicons',
 	init = function()
 		require('bufferline').setup {
 			options = {

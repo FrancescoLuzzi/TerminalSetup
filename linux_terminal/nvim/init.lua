@@ -103,7 +103,6 @@ require('lazy').setup({
 
   {
     "mg979/vim-visual-multi",
-    branch = "master",
   },
 
   {
@@ -128,75 +127,6 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'LunarVim/lunar.nvim',
-    priority = 1000,
-    lazy = false,
-    config = function()
-      vim.cmd.colorscheme 'lunar'
-      -- set background transparent
-      local hl_groups = {
-        "Normal",
-        "SignColumn",
-        "NormalNC",
-        "TelescopeBorder",
-        "NvimTreeNormal",
-        "NvimTreeNormalNC",
-        "EndOfBuffer",
-        "MsgArea",
-      }
-      for _, name in ipairs(hl_groups) do
-        vim.cmd(string.format("highlight %s ctermbg=none guibg=none", name))
-      end
-      vim.opt.fillchars = "eob: "
-    end,
-  },
-
-  {
-    -- Set lualine as statusline
-    'nvim-lualine/lualine.nvim',
-    -- See `:help lualine.txt`
-    opts = {
-      options = {
-        icons_enabled = true,
-        theme = 'onedark',
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
-        globalstatus = true,
-      },
-      sections = {
-        lualine_c = {
-          { 'filename',    path = 1 },
-          { 'diagnostics', sources = { 'nvim_diagnostic' }, symbols = { error = ' ', warn = ' ', info = ' ' } },
-        },
-      },
-    },
-  },
-
-  {
-    -- add nvim-tree viewer
-    'nvim-tree/nvim-tree.lua',
-    -- See `:help nvim-tree`
-    dependencies = {
-      'nvim-tree/nvim-web-devicons',
-    }
-  },
-
-  {
-    -- add bufferline to view opened buffers
-    'akinsho/bufferline.nvim',
-    -- See `:help bufferline` and `:help bufferline-styling`
-    version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons',
-  },
-
-  {
-    -- add comment
-    'numToStr/Comment.nvim',
-    -- See :help comment-nvim
-  },
-
-  {
     -- add toggleterm
     'akinsho/toggleterm.nvim',
     -- See :help toggleterm
@@ -213,9 +143,6 @@ require('lazy').setup({
       show_trailing_blankline_indent = false,
     },
   },
-
-  -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',         opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
@@ -242,17 +169,10 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
-  -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
-  --       These are some example plugins that I've included in the kickstart repository.
-  --       Uncomment any of the lines below to enable them.
   require 'base.autoformat',
   -- require 'kickstart.plugins.debug',
 
-  -- NOTE: The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
-  --    up-to-date with whatever is in the kickstart repo.
-  --
-  --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
+  -- The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   { import = 'custom.plugins' },
 }, {})
 
@@ -471,8 +391,8 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  nmap('<leader><leader>r', vim.lsp.buf.rename, '[R]ename')
+  nmap('<leader><leader>a', vim.lsp.buf.code_action, 'Code [A]ction')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -596,7 +516,7 @@ cmp.setup {
 vim.keymap.set('n', '<leader>\\', ':vsplit<CR>', { desc = 'Split window vertically' })
 vim.keymap.set('n', '<leader>-', ':split<CR>', { desc = 'Split window orizzontally' })
 vim.keymap.set('n', '<leader>o', ':only<CR>', { desc = 'Close all other windows' })
-vim.keymap.set('n', '<leader>c', '<cmd>BufferKill<CR>', { desc = 'Close Buffer' })
+vim.keymap.set('n', '<leader>c', ':bp<bar>sp<bar>bn<bar>bd<CR>', { desc = 'Close Buffer' })
 
 vim.keymap.set('n', '<S-l>', ':BufferLineCycleNext<CR>', { desc = 'Cycle to next buffer' })
 vim.keymap.set('n', '<S-h>', ':BufferLineCyclePrev<CR>', { desc = 'Cycle to previous buffer' })

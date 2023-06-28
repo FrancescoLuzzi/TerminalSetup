@@ -1,5 +1,10 @@
 return {
+	-- add nvim-tree viewer
+	-- See `:help nvim-tree`
 	'nvim-tree/nvim-tree.lua',
+	dependencies = {
+		'nvim-tree/nvim-web-devicons',
+	},
 	init = function()
 		local function my_on_attach(bufnr)
 			local api = require "nvim-tree.api"
@@ -36,6 +41,6 @@ return {
 			renderer = {
 				highlight_modified = "icon"
 			}
-	}
+		}
 	end
 }
