@@ -17,8 +17,8 @@ return {
 							table.insert(result, symbols[name] .. " " .. count)
 						end
 					end
-					result = table.concat(result, " ")
-					return #result > 0 and result or ""
+					local result_str = table.concat(result, " ")
+					return #result_str > 0 and result_str or ""
 				end
 
 			}
