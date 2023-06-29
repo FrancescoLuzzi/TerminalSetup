@@ -444,14 +444,16 @@ local servers = {
   -- tsserver = {},
 
   rust_analyzer = {
-    checkOnSave = {
-      command = "clippy"
-    },
-    completion = {
-      callable = {
-        snippets = "fill_arguments"
+    ["rust-analyzer"] = {
+      checkOnSave = {
+        command = "clippy",
+      },
+      completion = {
+        callable = {
+          snippets = "fill_arguments"
+        }
       }
-    }
+    },
   },
   lua_ls = {
     Lua = {
