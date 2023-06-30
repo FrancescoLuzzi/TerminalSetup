@@ -52,7 +52,7 @@
 		"commands": ["workbench.action.closeEditorsInOtherGroups","workbench.action.closeOtherEditors"]
 	  },
 	  {
-		"before": ["<leader>", "f"],
+		"before": ["<leader>", "s", "f"],
 		"commands": ["workbench.action.quickOpen"]
 	  },
 	  {
