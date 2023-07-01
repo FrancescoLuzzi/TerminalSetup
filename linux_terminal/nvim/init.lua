@@ -373,9 +373,6 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>le', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>lq', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
--- nvim-tree keymaps
-vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<CR>', { desc = '[F]ile [E]xplorer' })
-
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'
@@ -434,6 +431,7 @@ which_key.register({
   ['o'] = { ':only<CR>', 'Close all other windows' },
   ['c'] = { ':bp<bar>sp<bar>bn<bar>bd<CR>', 'Close Buffer' },
   ['/'] = { '<Plug>(comment_toggle_linewise_current)', 'Comment toggle current line' },
+  ['e'] = { '<cmd>NvimTreeToggle<CR>', 'Open File Explorer' },
   d = {
     name = "Debugging",
     s = {
