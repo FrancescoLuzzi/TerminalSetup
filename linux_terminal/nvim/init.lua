@@ -32,6 +32,7 @@ vim.opt.laststatus = 3
 
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
+vim.opt.cursorline = true
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -169,8 +170,7 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
-  require 'base.autoformat',
-  -- require 'kickstart.plugins.debug',
+  require 'config.autoformat',
 
   -- The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   { import = 'custom.plugins' },
@@ -365,12 +365,7 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
--- Style lsp windows
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
-  underline = true,
-})
+require("config.lsp")
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -380,112 +375,6 @@ vim.keymap.set('n', '<leader>lq', vim.diagnostic.setloclist, { desc = 'Open diag
 
 -- nvim-tree keymaps
 vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<CR>', { desc = '[F]ile [E]xplorer' })
-
--- [[ Configure LSP ]]
---  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(client, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don't have to repeat yourself
-  -- many times.
-  --
-  -- In this case, we create a function that lets us more easily define mappings specific
-  -- for LSP related items. It sets the mode, buffer and description for us each time.
-  local nmap = function(keys, func, desc)
-    if desc then
-      desc = 'LSP: ' .. desc
-    end
-
-    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-  end
-
-  nmap('<leader><leader>r', vim.lsp.buf.rename, '[R]ename')
-  nmap('<leader><leader>a', vim.lsp.buf.code_action, 'Code [A]ction')
-
-  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-  nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-  nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-  nmap('<leader>wd', require('telescope.builtin').lsp_document_symbols, '[ ]Document [S]ymbols')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-
-  -- See `:help K` for why this keymap
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('J', vim.lsp.buf.signature_help, 'Signature Documentation')
-
-  -- Lesser used LSP functionality
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, '[W]orkspace [L]ist Folders')
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
-
-  if client.server_capabilities.inlayHintProvider then
-    local ih = require('lsp-inlayhints')
-    nmap('<leader>th', ih.toggle, '[T]oggle Inlay[H]ints')
-    ih.on_attach(client, bufnr)
-  end
-end
-
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
-local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- tsserver = {},
-
-  rust_analyzer = {
-    ["rust-analyzer"] = {
-      checkOnSave = {
-        command = "clippy",
-      },
-      completion = {
-        callable = {
-          snippets = "fill_arguments"
-        }
-      }
-    },
-  },
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
-  },
-}
-
--- Setup neovim lua configuration
-require('neodev').setup()
-
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
--- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
-
-mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
-}
-
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-    }
-  end,
-}
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
@@ -532,15 +421,37 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp', keyword_length = 2 },
     { name = 'luasnip' },
+    { name = "path" },
+    { name = "buffer" },
   },
 }
 
+local which_key = require('which-key')
+
+which_key.register({
+  ['\\'] = { ':vsplit<CR>', 'Split window vertically' },
+  ['-'] = { ':split<CR>', 'Split window orizzontally' },
+  ['o'] = { ':only<CR>', 'Close all other windows' },
+  ['c'] = { ':bp<bar>sp<bar>bn<bar>bd<CR>', 'Close Buffer' },
+  ['/'] = { '<Plug>(comment_toggle_linewise_current)', 'Comment toggle current line' },
+  d = {
+    name = "Debugging",
+    s = {
+      "<cmd>lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
+      "Set breakpoint with log print"
+    },
+    t = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", "Toggle breakpoint" },
+    u = { "<cmd>lua require('dapui').toggle()<CR>", "Toggle DapUi" },
+    I = { "<cmd>lua require('dap').step_out()<CR>", "Step out" },
+    i = { "<cmd>lua require('dap').step_into()<CR>", "Step in" },
+    o = { "<cmd>lua require('dap').step_over()<CR>", "Step over" },
+    c = { "<cmd>lua require('dap').continue()<CR>", "Continue" },
+    C = { "<cmd>lua require('dap').terminate()<CR>", "Close session" }
+  }
+}, { prefix = "<leader>" })
+
 -- Window and buffers commands
 
-vim.keymap.set('n', '<leader>\\', ':vsplit<CR>', { desc = 'Split window vertically' })
-vim.keymap.set('n', '<leader>-', ':split<CR>', { desc = 'Split window orizzontally' })
-vim.keymap.set('n', '<leader>o', ':only<CR>', { desc = 'Close all other windows' })
-vim.keymap.set('n', '<leader>c', ':bp<bar>sp<bar>bn<bar>bd<CR>', { desc = 'Close Buffer' })
 
 vim.keymap.set('n', '<S-l>', ':BufferLineCycleNext<CR>', { desc = 'Cycle to next buffer' })
 vim.keymap.set('n', '<S-h>', ':BufferLineCyclePrev<CR>', { desc = 'Cycle to previous buffer' })
@@ -549,8 +460,6 @@ vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to right window' })
 vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move to upper window' })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to left window' })
-
-vim.keymap.set('n', '<leader>d', '<C-w>c', { desc = 'Close current window' })
 
 -- resize windows
 
@@ -573,14 +482,13 @@ vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { desc = 'Move line up' })
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>==gv-gv", { desc = 'Move line down' })
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>==gv-gv", { desc = 'Move line up' })
 
--- Comment line
+-- Comment line visual mode
 
-vim.keymap.set('n', '<leader>/', '<Plug>(comment_toggle_linewise_current)', { desc = 'Comment toggle current line' })
 vim.keymap.set('v', '<leader>/', '<Plug>(comment_toggle_linewise_visual)', { desc = 'Comment toggle line (visual)' })
 
 -- Toggle term
 
-vim.keymap.set('n', '<C-t>', ':ToggleTerm<CR>', { desc = 'Move to left window' })
+vim.keymap.set('n', '<C-t>', ':ToggleTerm<CR>', { desc = 'ToggleTerminal' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
