@@ -23,7 +23,7 @@ return {
 			api.config.mappings.default_on_attach(bufnr)
 
 			-- custom mappings
-			vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent, opts('Up'))
+			vim.keymap.set('n', 'cd', api.tree.change_root_to_node, opts('CD'))
 			vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
 		end
 
@@ -32,6 +32,7 @@ return {
 			---
 			on_attach = my_on_attach,
 			---
+			sync_root_with_cwd = true,
 			diagnostics = {
 				enable = true,
 			},
