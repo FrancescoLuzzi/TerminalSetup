@@ -6,6 +6,9 @@
 	"editor.fontLigatures": true,
 	"editor.stickyScroll.enabled": true,
 	"files.trimTrailingWhitespace": true,
+	"workbench.colorCustomizations": {
+		"editor.lineHighlightBackground": "#292e42"
+	},
 	// Vim extension configuration //
 	"vim.leader": " ",
 	"vim.handleKeys": {
