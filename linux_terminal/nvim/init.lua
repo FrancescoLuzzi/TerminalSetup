@@ -468,6 +468,14 @@ vim.keymap.set('n', '<A-Down>', ':resize +2<CR>', { desc = '' })
 vim.keymap.set('n', '<A-Left>', ':vertical resize -2<CR>', { desc = '' })
 vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', { desc = '' })
 
+-- Auto indent on empty line.
+
+vim.keymap.set('n', 'i', function()
+    return string.match(vim.api.nvim_get_current_line(), '%g') == nil
+        and 'cc' or 'i'
+  end, { expr = true, noremap = true }
+)  
+
 -- visual indenting
 
 vim.keymap.set('v', '<', '<gv', { desc = 'Stay in visual mode while indenting' })
