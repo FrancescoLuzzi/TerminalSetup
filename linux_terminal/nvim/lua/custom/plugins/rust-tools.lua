@@ -2,6 +2,7 @@ return {
 	'simrat39/rust-tools.nvim',
 	dependencies = {
 		'neovim/nvim-lspconfig',
+		'nvim-lua/popup.nvim',
 		{
 			"saecki/crates.nvim",
 			version = "v0.3.0",
@@ -16,8 +17,7 @@ return {
 						border = "rounded",
 					},
 				}
-			end,
-			'nvim-lua/popup.nvim'
+			end
 		}
 	},
 }
