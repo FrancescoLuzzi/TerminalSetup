@@ -190,7 +190,7 @@ function install_nvim() {
         sudo mv ./$file /usr/local/bin/nvim
     fi
     if ! grep -q 'alias vi=nvim' ~/.bashrc; then
-        echo 'alias vi=lvim' >>~/.bashrc
+        echo 'alias vi=nvim' >>~/.bashrc
     fi
     # backup old nvim config
     if file ~/.config/nvim | grep -q 'directory'; then
