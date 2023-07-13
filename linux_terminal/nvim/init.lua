@@ -382,6 +382,34 @@ local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
+local lsp_symbols = {
+  Text = "   (Text) ",
+  Method = "   (Method)",
+  Function = "   (Function)",
+  Constructor = "   (Constructor)",
+  Field = " ﴲ  (Field)",
+  Variable = "[] (Variable)",
+  Class = "   (Class)",
+  Interface = " ﰮ  (Interface)",
+  Module = "   (Module)",
+  Property = " 襁 (Property)",
+  Unit = "   (Unit)",
+  Value = "   (Value)",
+  Enum = " 練 (Enum)",
+  Keyword = "   (Keyword)",
+  Snippet = "   (Snippet)",
+  Color = "   (Color)",
+  File = "   (File)",
+  Reference = "   (Reference)",
+  Folder = "   (Folder)",
+  EnumMember = "   (EnumMember)",
+  Constant = " ﲀ  (Constant)",
+  Struct = " ﳤ  (Struct)",
+  Event = "   (Event)",
+  Operator = "   (Operator)",
+  TypeParameter = "   (TypeParameter)",
+}
+
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -393,9 +421,10 @@ cmp.setup {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
+      behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     },
     ['<Tab>'] = cmp.mapping(function(fallback)
@@ -418,10 +447,18 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'nvim_lsp', keyword_length = 2 },
+    { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = "path" },
     { name = "buffer" },
+    { name = "crates" },
+  },
+  formatting = {
+    format = function(entry, item)
+      -- format images in suggestions
+      item.kind = lsp_symbols[item.kind]
+      return item
+    end,
   },
 }
 
@@ -471,10 +508,10 @@ vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', { desc = '' })
 -- Auto indent on empty line.
 
 vim.keymap.set('n', 'i', function()
-    return string.match(vim.api.nvim_get_current_line(), '%g') == nil
-        and 'cc' or 'i'
-  end, { expr = true, noremap = true }
-)  
+  return string.match(vim.api.nvim_get_current_line(), '%g') == nil
+      and 'cc' or 'i'
+end, { expr = true, noremap = true }
+)
 
 -- visual indenting
 
