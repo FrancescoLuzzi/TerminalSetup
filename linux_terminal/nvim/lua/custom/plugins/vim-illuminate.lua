@@ -2,11 +2,7 @@ return {
 	'RRethy/vim-illuminate',
 	init = function()
 		require('illuminate').configure({
-			providers = {
-				'lsp',
-				'treesitter',
-				'regex',
-			},
+			delay = 250,
 		})
 		vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "#4d5474" })
 		vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = "#4d5474" })
