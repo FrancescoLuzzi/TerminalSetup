@@ -37,7 +37,7 @@ if ($neovim){
   gcc --version >$null
   if (! $?){
     Write-Warning "Can't continue with Neovim installation.`nMingw[32|64] not installed, download from https://winlibs.com/#download-release and add it's bin folder to `$PATH"
-    exit 1
+    return
   }
   winget install gnuwin32.make
   winget install Neovim.Neovim
