@@ -30,6 +30,8 @@ Notes:
 
 ## Windows autosetup: setup.ps1
 
+**N.B.** da eseguire come amministratore
+
 ```posershell
 (Invoke-WebRequest https://raw.githubusercontent.com/FrancescoLuzzi/TerminalSetup/main/remote_setup.ps1).Content | powershell -
 ```
@@ -43,10 +45,10 @@ Installs:
 - Executes `install_vscode_extensions.ps1`
 - `-wsl` [initialize wsl](https://learn.microsoft.com/en-us/windows/wsl/install) `wsl --install -d Debian`
 - `-theme` copies the theme and the background image
-- (WIP) installs nvim on windows
-  - install [gcc Mingw64](https://winlibs.com/#download-release)
-  - install make [`winget install gnuwin32.make`]
-  - install nvim [`winget install Neovim.Neovim` or from github]
+- `-neovim`, install and configure neovim
+  - [**Prerequisite**] install [gcc Mingw64](https://winlibs.com/#download-release)
+  - installs make [`winget install gnuwin32.make`]
+  - installs neovim [`winget install Neovim.Neovim` or from github]
 
 Download and install [Windows Terminal](https://aka.ms/terminal), then edit the Json config file:
 

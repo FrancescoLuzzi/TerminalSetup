@@ -1,5 +1,6 @@
 param(
   [switch]$wsl,
+  [switch]$neovim,
   [switch]$theme
 )
 
@@ -26,7 +27,20 @@ Copy-Item -Recurse -Force $HOME/.terminal_setup/theme/DesktopBackground $HOME/Ap
 }
 
 # setup wsl
-if($wsl){
+if ($wsl){
   wsl --install -d Debian
   echo "After setting up for the first time your wsl instance you can follow the linux tutorial to set up that enviroment!"
+}
+
+# setup neovim
+if ($neovim){
+  gcc --version >$null
+  if (! $?){
+    Write-Warning "Can't continue with Neovim installation.`nMingw[32|64] not installed, download from https://winlibs.com/#download-release and add it's bin folder to `$PATH"
+    exit 1
+  }
+  winget install gnuwin32.make
+  winget install Neovim.Neovim
+  Remove-Item -Force -ErrorAction Ignore $env:LOCALAPPDATA/nvim
+  New-Item -ItemType SymbolicLink -Path $env:LOCALAPPDATA/nvim -Target $HOME/.terminal_setup/linux_terminal/nvim
 }
