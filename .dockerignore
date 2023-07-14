@@ -1,0 +1,11 @@
+.git
+theme
+vscode
+Dockerfile
+.gitattributes
+.gitignore
+.setted_up
+README.md
+remote_setup.ps1
+setup.ps1
+remote_setup.sh
