@@ -39,40 +39,38 @@ function in_docker() {
     [ -e /.dockerenv ] || [ $IN_DOCKER = "true" ]
 }
 
-
 function in_set() {
-  # $1 array-set variable name
-  # $2 element to be checked
+    # $1 array-set variable name
+    # $2 element to be checked
 
-  # get array from variable
-  eval __arr="(\"\${$1[@]}\")"
-  for item in "${__arr[@]}"; do
-    [[ "$2" == "$item" ]] && return 0
-  done
-  unset __arr
-  return 1
+    # get array from variable
+    eval __arr="(\"\${$1[@]}\")"
+    for item in "${__arr[@]}"; do
+        [[ "$2" == "$item" ]] && return 0
+    done
+    unset __arr
+    return 1
 }
 
-function add_to_set ()
-{
-  # $1 array-set variable name
-  # $2 element to be added
-  if ! in_set "$1" "$2" ;then
-    eval "$1+=(\"$2\")"
-  fi
+function add_to_set() {
+    # $1 array-set variable name
+    # $2 element to be added
+    if ! in_set "$1" "$2"; then
+        eval "$1+=(\"$2\")"
+    fi
 }
 
 function remove_from_set() {
-  # $1 array-set variable name
-  # $2 element to be removed
-  eval __arr="(\"\${$1[@]}\")"
-  for i in "${!__arr[@]}"; do
-    if [ "${__arr[i]}" = "$2" ]; then
-     unset '__arr[i]'
-    fi
-  done
-  eval $1="(\"\${__arr[@]}\")"
-  unset __arr
+    # $1 array-set variable name
+    # $2 element to be removed
+    eval __arr="(\"\${$1[@]}\")"
+    for i in "${!__arr[@]}"; do
+        if [ "${__arr[i]}" = "$2" ]; then
+            unset '__arr[i]'
+        fi
+    done
+    eval $1="(\"\${__arr[@]}\")"
+    unset __arr
 }
 
 function install_golang() {

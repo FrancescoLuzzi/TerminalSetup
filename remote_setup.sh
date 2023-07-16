@@ -11,7 +11,7 @@ sudo echo "done"
 
 git --version >/dev/null 2>&1
 
-if [ $? -ne 0 ];then
+if [ $? -ne 0 ]; then
     sudo apt install git
 fi
 
@@ -34,11 +34,9 @@ if [ ! -t 0 ]; then
         err "Unable to run interactively. Run the setup by yourself!"
     fi
 
-    ./setup.sh -I < /dev/tty
+    ./setup.sh -I </dev/tty
 else
     ./setup.sh -I
 fi
-
-
 
 cd "$__old_pwd"
