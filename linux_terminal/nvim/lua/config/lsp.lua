@@ -15,19 +15,6 @@ local function rust_analizer_on_attach(server_opts)
   end
 
   local dap = require('dap')
-  dap.configurations.rust = {
-    {
-      name = "Launch file",
-      type = "codelldb",
-      request = "launch",
-      program = function()
-        return vim.fn.input('Path to executable: ' ..
-          vim.fn.getcwd() .. '/' .. 'file')
-      end,
-      cwd = '${workspaceFolder}',
-      stopOnEntry = false,
-    },
-  }
 
   require("rust-tools").setup({
     tools = {
@@ -58,6 +45,22 @@ local function rust_analizer_on_attach(server_opts)
     },
     server = server_opts,
   })
+
+  dap.adapters.codelldb = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
+
+  dap.configurations.rust = {
+    {
+      name = "Launch file",
+      type = "codelldb",
+      request = "launch",
+      program = function()
+        return vim.fn.input('Path to executable: ' ..
+          vim.fn.getcwd() .. '/')
+      end,
+      cwd = '${workspaceFolder}',
+      stopOnEntry = false,
+    },
+  }
 
   require('which-key').register({
     r = {
