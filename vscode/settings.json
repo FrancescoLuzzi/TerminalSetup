@@ -59,6 +59,10 @@
 		"commands": ["workbench.action.quickOpen"]
 	  },
 	  {
+		"before": ["<leader>", "s", "g"],
+		"commands": ["workbench.action.findInFiles"]
+	  },
+	  {
 		"before": ["<leader>", "e"],
 		"commands": ["workbench.action.toggleSidebarVisibility"]
 	  }
