@@ -5,7 +5,8 @@ return {
 			delay = 250,
 			filetypes_denylist = {
 				'fugitive',
-				'NvimTree'
+				'NvimTree',
+				'alpha'
 			},
 		})
 		vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "#4d5474" })
