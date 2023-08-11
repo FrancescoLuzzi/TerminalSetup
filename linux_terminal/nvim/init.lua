@@ -304,8 +304,6 @@ require('nvim-treesitter.configs').setup {
     "markdown",
     "markdown_inline",
     "python",
-    "typescript",
-    "tsx",
     "css",
     "regex",
     "rust",

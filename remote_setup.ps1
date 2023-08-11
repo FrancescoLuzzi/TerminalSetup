@@ -9,4 +9,4 @@ git clone https://github.com/FrancescoLuzzi/TerminalSetup.git .terminal_setup
 
 cd .terminal_setup
 
-./setup.ps1
+./setup.ps1 -vscode
