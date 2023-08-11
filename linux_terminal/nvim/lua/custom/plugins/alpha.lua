@@ -14,7 +14,8 @@ return -- Dashboard. This runs when neovim starts, and is what displays
 ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝
 
       ]]
-      local vimrc_dir = vim.fn.fnamemodify(vim.fn.expand('$MYVIMRC'), ':h:p')
+    -- Resolve $MYVIMRC's parent folder, that could be a symlink
+    local vimrc_dir = vim.fn.resolve(vim.fn.fnamemodify(vim.fn.expand('$MYVIMRC'), ':h:p'))
 
     dashboard.section.header.val = vim.split(logo, "\n")
     dashboard.section.buttons.val = {
