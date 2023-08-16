@@ -11,17 +11,24 @@ return {
 			globalstatus = true,
 		},
 		sections = {
-			lualine_c = {
-				{ 'filename', path = 1 },
+			lualine_b = {
+				'branch',
+				'diff',
 				{
 					'diagnostics',
 					sources = { 'nvim_diagnostic' },
 					symbols = {
-						error = ' ',
-						warn = ' ',
-						info = ' '
+						error = "",
+						warning = "",
+						info = "",
 					}
-				},
+				}
+			},
+			lualine_c = {
+				{ 'filename', path = 1 }
+			},
+			lualine_y = {
+				{ 'datetime', style = "%H:%M | %d/%m/%y" }
 			},
 		},
 	},
