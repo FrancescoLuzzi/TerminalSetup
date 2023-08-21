@@ -4,6 +4,13 @@ return -- Dashboard. This runs when neovim starts, and is what displays
   "goolord/alpha-nvim",
   event = "VimEnter",
   opts = function()
+    -- colorscheme
+    -- vim.api.nvim_set_hl(0, 'AlphaButtons', { ctermbg = 0, fg = '#9d7cd8' })
+    -- vim.api.nvim_set_hl(0, 'AlphaShortcut', { ctermbg = 0, fg = '#9d7cd8' })
+    vim.api.nvim_set_hl(0, 'AlphaHeader', { ctermbg = 0, fg = '#9d7cd8' })
+    -- vim.api.nvim_set_hl(0, 'AlphaButtons', { ctermbg = 0, fg = '#9d7cd8' })
+    -- vim.api.nvim_set_hl(0, 'AlphaFooter', { ctermbg = 0, fg = '#9d7cd8' })
+
     local dashboard = require("alpha.themes.dashboard")
     local logo = [[
 ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗
@@ -24,17 +31,16 @@ return -- Dashboard. This runs when neovim starts, and is what displays
       dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
       dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
       dashboard.button("c", " " .. " Config", ":cd " .. vimrc_dir .. " <BAR> e $MYVIMRC <CR>"),
-      dashboard.button("s", " " .. " Restore Session", [[:lua require("persistence").load() <cr>]]),
       dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
       dashboard.button("q", " " .. " Quit", ":qa<CR>"),
     }
-    for _, button in ipairs(dashboard.section.buttons.val) do
-      button.opts.hl = "AlphaButtons"
-      button.opts.hl_shortcut = "AlphaShortcut"
-    end
+    -- for _, button in ipairs(dashboard.section.buttons.val) do
+    --   button.opts.hl = "AlphaButtons"
+    --   button.opts.hl_shortcut = "AlphaShortcut"
+    -- end
     dashboard.section.header.opts.hl = "AlphaHeader"
-    dashboard.section.buttons.opts.hl = "AlphaButtons"
-    dashboard.section.footer.opts.hl = "AlphaFooter"
+    -- dashboard.section.buttons.opts.hl = "AlphaButtons"
+    -- dashboard.section.footer.opts.hl = "AlphaFooter"
     dashboard.opts.layout[1].val = 8
     return dashboard
   end,
