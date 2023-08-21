@@ -11,9 +11,8 @@
 	},
 	// Vim extension configuration //
 	"vim.leader": " ",
+	"vim.useSystemClipboard": true,
 	"vim.handleKeys": {
-	  "<C-x>": false,
-	  "<C-d>": false,
 	  "<C-y>": false
 	},
 	"vim.visualModeKeyBindings": [
