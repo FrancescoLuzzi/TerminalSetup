@@ -495,8 +495,11 @@ which_key.register({
   }
 }, { prefix = "<leader>" })
 
--- Window and buffers commands
+-- Comment line visual mode
 
+vim.keymap.set('v', '<leader>/', '<Plug>(comment_toggle_linewise_visual)', { desc = 'Comment toggle line (visual)' })
+
+-- Window and buffers commands
 
 vim.keymap.set('n', '<S-l>', ':BufferLineCycleNext<CR>', { desc = 'Cycle to next buffer' })
 vim.keymap.set('n', '<S-h>', ':BufferLineCyclePrev<CR>', { desc = 'Cycle to previous buffer' })
@@ -535,13 +538,16 @@ vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { desc = 'Move line up' })
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>==gv-gv", { desc = 'Move line down' })
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>==gv-gv", { desc = 'Move line up' })
 
--- Comment line visual mode
-
-vim.keymap.set('v', '<leader>/', '<Plug>(comment_toggle_linewise_visual)', { desc = 'Comment toggle line (visual)' })
-
 -- Toggle term
 
 vim.keymap.set('n', '<C-t>', ':ToggleTerm<CR>', { desc = 'ToggleTerminal' })
+
+-- Text Folding (follows lukas-reineke/indent-blankline.nvim behaviour)
+
+vim.opt.foldmethod = "indent"
+vim.opt.foldenable = false
+vim.opt.foldlevel = 99
+vim.g.markdown_folding = 1
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
