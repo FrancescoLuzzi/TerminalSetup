@@ -58,5 +58,5 @@ if ($neovim) {
   # https://github.com/BurntSushi/ripgrep#installation
   winget install BurntSushi.ripgrep.MSVC
   Remove-Item -Force -ErrorAction Ignore $env:LOCALAPPDATA/nvim
-  New-Item -ItemType SymbolicLink -Path $env:LOCALAPPDATA/nvim -Target $HOME/.terminal_setup/linux_terminal/nvim
+  New-Item -Force -ItemType SymbolicLink -Path $env:LOCALAPPDATA/nvim -Target $HOME/.terminal_setup/linux_terminal/nvim
 }

@@ -32,8 +32,19 @@ Notes:
 
 **N.B.** da eseguire come amministratore
 
-```posershell
-(Invoke-WebRequest https://raw.githubusercontent.com/FrancescoLuzzi/TerminalSetup/main/remote_setup.ps1).Content | powershell -
+```powershell
+# enable execution of powershell scripts
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+```
+
+```powershell
+# start setup
+(Invoke-WebRequest https://raw.githubusercontent.com/FrancescoLuzzi/TerminalSetup/main/remote_setup.ps1 -UseBasicParsing).Content | powershell -
+```
+
+```powershell
+# set execution policy to default config
+Set-ExecutionPolicy -ExecutionPolicy Default -Scope CurrentUser -Force
 ```
 
 **Check if virtualization is enabled in your bios**
