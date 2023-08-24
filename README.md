@@ -34,7 +34,7 @@ Notes:
 
 ```powershell
 # enable execution of powershell scripts
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force
 ```
 
 ```powershell
