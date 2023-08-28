@@ -18,9 +18,9 @@ return {
 					'diagnostics',
 					sources = { 'nvim_diagnostic' },
 					symbols = {
-						error = "",
-						warning = "",
-						info = "",
+						error = " ",
+						warning = " ",
+						info = " ",
 					}
 				}
 			},
