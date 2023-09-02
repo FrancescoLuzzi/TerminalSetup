@@ -112,7 +112,7 @@ local servers = {
           }
         }
       }
-    }
+    },
   },
   lua_ls = {
     options = {
@@ -120,7 +120,26 @@ local servers = {
         workspace = { checkThirdParty = false },
         telemetry = { enable = false },
       }
-    }
+    },
+  },
+  gopls = {
+    settings = {
+      gopls = {
+        hints = {
+          assignVariableTypes = true,
+          compositeLiteralFields = true,
+          compositeLiteralTypes = true,
+          constantValues = true,
+          functionTypeParameters = true,
+          parameterNames = true,
+          rangeVariableTypes = true,
+        },
+      },
+      cmd = {
+        'gopls', -- share the gopls instance if there is one already
+        '-remote.debug=:0',
+      },
+    },
   }
 }
 
@@ -142,9 +161,14 @@ mason_lspconfig.setup_handlers {
     require("neodev").setup {}
     lspconfig.lua_ls.setup(opts)
   end,
+  ["gopls"] = function()
+    local opts = vim.tbl_deep_extend("force", server_opts, servers["gopls"] or {})
+    local go = require("config.lsp.go")
+    go.setup(go.customize_opts(opts))
+  end,
   ["rust_analyzer"] = function()
     local opts = vim.tbl_deep_extend("force", server_opts, servers["rust_analyzer"] or {})
     local rust = require("config.lsp.rust")
-    rust.on_attach(opts)
+    rust.setup(rust.customize_opts(opts))
   end,
 }

@@ -2,8 +2,8 @@ local M = {}
 
 local function configure_keymappings()
   require('which-key').register({
-    r = {
-      name = "Rust",
+    c = {
+      name = "RustCoding",
       r = { "<cmd>RustRunnables<Cr>", "Runnables" },
       t = { "<cmd>lua _CARGO_TEST()<cr>", "Cargo Test" },
       m = { "<cmd>RustExpandMacro<Cr>", "Expand Macro" },
@@ -28,17 +28,20 @@ local function configure_keymappings()
   }, { prefix = "<leader>" })
 end
 
-M.on_attach = function(server_opts)
+M.customize_opts = function(server_opts)
   local on_attach_orginal_func = server_opts["on_attach"]
   if on_attach_orginal_func == nil then
     server_opts["on_attach"] = configure_keymappings
   else
     server_opts["on_attach"] = function(client, bufnr)
-      configure_keymappings()
       on_attach_orginal_func(client, bufnr)
+      configure_keymappings()
     end
   end
+  return server_opts
+end
 
+M.setup = function(server_opts)
   local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
 
   local codelldb_path = mason_path .. "bin/codelldb"
@@ -87,7 +90,6 @@ M.on_attach = function(server_opts)
   })
 
   dap.adapters.codelldb = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
-
   dap.configurations.rust = {
     {
       name = "Launch file",

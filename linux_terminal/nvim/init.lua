@@ -296,7 +296,9 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = {
     "bash",
     "c",
+    "css",
     "html",
+    "go",
     "javascript",
     "json",
     "jsonc",
@@ -304,7 +306,6 @@ require('nvim-treesitter.configs').setup {
     "markdown",
     "markdown_inline",
     "python",
-    "css",
     "regex",
     "rust",
     "toml",
@@ -476,7 +477,7 @@ which_key.register({
   ['\\'] = { ':vsplit<CR>', 'Split window vertically' },
   ['-'] = { ':split<CR>', 'Split window orizzontally' },
   ['o'] = { ':only<CR>', 'Close all other windows' },
-  ['c'] = { ':bp<bar>sp<bar>bn<bar>bd<CR>', 'Close Buffer' },
+  ['x'] = { ':bp<bar>sp<bar>bn<bar>bd<CR>', 'Close Buffer' },
   ['/'] = { '<Plug>(comment_toggle_linewise_current)', 'Comment toggle current line' },
   ['e'] = { '<cmd>NvimTreeToggle<CR>', 'Open File Explorer' },
   d = {
