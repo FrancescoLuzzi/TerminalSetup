@@ -64,6 +64,14 @@
 	  {
 		"before": ["<leader>", "e"],
 		"commands": ["workbench.action.toggleSidebarVisibility"]
+	  },
+	  {
+		"before": ["[","d"],
+		"commands": ["editor.action.marker.nextInFiles"]
+	  },
+	  {
+		"before": ["]","d"],
+		"commands": ["editor.action.marker.prevInFiles"]
 	  }
 	]
   }
