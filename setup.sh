@@ -172,7 +172,7 @@ function download_github_release_artifact() {
 }
 
 function install_nvim() {
-    local url=$(get_github_release_artifact_url neovim neovim "v0.9.1" "nvim.appimage")
+    local url=$(get_github_release_artifact_url neovim neovim "v0.9.2" "nvim.appimage")
     local file=$(download_github_release_artifact $url)
     if in_docker; then
         mkdir -p /tmp/nvim
