@@ -45,7 +45,7 @@
 		"commands": [":vsplit", "<esc>"]
 	  },
 	  {
-		"before": ["<leader>","c"],
+		"before": ["<leader>","x"],
 		"commands":["workbench.action.closeActiveEditor"]
 	  },
 	  { "before": ["K"], "after": ["g", "h"] },
