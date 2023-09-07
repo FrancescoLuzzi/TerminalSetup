@@ -7,7 +7,6 @@ local function configure_keymappings()
   wk.register({
     c = {
       name = "GolangCoding",
-      a = { "<cmd>GoCodeAction<cr>", "Code action" },
       e = { "<cmd>GoIfErr<cr>", "Add if err" },
       h = {
         name = "Helper",
