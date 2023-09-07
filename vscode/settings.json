@@ -66,11 +66,11 @@
 		"commands": ["workbench.action.toggleSidebarVisibility"]
 	  },
 	  {
-		"before": ["[","d"],
+		"before": ["]","d"],
 		"commands": ["editor.action.marker.nextInFiles"]
 	  },
 	  {
-		"before": ["]","d"],
+		"before": ["[","d"],
 		"commands": ["editor.action.marker.prevInFiles"]
 	  }
 	]
