@@ -36,7 +36,7 @@ fi
 _pwd=$(pwd)
 
 function in_docker() {
-    [ -e /.dockerenv ] || [ $IN_DOCKER = "true" ]
+    [ -e /.dockerenv ] || [ "$IN_DOCKER" = "true" ]
 }
 
 function in_set() {
@@ -74,14 +74,15 @@ function remove_from_set() {
 }
 
 function install_golang() {
-    local latest_go_version="$(curl --silent https://go.dev/VERSION?m=text)"
+    local latest_go_version="$(curl --silent https://go.dev/VERSION?m=text | head -n1)"
+    local go_out="golang.tar.gz"
 
     echo "Downloading and installing $latest_go_version"
 
-    curl -OJ -L https://golang.org/dl/$latest_go_version.linux-amd64.tar.gz
+    curl -J -L "https://go.dev/dl/$latest_go_version.linux-amd64.tar.gz" -o $go_out
 
     sudo rm -rf /usr/local/go
-    sudo tar -C /usr/local -xzf $latest_go_version.linux-amd64.tar.gz
+    sudo tar -C /usr/local -xzf $go_out
 
     if ! grep -q 'export PATH=$PATH:/usr/local/go/bin' ~/.bashrc; then
         echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.bashrc
@@ -90,7 +91,7 @@ function install_golang() {
     if [ ! -d ~/go ]; then
         mkdir ~/go
     fi
-    rm ./$latest_go_version.linux-amd64.tar.gz
+    rm $go_out
 }
 
 function install_node() {
@@ -245,6 +246,8 @@ unset programs
 interactive=false
 update=false
 declare -a programs
+    
+mkdir -p ~/.config
 
 while getopts ':IUgnpre:w:' OPTION; do
     case $OPTION in
