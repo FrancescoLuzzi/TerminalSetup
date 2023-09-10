@@ -3,7 +3,9 @@ return {
 	-- Optional dependency
 	dependencies = { 'hrsh7th/nvim-cmp' },
 	config = function()
-		require("nvim-autopairs").setup {}
+		require("nvim-autopairs").setup({
+			disable_filetype = { "sh", "bash" },
+		})
 		-- If you want to automatically add `(` after selecting a function or method
 		local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 		local cmp = require('cmp')
