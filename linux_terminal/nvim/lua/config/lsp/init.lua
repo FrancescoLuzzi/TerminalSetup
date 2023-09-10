@@ -14,6 +14,8 @@ local on_attach = function(client, bufnr)
   --
   -- In this case, we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
+  require("lsp-inlayhints").on_attach(client, bufnr)
+
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -119,6 +121,7 @@ local servers = {
       Lua = {
         workspace = { checkThirdParty = false },
         telemetry = { enable = false },
+        hints = { enable = true },
       }
     },
   },
@@ -135,21 +138,44 @@ local servers = {
           rangeVariableTypes = true,
         },
       },
+      -- could be responsible of not working well on windows
       cmd = {
         'gopls', -- share the gopls instance if there is one already
         '-remote.debug=:0',
       },
     },
-  }
+  },
+  pyright = {
+    settings = {
+      pyright = {
+        disableOrganizeImports = true
+      },
+      python = {
+        analysis = {
+          autoSearchPaths = true,
+          diagnosticMode = "workspace",
+          useLibraryCodeForTypes = true,
+          typeCheckingMode = "basic",
+        },
+      },
+    },
+  },
+  yamlls = {},
+  jsonls = {},
+  dockerls = {},
+  html = {},
+  -- to make client attach launch "!bash-language-server start"
+  bashls = {},
 }
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
-local lspconfig = require "lspconfig"
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
+
+local lspconfig = require "lspconfig"
 
 mason_lspconfig.setup_handlers {
   function(server_name)
@@ -170,5 +196,16 @@ mason_lspconfig.setup_handlers {
     local opts = vim.tbl_deep_extend("force", server_opts, servers["rust_analyzer"] or {})
     local rust = require("config.lsp.rust")
     rust.setup(rust.customize_opts(opts))
+  end,
+  ["pyright"] = function()
+    local opts = vim.tbl_deep_extend("force", server_opts, servers["pyright"] or {})
+    local python = require("config.lsp.python")
+    require("conform").setup({
+      formatters_by_ft = {
+        -- install from mason
+        python = { "isort", "black" },
+      },
+    })
+    python.setup(python.customize_opts(opts))
   end,
 }

@@ -46,13 +46,11 @@ M.customize_opts = function(server_opts)
   if on_attach_orginal_func == nil then
     server_opts["on_attach"] = function(client, bufnr)
       configure_keymappings()
-      require("inlay-hints").on_attach(client, bufnr)
     end
   else
     server_opts["on_attach"] = function(client, bufnr)
       on_attach_orginal_func(client, bufnr)
       configure_keymappings()
-      require("inlay-hints").on_attach(client, bufnr)
     end
   end
   return server_opts
