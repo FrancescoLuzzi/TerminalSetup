@@ -1,5 +1,5 @@
 return {
-	"phaazon/hop.nvim",
+	"smoka7/hop.nvim",
 	init = function()
 		local hop = require("hop")
 
