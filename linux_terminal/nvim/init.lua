@@ -18,7 +18,6 @@ are first encountering a few different constructs in your nvim config.
 
 --]]
 -- See `:help mapleader`
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -27,12 +26,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- set single status bar
-
-vim.opt.laststatus = 3
-
--- set termguicolors to enable highlight groups
-vim.opt.termguicolors = true
-vim.opt.cursorline = true
+vim.o.laststatus = 3
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -192,7 +186,27 @@ require('lazy').setup({
 vim.o.hlsearch = true
 
 -- Make line numbers default
-vim.wo.number = true
+vim.o.number = true
+vim.o.relativenumber = true
+
+-- custom scrolloff
+vim.o.scrolloff = 8
+
+-- set termguicolors to enable highlight groups
+vim.o.termguicolors = true
+vim.o.cursorline = true
+
+-- tab options
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+
+-- Text Folding (follows lukas-reineke/indent-blankline.nvim behaviour)
+vim.o.foldmethod = "indent"
+vim.o.foldenable = false
+vim.o.foldlevel = 99
+vim.g.markdown_folding = 1
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -535,13 +549,6 @@ vim.keymap.set('v', '<A-k>', ":m '<-2<CR>==gv-gv", { desc = 'Move line up' })
 -- Toggle term
 
 vim.keymap.set('n', '<C-t>', ':ToggleTerm<CR>', { desc = 'ToggleTerminal' })
-
--- Text Folding (follows lukas-reineke/indent-blankline.nvim behaviour)
-
-vim.opt.foldmethod = "indent"
-vim.opt.foldenable = false
-vim.opt.foldlevel = 99
-vim.g.markdown_folding = 1
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
