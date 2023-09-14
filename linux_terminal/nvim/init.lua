@@ -17,6 +17,82 @@ them once you know what you're doing, but they should serve as a guide for when 
 are first encountering a few different constructs in your nvim config.
 
 --]]
+
+-- [[ Setting options ]]
+-- See `:help vim.o`
+-- NOTE: You can change these options as you wish!
+
+if vim.loop.os_uname().sysname:match("Windows") then
+  local powershell_options = {
+    shell = vim.fn.executable "pwsh" == 1 and "pwsh" or "powershell",
+    shellcmdflag =
+    "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+    shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
+    shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
+    shellquote = "",
+    shellxquote = "",
+  }
+
+  for option, value in pairs(powershell_options) do
+    vim.opt[option] = value
+  end
+end
+
+-- Set highlight on search
+vim.o.hlsearch = true
+
+-- Make line numbers default
+vim.o.number = true
+vim.o.relativenumber = true
+
+-- custom scrolloff
+vim.o.scrolloff = 8
+
+-- set termguicolors to enable highlight groups
+vim.o.termguicolors = true
+vim.o.cursorline = true
+
+-- tab options
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+
+-- Text Folding (follows lukas-reineke/indent-blankline.nvim behaviour)
+vim.o.foldmethod = "indent"
+vim.o.foldenable = false
+vim.o.foldlevel = 99
+vim.g.markdown_folding = 1
+
+-- Enable mouse mode
+vim.o.mouse = 'a'
+
+-- Sync clipboard between OS and Neovim.
+--  Remove this option if you want your OS clipboard to remain independent.
+--  See `:help 'clipboard'`
+vim.o.clipboard = 'unnamedplus'
+
+-- Enable break indent
+vim.o.breakindent = true
+
+-- Save undo history
+vim.o.undofile = true
+
+-- Case-insensitive searching UNLESS \C or capital in search
+vim.o.ignorecase = true
+vim.o.smartcase = true
+
+-- Keep signcolumn on by default
+vim.wo.signcolumn = 'yes'
+
+-- Decrease update time
+vim.o.updatetime = 250
+vim.o.timeout = true
+vim.o.timeoutlen = 300
+
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect,noinsert'
+
 -- See `:help mapleader`
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -177,66 +253,6 @@ require('lazy').setup({
   -- The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   { import = 'custom.plugins' },
 }, {})
-
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
-
--- Set highlight on search
-vim.o.hlsearch = true
-
--- Make line numbers default
-vim.o.number = true
-vim.o.relativenumber = true
-
--- custom scrolloff
-vim.o.scrolloff = 8
-
--- set termguicolors to enable highlight groups
-vim.o.termguicolors = true
-vim.o.cursorline = true
-
--- tab options
-vim.o.tabstop = 4
-vim.o.softtabstop = 4
-vim.o.shiftwidth = 4
-vim.o.expandtab = true
-
--- Text Folding (follows lukas-reineke/indent-blankline.nvim behaviour)
-vim.o.foldmethod = "indent"
-vim.o.foldenable = false
-vim.o.foldlevel = 99
-vim.g.markdown_folding = 1
-
--- Enable mouse mode
-vim.o.mouse = 'a'
-
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
-
--- Enable break indent
-vim.o.breakindent = true
-
--- Save undo history
-vim.o.undofile = true
-
--- Case-insensitive searching UNLESS \C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
-
--- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeout = true
-vim.o.timeoutlen = 300
-
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect,noinsert'
-
 
 -- [[ Basic Keymaps ]]
 
