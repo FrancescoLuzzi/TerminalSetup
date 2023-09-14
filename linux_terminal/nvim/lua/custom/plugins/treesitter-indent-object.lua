@@ -1,6 +1,6 @@
 return {
 	"kiyoon/treesitter-indent-object.nvim",
-	lazy = false,
+	dependencies = { "nvim-treesitter/nvim-treesitter" },
 	keys = {
 		{
 			"ai",
