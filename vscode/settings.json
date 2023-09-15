@@ -48,7 +48,10 @@
 		"before": ["<leader>","x"],
 		"commands":["workbench.action.closeActiveEditor"]
 	  },
-	  { "before": ["K"], "after": ["g", "h"] },
+	  {
+		"before": ["K"],
+		"commands": ["editor.action.showDefinitionPreviewHover"]
+	  },
 	  {
 		"before": ["<leader>", "o"],
 		"commands": ["workbench.action.closeEditorsInOtherGroups","workbench.action.closeOtherEditors"]
