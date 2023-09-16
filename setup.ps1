@@ -51,7 +51,7 @@ function Wait-JobWithSpinner {
     if ( $null -eq $Job -or $__stopping_states.ContainsKey($Job.State) ) {
       $__out_string = $__stopping_states[$Job.State]
       # restore cursor position, delete next $frameLength chars and write "Done", and enable cursor show ($e[?25h)
-      Write-Host "$e[u$e[$frameLength`P$__out_string$e[?25h" -NoNewline
+      Write-Host "$e[u$e[$frameLength`P$__out_string$e[?25h"
       break
     }
   }
@@ -141,19 +141,23 @@ if ($vscode) {
 if ($vscode_settings -or $vscode) {
   code --version >$null
   if ($?) {
-    New-Item -ItemType HardLink -Path $env:APPDATA/Code/User/keybindings.json -Target $HOME/.terminal_setup/vscode/keybindings.json -Force
-    New-Item -ItemType HardLink -Path $env:APPDATA/Code/User/settings.json -Target $HOME/.terminal_setup/vscode/settings.json -Force
+    $__job_body = {
+      New-Item -ItemType HardLink -Path $env:APPDATA/Code/User/keybindings.json -Target $HOME/.terminal_setup/vscode/keybindings.json -Force
+      New-Item -ItemType HardLink -Path $env:APPDATA/Code/User/settings.json -Target $HOME/.terminal_setup/vscode/settings.json -Force
+      Start-Sleep -Milliseconds 500
+    }
+    Start-JobCustom $__job_body "Copying vscode settings..."
   }
 }
 
 # set theme
 if ($theme) {
-  $__job_body ={
-  Copy-Item -Force $HOME/.terminal_setup/theme/DarkWolf.theme $HOME/AppData/Local/Microsoft/Windows/Themes/DarkWolf.theme
-  Copy-Item -Recurse -Force $HOME/.terminal_setup/theme/DesktopBackground $HOME/AppData/Local/Microsoft/Windows/Themes/RoamedThemeFiles
-  Start-Sleep 1
+  $__job_body = {
+    Copy-Item -Force $HOME/.terminal_setup/theme/DarkWolf.theme $HOME/AppData/Local/Microsoft/Windows/Themes/DarkWolf.theme
+    Copy-Item -Recurse -Force $HOME/.terminal_setup/theme/DesktopBackground $HOME/AppData/Local/Microsoft/Windows/Themes/RoamedThemeFiles
+    Start-Sleep -Milliseconds 500
   }
-  Start-JobCustom $__job_body "Copying vscode settings..."
+  Start-JobCustom $__job_body "Copying theme..."
 }
 
 # setup wsl
