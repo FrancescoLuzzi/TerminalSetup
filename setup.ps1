@@ -148,8 +148,12 @@ if ($vscode_settings -or $vscode) {
 
 # set theme
 if ($theme) {
+  $__job_body ={
   Copy-Item -Force $HOME/.terminal_setup/theme/DarkWolf.theme $HOME/AppData/Local/Microsoft/Windows/Themes/DarkWolf.theme
   Copy-Item -Recurse -Force $HOME/.terminal_setup/theme/DesktopBackground $HOME/AppData/Local/Microsoft/Windows/Themes/RoamedThemeFiles
+  Start-Sleep 1
+  }
+  Start-JobCustom $__job_body "Copying vscode settings..."
 }
 
 # setup wsl
@@ -166,11 +170,12 @@ if ($neovim) {
     return
   }
   $__job_body = {
-    winget install gnuwin32.make --accept-package-agreements --accept-source-agreements -silent --uninstall-previous
-    winget install Neovim.Neovim --accept-package-agreements --accept-source-agreements -silent --uninstall-previous
     # https://github.com/BurntSushi/ripgrep#installation
-    winget install BurntSushi.ripgrep.MSVC --accept-package-agreements --accept-source-agreements -silent --uninstall-previous
-    Remove-Item -Force -ErrorAction Ignore $env:LOCALAPPDATA/nvim
+    $packages = @("gnuwin32.make", "Neovim.Neovim", "BurntSushi.ripgrep.MSVC")
+    foreach($package in $packages){
+      winget install $package --accept-package-agreements --accept-source-agreements --silent --uninstall-previous
+    }
+    Remove-Item -Force -Recurse -ErrorAction Ignore $env:LOCALAPPDATA/nvim
     New-Item -Force -ItemType SymbolicLink -Path $env:LOCALAPPDATA/nvim -Target $HOME/.terminal_setup/linux_terminal/nvim
   }
   # if some problem occurs while cloning neovim packages using git,
