@@ -179,6 +179,7 @@ require('lazy').setup({
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
+    dependencies = { 'folke/which-key.nvim' },
     opts = {
       -- See `:help gitsigns.txt`
       signs = {
@@ -189,10 +190,19 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
-          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
-        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
-        vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
+        vim.keymap.set('n', '[h', require('gitsigns').prev_hunk,
+          { buffer = bufnr, desc = 'Go to Previous Git Hunk' })
+        vim.keymap.set('n', ']h', require('gitsigns').next_hunk, { buffer = bufnr, desc = 'Go to Next Git Hunk' })
+        require("which-key").register({
+          h = {
+            name = "Hunk & Gitsigns",
+            p = { require('gitsigns').preview_hunk_inline, "Hunk Preview" },
+            s = { require('gitsigns').stage_hunk, "Stage Hunk" },
+            r = { require('gitsigns').reset_hunk, "Reset Hunk" },
+            b = { require('gitsigns').toggle_blame, "Toggle Blame" },
+            d = { require('gitsigns').toggle_deleted, "Toggle Deleted lines" },
+          }
+        }, { prefix = "<leader>" })
       end,
     },
   },
