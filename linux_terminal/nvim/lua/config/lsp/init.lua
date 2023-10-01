@@ -24,9 +24,9 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap('<leader><leader>r', vim.lsp.buf.rename, '[R]ename')
-  nmap('<leader><leader>a', vim.lsp.buf.code_action, 'Code [A]ction')
-  nmap('<leader><leader>l', vim.lsp.codelens.run, 'Code [L]ens')
+  nmap('<leader>lr', vim.lsp.buf.rename, '[R]ename')
+  nmap('<leader>la', vim.lsp.buf.code_action, 'Code [A]ction')
+  nmap('<leader>ll', vim.lsp.codelens.run, 'Code [L]ens')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
