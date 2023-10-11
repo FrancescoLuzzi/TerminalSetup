@@ -164,8 +164,8 @@ local servers = {
   jsonls = {},
   dockerls = {},
   html = {},
-  -- to make client attach launch "!bash-language-server start"
   bashls = {},
+  marksman = {},
 }
 
 -- Ensure the servers above are installed
