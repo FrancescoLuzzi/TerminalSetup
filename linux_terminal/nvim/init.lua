@@ -528,7 +528,7 @@ which_key.register({
     c = { "<cmd>lua require('dap').continue()<CR>", "Continue" },
     C = { "<cmd>lua require('dap').terminate()<CR>", "Close session" }
   }
-}, { prefix = "<leader>" })
+}, { prefix = "<leader>", silent = true, noremap = true })
 
 -- Comment line visual mode
 
@@ -536,8 +536,8 @@ vim.keymap.set('v', '<leader>/', '<Plug>(comment_toggle_linewise_visual)', { des
 
 -- Window and buffers commands
 
-vim.keymap.set('n', '<S-l>', ':BufferLineCycleNext<CR>', { desc = 'Cycle to next buffer' })
-vim.keymap.set('n', '<S-h>', ':BufferLineCyclePrev<CR>', { desc = 'Cycle to previous buffer' })
+vim.keymap.set('n', '<S-l>', ':BufferLineCycleNext<CR>', { desc = 'Cycle to next buffer', silent = true, })
+vim.keymap.set('n', '<S-h>', ':BufferLineCyclePrev<CR>', { desc = 'Cycle to previous buffer', silent = true })
 
 vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to right window' })
 vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to lower window' })
@@ -546,10 +546,10 @@ vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to left window' })
 
 -- resize windows
 
-vim.keymap.set('n', '<A-Up>', ':resize -2<CR>', { desc = '' })
-vim.keymap.set('n', '<A-Down>', ':resize +2<CR>', { desc = '' })
-vim.keymap.set('n', '<A-Left>', ':vertical resize -2<CR>', { desc = '' })
-vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', { desc = '' })
+vim.keymap.set('n', '<A-Up>', ':resize -2<CR>', { desc = '', silent = true })
+vim.keymap.set('n', '<A-Down>', ':resize +2<CR>', { desc = '', silent = true })
+vim.keymap.set('n', '<A-Left>', ':vertical resize -2<CR>', { desc = '', silent = true })
+vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', { desc = '', silent = true })
 
 -- Auto indent on empty line.
 
@@ -561,21 +561,22 @@ end, { expr = true, noremap = true }
 
 -- visual indenting
 
-vim.keymap.set('v', '<', '<gv', { desc = 'Stay in visual mode while indenting' })
-vim.keymap.set('v', '>', '>gv', { desc = 'Stay in visual mode while indenting' })
+vim.keymap.set('v', '<', '<gv', { desc = 'Stay in visual mode while indenting', silent = true })
+vim.keymap.set('v', '>', '>gv', { desc = 'Stay in visual mode while indenting', silent = true })
+vim.keymap.set('n', '<leader>tw', ":set wrap!<CR>", { desc = '[T]oggle word [W]rap', silent = true })
 
 -- Move line
 
-vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move line down' })
-vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move line up' })
-vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { desc = 'Move line down' })
-vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { desc = 'Move line up' })
-vim.keymap.set('v', '<A-j>', ":m '>+1<CR>==gv-gv", { desc = 'Move line down' })
-vim.keymap.set('v', '<A-k>', ":m '<-2<CR>==gv-gv", { desc = 'Move line up' })
+vim.keymap.set('n', '<A-j>', ":m .+1<CR>==", { desc = 'Move line down', silent = true })
+vim.keymap.set('n', '<A-k>', ":m .-2<CR>==", { desc = 'Move line up', silent = true })
+vim.keymap.set('i', '<A-j>', "<Esc>:m .+1<CR>==gi", { desc = 'Move line down', silent = true })
+vim.keymap.set('i', '<A-k>', "<Esc>:m .-2<CR>==gi", { desc = 'Move line up', silent = true })
+vim.keymap.set('v', '<A-j>', ":m '>+1<CR>==gv-gv", { desc = 'Move line down', silent = true })
+vim.keymap.set('v', '<A-k>', ":m '<-2<CR>==gv-gv", { desc = 'Move line up', silent = true })
 
 -- Toggle term
 
-vim.keymap.set('n', '<C-t>', ':ToggleTerm<CR>', { desc = 'ToggleTerminal' })
+vim.keymap.set('n', '<C-t>', ':ToggleTerm<CR>', { desc = 'ToggleTerminal', silent = true })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
