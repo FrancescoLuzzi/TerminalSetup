@@ -1,7 +1,4 @@
-" In insert mode steady bar (|) else steady block
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
-
+"basic config for every VIM
 set encoding=UTF-8
 set noerrorbells        " no bells
 set number              " show line numbers
@@ -25,7 +22,26 @@ set wildmenu            " menu for completion
 set cursorline
 set completeopt=menu,menuone,noselect
 set hidden
+
+" add event listeners mapping
+augroup my_mappings
+    autocmd!
+    " trim spaces, for all files
+    autocmd BufWritePre * :%s/\s\+$//e
+
+    " exclude for server .vimrc
+    " set cursor
+    autocmd VimEnter * silent !echo -ne "\e[2 q"
+    " reset cursor
+    autocmd VimLeave * silent !echo -ne "\e[6 q"
+augroup END
+
+" enable mouse events
 set mouse=a
+
+" In insert mode steady bar (|) else steady block
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
 
 " Netrw
 let g:netrw_banner = 0
@@ -34,16 +50,6 @@ let g:netrw_winsize = 50
 let g:netrw_browse_split = 4
 let g:netrw_altv = 0
 let g:netrw_browse_split = 0
-" add event listeners mapping
-augroup my_mappings
-    autocmd!
-    " trim spaces, for reference, after the * you can add the wanted extension (example *.py)
-    autocmd BufWritePre * :%s/\s\+$//e
-    " set cursor
-    autocmd VimEnter * silent !echo -ne "\e[2 q"
-    " reset cursor
-    autocmd VimLeave * silent !echo -ne "\e[6 q"
-augroup END
 
 " remap to move within windows without pressing ctrl+w
 nnoremap <C-J> <C-W><C-J>
@@ -57,23 +63,15 @@ nnoremap <S-Left> :vertical resize +2<CR>
 nnoremap <S-Up> :resize -2<CR>
 nnoremap <S-Down> :resize +2<CR>
 
-" fast move with Shift + k/j
-nnoremap <S-K> 10k
-nnoremap <S-J> 10j
-
-" remap to move between buffers Ctrl + ->/<-
+" remap to move between buffers Shift + l/h
 nnoremap <S-L> :bp<CR>
 nnoremap <S-H> :bn<CR>
 
-" delete current buffer Ctrl + k
-nnoremap <C-D> :bdelete<CR>
-
 " VISUAL MODE REMAPS
 
-" move selected lines with Shift + k/j
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
+" move selected lines with Alt + k/j
+vnoremap <M-J> :m '>+1<CR>gv=gv
+vnoremap <M-K> :m '<-2<CR>gv=gv
 
 " PLUGINS
 
@@ -112,7 +110,9 @@ nmap <leader>\ <C-w>v<C-L>
 " split view horizontally
 nmap <leader>- <C-w>s<C-J>
 " close all views but the one you are editing
-nmap <leader>d <Esc>:only<CR>
+nmap <leader>o <Esc>:only<CR>
+" delete current buffer Ctrl + k
+nnoremap <leader>d :bdelete<CR>
 " open terminal splitting view vertically
 nmap <leader>t <Esc>:vert ter<CR>
 " open terminal splitting view horizontally
