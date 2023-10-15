@@ -64,8 +64,8 @@ nnoremap <S-Up> :resize -2<CR>
 nnoremap <S-Down> :resize +2<CR>
 
 " remap to move between buffers Shift + l/h
-nnoremap <S-L> :bp<CR>
-nnoremap <S-H> :bn<CR>
+nnoremap <S-L> :bn<CR>
+nnoremap <S-H> :bp<CR>
 
 " VISUAL MODE REMAPS
 
@@ -111,8 +111,8 @@ nmap <leader>\ <C-w>v<C-L>
 nmap <leader>- <C-w>s<C-J>
 " close all views but the one you are editing
 nmap <leader>o <Esc>:only<CR>
-" delete current buffer Ctrl + k
-nnoremap <leader>d :bdelete<CR>
+" delete current buffer <leader>+x
+nnoremap <leader>x :bdelete<CR>
 " open terminal splitting view vertically
 nmap <leader>t <Esc>:vert ter<CR>
 " open terminal splitting view horizontally
