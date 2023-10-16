@@ -7,7 +7,9 @@ return {
 				'fugitive',
 				'NvimTree',
 				'alpha',
-				'toggleterm'
+				'toggleterm',
+				'DressingInput',
+				'TelescopePrompt'
 			},
 		})
 		vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "#4d5474" })
