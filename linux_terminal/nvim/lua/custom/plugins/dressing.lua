@@ -5,6 +5,8 @@ return {
     require("dressing").setup({
       input = {
         enabled = true,
+        position = "50%",
+        relative = "editor",
         start_in_insert = false,
         win_options = {
           winblend = 0,
