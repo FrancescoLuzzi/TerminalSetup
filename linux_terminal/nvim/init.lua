@@ -344,6 +344,7 @@ require('nvim-treesitter.configs').setup {
     "regex",
     "rust",
     "toml",
+    "xml",
     "yaml",
   },
 
@@ -408,6 +409,8 @@ require('nvim-treesitter.configs').setup {
 }
 
 require("config.lsp")
+require("config.extra_filetypes")
+
 
 vim.diagnostic.config {
   float = { border = "rounded" },
