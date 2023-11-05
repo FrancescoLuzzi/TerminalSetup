@@ -164,6 +164,12 @@ require('lazy').setup({
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
 
+      -- Adds completion from buffer
+      'hrsh7th/cmp-buffer',
+
+      -- Adds completion of local paths
+      'hrsh7th/cmp-path',
+
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
     },
@@ -409,9 +415,7 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
-require("config.lsp")
 require("config.extra_filetypes")
-
 
 vim.diagnostic.config {
   float = { border = "rounded" },
@@ -509,6 +513,8 @@ cmp.setup {
     end,
   },
 }
+
+require("config.lsp")
 
 local which_key = require('which-key')
 
