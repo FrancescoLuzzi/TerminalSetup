@@ -28,10 +28,10 @@ local on_attach = function(client, bufnr)
   nmap('<leader>la', vim.lsp.buf.code_action, 'Code [A]ction')
   nmap('<leader>ll', vim.lsp.codelens.run, 'Code [L]ens')
 
-  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-  nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-  nmap('gt', vim.lsp.buf.type_definition, '[G]oto [T]ype Definition')
+  nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+  nmap('gt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
   nmap('<leader>wd', require('telescope.builtin').lsp_document_symbols, '[ ]Document [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
