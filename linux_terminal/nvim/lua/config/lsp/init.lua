@@ -200,12 +200,6 @@ mason_lspconfig.setup_handlers {
   ["pyright"] = function()
     local opts = vim.tbl_deep_extend("force", server_opts, servers["pyright"] or {})
     local python = require("config.lsp.python")
-    require("conform").setup({
-      formatters_by_ft = {
-        -- install from mason
-        python = { "isort", "black" },
-      },
-    })
     python.setup(python.customize_opts(opts))
   end,
 }
