@@ -166,6 +166,7 @@ local servers = {
   html = {},
   bashls = {},
   marksman = {},
+  sqlls = {},
 }
 
 -- Ensure the servers above are installed

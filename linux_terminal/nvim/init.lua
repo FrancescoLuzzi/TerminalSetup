@@ -350,6 +350,7 @@ require('nvim-treesitter.configs').setup {
     "python",
     "regex",
     "rust",
+    "sql",
     "toml",
     "xml",
     "yaml",
