@@ -1,10 +1,10 @@
 return {
 	'windwp/nvim-autopairs',
-	-- Optional dependency
-	dependencies = { 'hrsh7th/nvim-cmp' },
+	dependencies = { 'hrsh7th/nvim-cmp', 'nvim-treesitter/nvim-treesitter' },
 	config = function()
 		require("nvim-autopairs").setup({
-			disable_filetype = { "sh", "bash" },
+			check_ts = true,
+			disable_filetype = { "sh", "bash", "TelescopePrompt" },
 		})
 		-- If you want to automatically add `(` after selecting a function or method
 		local cmp_autopairs = require('nvim-autopairs.completion.cmp')
