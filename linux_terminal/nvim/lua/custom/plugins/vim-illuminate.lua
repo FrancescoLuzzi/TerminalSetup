@@ -4,12 +4,14 @@ return {
 		require('illuminate').configure({
 			delay = 250,
 			filetypes_denylist = {
-				'fugitive',
-				'NvimTree',
 				'alpha',
-				'toggleterm',
 				'DressingInput',
-				'TelescopePrompt'
+				'fugitive',
+				'lazy',
+				'mason',
+				'NvimTree',
+				'TelescopePrompt',
+				'toggleterm',
 			},
 		})
 		vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = "#4d5474" })
