@@ -160,13 +160,14 @@ local servers = {
       },
     },
   },
-  yamlls = {},
-  jsonls = {},
+  bashls = {},
+  docker_compose_language_service = {},
   dockerls = {},
   html = {},
-  bashls = {},
+  jsonls = {},
   marksman = {},
   sqlls = {},
+  yamlls = {},
 }
 
 -- Ensure the servers above are installed
