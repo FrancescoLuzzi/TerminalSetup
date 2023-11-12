@@ -249,7 +249,7 @@ declare -a programs
     
 mkdir -p ~/.config
 
-while getopts ':IUgnpre:w:' OPTION; do
+while getopts ':IUghnpre:w:' OPTION; do
     case $OPTION in
     h)
         showHelp
@@ -306,6 +306,7 @@ while getopts ':IUgnpre:w:' OPTION; do
         ;;
 
     ?)
+        echo "Flag \"-${OPTARG}\" not recognized"
         showHelp
         exit 1
         ;;
