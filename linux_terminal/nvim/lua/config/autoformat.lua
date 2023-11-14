@@ -65,12 +65,5 @@ return {
         })
       end,
     })
-
-    -- Remove trailing whitespaces on save.
-    vim.api.nvim_create_autocmd('BufWritePre', {
-      group = vim.api.nvim_create_augroup('kickstart-lsp-format-remove_trailing_whitespaces', { clear = true }),
-      pattern = { 'lua', 'json', 'json5', 'xml', 'yaml' },
-      command = [[%s/\s\+$//e]],
-    })
   end,
 }
