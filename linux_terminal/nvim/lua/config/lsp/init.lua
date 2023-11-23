@@ -95,7 +95,6 @@ local servers = {
   --[[
    clangd = {settings={}},
    gopls = {settings={}},
-   pyright = {settings={}},
    tsserver = {settings={}},
   -- ]]
 
@@ -160,6 +159,11 @@ local servers = {
       },
     },
   },
+  lemminx = {
+    settings = {
+      xml = { catalogs = { "./catalog.xml" } }
+    }
+  },
   bashls = {},
   docker_compose_language_service = {},
   dockerls = {},
@@ -215,5 +219,10 @@ mason_lspconfig.setup_handlers {
     local opts = vim.tbl_deep_extend("force", server_opts, servers["pyright"] or {})
     local python = require("config.lsp.python")
     python.setup(python.customize_opts(opts))
+  end,
+  ["lemminx"] = function()
+    local opts = vim.tbl_deep_extend("force", server_opts, servers["lemminx"] or {})
+    local xml = require("config.lsp.xml")
+    xml.setup(xml.customize_opts(opts))
   end,
 }
