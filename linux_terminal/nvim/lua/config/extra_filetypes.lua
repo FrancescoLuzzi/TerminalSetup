@@ -25,9 +25,13 @@ vim.api.nvim_create_autocmd(
 
 -- autoformatting
 
+local fmt_augroup = function(name)
+  return vim.api.nvim_create_augroup('kickstart-lsp_format-' .. name, { clear = true })
+end
+
 -- Remove trailing whitespaces on save.
 vim.api.nvim_create_autocmd('BufWritePre', {
-  group = vim.api.nvim_create_augroup('kickstart-lsp-format-remove_trailing_whitespaces', { clear = true }),
+  group = fmt_augroup('remove_trailing_whitespaces'),
   pattern = '*',
   callback = function(args)
     local clients = vim.lsp.get_active_clients({ bufnr = args.buf })
