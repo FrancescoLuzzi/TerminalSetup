@@ -4,10 +4,10 @@ local M = {}
 local group_name = 'kickstart-lsp-format-pyright'
 local group = vim.api.nvim_create_augroup(group_name, { clear = true })
 
-local function configure_keymappings()
+local function configure_keymappings(bufnr)
   vim.api.nvim_create_autocmd("BufWritePre", {
     group = group,
-    pattern = "*.py",
+    buffer = bufnr,
     callback = function(args)
       require("conform").format({ bufnr = args.buf })
     end,
@@ -18,12 +18,12 @@ M.customize_opts = function(server_opts)
   local on_attach_orginal_func = server_opts["on_attach"]
   if on_attach_orginal_func == nil then
     server_opts["on_attach"] = function(client, bufnr)
-      configure_keymappings()
+      configure_keymappings(bufnr)
     end
   else
     server_opts["on_attach"] = function(client, bufnr)
       on_attach_orginal_func(client, bufnr)
-      configure_keymappings()
+      configure_keymappings(bufnr)
     end
   end
   return server_opts
