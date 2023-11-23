@@ -310,6 +310,8 @@ pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>so', require('telescope.builtin').oldfiles, { desc = '[S]earch [O]ld files' })
+vim.keymap.set('n', '<leader>ss', require('telescope.builtin').lsp_document_symbols,
+  { desc = '[S]earch document [S]ymbols' })
 vim.keymap.set('n', '<leader>sB', require('telescope.builtin').buffers, { desc = '[S]earch existing [B]uffers' })
 vim.keymap.set('n', '<leader>sb', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
