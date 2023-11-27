@@ -591,6 +591,8 @@ vim.keymap.set('v', '<A-k>', ":m '<-2<CR>==gv-gv", { desc = 'Move line up', sile
 -- Toggle term
 
 vim.keymap.set('n', '<C-t>', ':ToggleTerm<CR>', { desc = 'ToggleTerminal', silent = true })
+vim.keymap.set('t', '<Esc>', "<C-\\><C-n>")
+vim.keymap.set('t', '<C-w>', "<C-\\><C-n><C-w>")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
