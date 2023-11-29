@@ -579,6 +579,18 @@ vim.keymap.set('v', '<', '<gv', { desc = 'Stay in visual mode while indenting', 
 vim.keymap.set('v', '>', '>gv', { desc = 'Stay in visual mode while indenting', silent = true })
 vim.keymap.set('n', '<leader>tw', ":set wrap!<CR>", { desc = '[T]oggle word [W]rap', silent = true })
 
+-- diffview
+local diffview_active = false
+local diffview_toggle = function()
+  diffview_active = not diffview_active
+  if diffview_active then
+    vim.cmd("silent windo diffthis")
+  else
+    vim.cmd("silent windo diffoff")
+  end
+end
+vim.keymap.set('n', '<leader>td', diffview_toggle, { desc = '[T]oggle [D]iff view', silent = true })
+
 -- Move line
 
 vim.keymap.set('n', '<A-j>', ":m .+1<CR>==", { desc = 'Move line down', silent = true })
