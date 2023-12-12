@@ -65,8 +65,13 @@
 		"commands": ["workbench.action.findInFiles"]
 	  },
 	  {
-	    	"before": ["<leader>","l","a"],
+	    "before": ["<leader>","l","a"],
 		"commands": ["editor.action.sourceAction"]
+	  },
+	  {
+		"before":["<leader>","l","r"],
+		"commands": ["editor.action.rename"],
+		"when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
 	  },
 	  {
 		"before": ["<leader>", "e"],
