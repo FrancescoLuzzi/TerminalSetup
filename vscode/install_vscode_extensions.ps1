@@ -1,4 +1,3 @@
-code --install-extension Angelmaneuver.wallpaper-setting
 code --install-extension bierner.markdown-mermaid
 code --install-extension bierner.markdown-preview-github-styles
 code --install-extension DavidAnson.vscode-markdownlint
