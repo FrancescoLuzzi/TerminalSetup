@@ -220,9 +220,4 @@ mason_lspconfig.setup_handlers {
     local python = require("config.lsp.python")
     python.setup(python.customize_opts(opts))
   end,
-  ["lemminx"] = function()
-    local opts = vim.tbl_deep_extend("force", server_opts, servers["lemminx"] or {})
-    local xml = require("config.lsp.xml")
-    xml.setup(xml.customize_opts(opts))
-  end,
 }
