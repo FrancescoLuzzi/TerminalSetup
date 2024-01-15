@@ -159,6 +159,12 @@ local servers = {
       },
     },
   },
+  ruff_lsp = {
+    settings = {
+      -- Any extra CLI arguments for `ruff` go here.
+      args = {}
+    }
+  },
   lemminx = {
     settings = {
       xml = { catalogs = { "./catalog.xml" } }

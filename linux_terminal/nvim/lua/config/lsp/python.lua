@@ -1,9 +1,5 @@
 local M = {}
 
--- following lua/config/autoformat.lua logics
-local group_name = 'kickstart-lsp-format-pyright'
-local group = vim.api.nvim_create_augroup(group_name, { clear = true })
-
 local function pip_install()
   vim.ui.input(
     { prompt = 'Install packages (separated by space): ' },
@@ -36,16 +32,6 @@ local function configure_keymappings(bufnr)
       },
     },
   }, { prefix = "<leader>", mode = "n", default_options })
-
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    group = group,
-    buffer = bufnr,
-    callback = function(args)
-      -- configuration in conform plugin setup
-      -- black + isort
-      require("conform").format({ bufnr = args.buf })
-    end,
-  })
 end
 
 M.customize_opts = function(server_opts)
