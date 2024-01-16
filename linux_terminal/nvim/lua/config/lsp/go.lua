@@ -7,6 +7,10 @@ local function configure_keymappings()
   wk.register({
     c = {
       name = "GolangCoding",
+      d = {
+        name = "Debug",
+        c = { require('dap-go').debug_test, "Run current test in debugger" },
+      },
       e = { "<cmd>GoIfErr<cr>", "Add if err" },
       h = {
         name = "Helper",
