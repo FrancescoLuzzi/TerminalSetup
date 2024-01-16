@@ -12,7 +12,9 @@ set softtabstop=4       " number of spaces in tab when editing
 set shiftwidth=4        " number of spaces when shifting
 set expandtab           " tabs are spaces
 set autoindent          " auto indent code
-set smartindent         "does the right thing (mostly) in programs
+set smartindent         " does the right thing (mostly) in programs
+set ignorecase          " ignore casing while searching string
+set smartcase           " if an upper letter is searched don't ignore casing
 set backspace=indent,eol,start  " more powerful backspacing
 set foldenable          " enable folding
 set foldlevelstart=99   " open most folds by default
