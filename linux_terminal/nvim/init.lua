@@ -308,30 +308,6 @@ require('telescope').setup {
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
--- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>so', require('telescope.builtin').oldfiles, { desc = '[S]earch [O]ld files' })
-vim.keymap.set('n', '<leader>ss', require('telescope.builtin').lsp_document_symbols,
-  { desc = '[S]earch document [S]ymbols' })
-vim.keymap.set('n', '<leader>sB', require('telescope.builtin').buffers, { desc = '[S]earch existing [B]uffers' })
-vim.keymap.set('n', '<leader>sb', function()
-  -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = true,
-  })
-end, { desc = 'Fuzzily [s]earch in current [b]uffer' })
-
--- smart telescope file search
-
-
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').git_files, { desc = '[S]earch Git [F]iles' })
-vim.keymap.set('n', '<leader>sF', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-vim.keymap.set('n', '<leader>sr', require('telescope.builtin').lsp_references, { desc = '[S]earch [R]eferences' })
-vim.keymap.set('n', '<leader>sb', require('telescope.builtin').git_branches, { desc = '[S]earch [B]ranches' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -427,8 +403,6 @@ vim.diagnostic.config {
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>le', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>lq', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
@@ -520,6 +494,17 @@ cmp.setup {
 require("config.lsp")
 
 local which_key = require('which-key')
+--
+-- diffview
+local diffview_active = false
+local diffview_toggle = function()
+  diffview_active = not diffview_active
+  if diffview_active then
+    vim.cmd("silent windo diffthis")
+  else
+    vim.cmd("silent windo diffoff")
+  end
+end
 
 which_key.register({
   ['\\'] = { ':vsplit<CR>', 'Split window vertically' },
@@ -541,7 +526,39 @@ which_key.register({
     o = { "<cmd>lua require('dap').step_over()<CR>", "Step over" },
     c = { "<cmd>lua require('dap').continue()<CR>", "Continue" },
     C = { "<cmd>lua require('dap').terminate()<CR>", "Close session" }
+  },
+  t = {
+    name = "Toggle",
+    d = { diffview_toggle, 'Toggle Diffview' },
+    w = { ":set wrap!<CR>", 'Toggle word wrap' },
+  },
+  -- smart telescope file search
+  s = {
+    name = "Search",
+    f = { require('telescope.builtin').git_files, 'Git files' },
+    F = { require('telescope.builtin').find_files, 'All Files' },
+    h = { require('telescope.builtin').help_tags, 'Help' },
+    g = { require('telescope.builtin').live_grep, 'Grep word' },
+    d = { require('telescope.builtin').diagnostics, 'Diagnostics' },
+    r = { require('telescope.builtin').lsp_references, 'Lsp References' },
+    b = { require('telescope.builtin').git_branches, 'Git branches' },
+    o = { require('telescope.builtin').oldfiles, '[S]earch [O]ld files' },
+    B = { require('telescope.builtin').buffers, '[S]earch existing [B]uffers' },
+    W = { require('telescope.builtin').grep_string, 'Word under cursor' },
+    w = { function()
+      -- You can pass additional configuration to telescope to change theme, layout, etc.
+      require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+        winblend = 10,
+        previewer = true,
+      })
+    end, 'Fuzzily search word in buffer' }
+  },
+  l = {
+    name = "Lsp and Diagnostic actions",
+    e = { vim.diagnostic.open_float, 'Diagnostic message' },
+    q = { vim.diagnostic.setloclist, 'Open diagnostics quickfix list' },
   }
+
 }, { prefix = "<leader>", silent = true, noremap = true })
 
 -- Comment line visual mode
@@ -577,19 +594,6 @@ end, { expr = true, noremap = true }
 
 vim.keymap.set('v', '<', '<gv', { desc = 'Stay in visual mode while indenting', silent = true })
 vim.keymap.set('v', '>', '>gv', { desc = 'Stay in visual mode while indenting', silent = true })
-vim.keymap.set('n', '<leader>tw', ":set wrap!<CR>", { desc = '[T]oggle word [W]rap', silent = true })
-
--- diffview
-local diffview_active = false
-local diffview_toggle = function()
-  diffview_active = not diffview_active
-  if diffview_active then
-    vim.cmd("silent windo diffthis")
-  else
-    vim.cmd("silent windo diffoff")
-  end
-end
-vim.keymap.set('n', '<leader>td', diffview_toggle, { desc = '[T]oggle [D]iff view', silent = true })
 
 -- Move line
 
