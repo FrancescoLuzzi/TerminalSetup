@@ -1,7 +1,10 @@
 return {
   "danymat/neogen",
   dependencies = "nvim-treesitter/nvim-treesitter",
-  config = { snippet_engine = "luasnip" },
+  config = {
+    snippet_engine = "luasnip",
+    placeholders_hl = "None",
+  },
   init = function()
     require("which-key").register(
       {
