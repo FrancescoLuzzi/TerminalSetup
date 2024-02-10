@@ -246,7 +246,7 @@ unset programs
 interactive=false
 update=false
 declare -a programs
-    
+
 mkdir -p ~/.config
 
 while getopts ':IUghnpre:w:' OPTION; do

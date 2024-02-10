@@ -72,6 +72,17 @@ vim.o.mouse = 'a'
 --  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
 
+-- this works the best but it's slow AF
+-- https://www.reddit.com/r/neovim/comments/16zb9hh/wsl2_lazyvim_and_clipboard/
+if vim.fn.has('wsl') then
+  vim.api.nvim_create_autocmd('TextYankPost', {
+    group = vim.api.nvim_create_augroup('Yank', { clear = true }),
+    callback = function()
+      vim.fn.system('clip.exe', vim.fn.getreg('"'))
+    end,
+  })
+end
+
 -- Enable break indent
 vim.o.breakindent = true
 
