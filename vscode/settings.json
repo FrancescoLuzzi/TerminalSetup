@@ -15,7 +15,7 @@
 	"vim.handleKeys": {
 	  "<C-y>": false
 	},
-	"vim.visualModeKeyBindings": [
+	"vim.visualModeKeyBindingsNonRecursive": [
 	  {
 		"before": ["<leader>", "/"],
 		"commands": ["editor.action.commentLine"],
@@ -30,7 +30,7 @@
 		"commands": ["editor.action.outdentLines"]
 	  }
 	],
-	"vim.normalModeKeyBindings": [
+	"vim.normalModeKeyBindingsNonRecursive": [
 	  {
 		"before": ["<leader>", "/"],
 		"commands": ["editor.action.commentLine"],
@@ -84,6 +84,12 @@
 	  {
 		"before": ["[","d"],
 		"commands": ["editor.action.marker.prevInFiles"]
+	  }
+	],
+	"vim.insertModeKeyBindingsNonRecursive": [
+	  {
+		"before": ["j","j"],
+		"after": ["<Esc>"]
 	  }
 	]
   }
