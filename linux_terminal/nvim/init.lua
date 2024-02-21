@@ -557,6 +557,7 @@ which_key.register({
     r = { require('telescope.builtin').lsp_references, 'Lsp References' },
     b = { require('telescope.builtin').git_branches, 'Git branches' },
     o = { require('telescope.builtin').oldfiles, '[S]earch [O]ld files' },
+    b = { require('telescope.builtin').builtin, '[S]earch [B]uiltin options' },
     B = { require('telescope.builtin').buffers, '[S]earch existing [B]uffers' },
     W = { require('telescope.builtin').grep_string, 'Word under cursor' },
     w = { function()
