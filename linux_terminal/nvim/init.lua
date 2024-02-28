@@ -284,8 +284,6 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
-  require 'config.autoformat',
-
   -- The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   { import = 'custom.plugins' },
 }, {})
