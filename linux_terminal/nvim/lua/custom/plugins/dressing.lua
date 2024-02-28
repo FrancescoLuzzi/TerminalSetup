@@ -2,11 +2,11 @@ return {
   'stevearc/dressing.nvim',
   opts = {},
   init = function()
-    require("dressing").setup({
+    require('dressing').setup({
       input = {
         enabled = true,
-        position = "50%",
-        relative = "editor",
+        position = '50%',
+        relative = 'editor',
         width = 0.5,
         start_in_insert = false,
         win_options = {
@@ -15,5 +15,5 @@ return {
         },
       },
     })
-  end
+  end,
 }

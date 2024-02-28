@@ -6,6 +6,6 @@ return {
     'theHamsta/nvim-dap-virtual-text',
   },
   init = function()
-    require("dap-go").setup()
-  end
+    require('dap-go').setup()
+  end,
 }

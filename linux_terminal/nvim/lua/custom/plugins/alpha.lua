@@ -1,8 +1,8 @@
 return -- Dashboard. This runs when neovim starts, and is what displays
 -- the "LAZYVIM" banner.
 {
-  "goolord/alpha-nvim",
-  event = "VimEnter",
+  'goolord/alpha-nvim',
+  event = 'VimEnter',
   opts = function()
     -- colorscheme
     -- vim.api.nvim_set_hl(0, 'AlphaButtons', { ctermbg = 0, fg = '#9d7cd8' })
@@ -11,7 +11,7 @@ return -- Dashboard. This runs when neovim starts, and is what displays
     -- vim.api.nvim_set_hl(0, 'AlphaButtons', { ctermbg = 0, fg = '#9d7cd8' })
     -- vim.api.nvim_set_hl(0, 'AlphaFooter', { ctermbg = 0, fg = '#9d7cd8' })
 
-    local dashboard = require("alpha.themes.dashboard")
+    local dashboard = require('alpha.themes.dashboard')
     local logo = [[
 ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗
 ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║
@@ -24,21 +24,21 @@ return -- Dashboard. This runs when neovim starts, and is what displays
     -- Resolve $MYVIMRC's parent folder, that could be a symlink
     local vimrc_dir = vim.fn.resolve(vim.fn.fnamemodify(vim.fn.expand('$MYVIMRC'), ':h:p'))
 
-    dashboard.section.header.val = vim.split(logo, "\n")
+    dashboard.section.header.val = vim.split(logo, '\n')
     dashboard.section.buttons.val = {
-      dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
-      dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert <CR>"),
-      dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
-      dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
-      dashboard.button("c", " " .. " Config", ":cd " .. vimrc_dir .. " <BAR> e $MYVIMRC <CR>"),
-      dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
-      dashboard.button("q", " " .. " Quit", ":qa<CR>"),
+      dashboard.button('f', ' ' .. ' Find file', ':Telescope find_files <CR>'),
+      dashboard.button('n', ' ' .. ' New file', ':ene <BAR> startinsert <CR>'),
+      dashboard.button('r', ' ' .. ' Recent files', ':Telescope oldfiles <CR>'),
+      dashboard.button('g', ' ' .. ' Find text', ':Telescope live_grep <CR>'),
+      dashboard.button('c', ' ' .. ' Config', ':cd ' .. vimrc_dir .. ' <BAR> e $MYVIMRC <CR>'),
+      dashboard.button('l', '󰒲 ' .. ' Lazy', ':Lazy<CR>'),
+      dashboard.button('q', ' ' .. ' Quit', ':qa<CR>'),
     }
     -- for _, button in ipairs(dashboard.section.buttons.val) do
     --   button.opts.hl = "AlphaButtons"
     --   button.opts.hl_shortcut = "AlphaShortcut"
     -- end
-    dashboard.section.header.opts.hl = "AlphaHeader"
+    dashboard.section.header.opts.hl = 'AlphaHeader'
     -- dashboard.section.buttons.opts.hl = "AlphaButtons"
     -- dashboard.section.footer.opts.hl = "AlphaFooter"
     dashboard.opts.layout[1].val = 8
@@ -46,24 +46,28 @@ return -- Dashboard. This runs when neovim starts, and is what displays
   end,
   config = function(_, dashboard)
     -- close Lazy and re-open when the dashboard is ready
-    if vim.o.filetype == "lazy" then
+    if vim.o.filetype == 'lazy' then
       vim.cmd.close()
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "AlphaReady",
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'AlphaReady',
         callback = function()
-          require("lazy").show()
+          require('lazy').show()
         end,
       })
     end
 
-    require("alpha").setup(dashboard.opts)
+    require('alpha').setup(dashboard.opts)
 
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "LazyVimStarted",
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'LazyVimStarted',
       callback = function()
-        local stats = require("lazy").stats()
+        local stats = require('lazy').stats()
         local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-        dashboard.section.footer.val = "⚡ Neovim loaded " .. stats.count .. " plugins in " .. ms .. "ms"
+        dashboard.section.footer.val = '⚡ Neovim loaded '
+          .. stats.count
+          .. ' plugins in '
+          .. ms
+          .. 'ms'
         pcall(vim.cmd.AlphaRedraw)
       end,
     })

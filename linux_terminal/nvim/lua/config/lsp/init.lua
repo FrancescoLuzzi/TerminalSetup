@@ -1,7 +1,7 @@
 -- Style lsp windows
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = 'rounded',
   underline = true,
 })
 
@@ -14,7 +14,7 @@ local on_attach = function(client, bufnr)
   --
   -- In this case, we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
-  require("lsp-inlayhints").on_attach(client, bufnr)
+  require('lsp-inlayhints').on_attach(client, bufnr)
 
   local nmap = function(keys, func, desc)
     if desc then
@@ -24,33 +24,31 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  require("which-key").register(
-    {
-      l = {
-        name = "Lsp actions",
-        r = { vim.lsp.buf.rename, "Rename symbol" },
-        a = { vim.lsp.buf.code_action, "Code Action" },
-        l = { vim.lsp.codelens.run, "CodeLens" },
-      },
-      w = {
-        name = "Workspace",
-        a = { vim.lsp.buf.add_workspace_folder, 'Add folder' },
-        r = { vim.lsp.buf.remove_workspace_folder, 'Remove folder' },
-        l = {
-          function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          end,
-          'List folders', },
-        s = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'All workspaces symbols' },
-        S = { require('telescope.builtin').lsp_document_symbols, "Current workspace symbols" },
-      }
+  require('which-key').register({
+    l = {
+      name = 'Lsp actions',
+      r = { vim.lsp.buf.rename, 'Rename symbol' },
+      a = { vim.lsp.buf.code_action, 'Code Action' },
+      l = { vim.lsp.codelens.run, 'CodeLens' },
     },
-    {
-      prefix = "<leader>",
-      noremap = true,
-      silent = true,
-    }
-  )
+    w = {
+      name = 'Workspace',
+      a = { vim.lsp.buf.add_workspace_folder, 'Add folder' },
+      r = { vim.lsp.buf.remove_workspace_folder, 'Remove folder' },
+      l = {
+        function()
+          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end,
+        'List folders',
+      },
+      s = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'All workspaces symbols' },
+      S = { require('telescope.builtin').lsp_document_symbols, 'Current workspace symbols' },
+    },
+  }, {
+    prefix = '<leader>',
+    noremap = true,
+    silent = true,
+  })
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -72,13 +70,13 @@ local on_attach = function(client, bufnr)
   -- Enable completion triggered by <C-x><C-o> in insert mode
   -- See `:help omnifunc` and `:help ins-completion` for more information.
   if caps.completionProvider then
-    vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+    vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
   end
 
   -- Use LSP as the handler for formatexpr.
   -- See `:help formatexpr` for more information.
   if caps.documentFormattingProvider then
-    vim.bo[bufnr].formatexpr = "v:lua.vim.lsp.formatexpr()"
+    vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()'
   end
 
   if caps.inlayHintProvider then
@@ -115,19 +113,19 @@ local servers = {
 
   rust_analyzer = {
     settings = {
-      ["rust-analyzer"] = {
+      ['rust-analyzer'] = {
         checkOnSave = {
-          command = "clippy",
+          command = 'clippy',
         },
         lens = {
           enable = true,
         },
         completion = {
           callable = {
-            snippets = "fill_arguments"
-          }
-        }
-      }
+            snippets = 'fill_arguments',
+          },
+        },
+      },
     },
   },
   lua_ls = {
@@ -136,7 +134,7 @@ local servers = {
         workspace = { checkThirdParty = false },
         telemetry = { enable = false },
         hints = { enable = true },
-      }
+      },
     },
   },
   gopls = {
@@ -162,14 +160,14 @@ local servers = {
   pyright = {
     settings = {
       pyright = {
-        disableOrganizeImports = true
+        disableOrganizeImports = true,
       },
       python = {
         analysis = {
           autoSearchPaths = true,
-          diagnosticMode = "workspace",
+          diagnosticMode = 'workspace',
           useLibraryCodeForTypes = true,
-          typeCheckingMode = "basic",
+          typeCheckingMode = 'basic',
         },
       },
     },
@@ -177,13 +175,13 @@ local servers = {
   ruff_lsp = {
     settings = {
       -- Any extra CLI arguments for `ruff` go here.
-      args = {}
-    }
+      args = {},
+    },
   },
   lemminx = {
     settings = {
-      xml = { catalogs = { "./catalog.xml" } }
-    }
+      xml = { catalogs = { './catalog.xml' } },
+    },
   },
   bashls = {},
   docker_compose_language_service = {},
@@ -191,12 +189,25 @@ local servers = {
   html = {},
   -- https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
   emmet_ls = {
-    filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "svelte", "pug", "typescriptreact", "vue" },
+    filetypes = {
+      'css',
+      'eruby',
+      'html',
+      'javascript',
+      'javascriptreact',
+      'less',
+      'sass',
+      'scss',
+      'svelte',
+      'pug',
+      'typescriptreact',
+      'vue',
+    },
     init_options = {
       html = {
         options = {
           -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-          ["bem.enabled"] = true,
+          ['bem.enabled'] = true,
         },
       },
     },
@@ -204,41 +215,52 @@ local servers = {
   jsonls = {},
   marksman = {},
   sqlls = {},
-  yamlls = {},
+  yamlls = {
+    yaml = {
+      format = {
+        enable = true,
+        singleQuote = true,
+      },
+    },
+    hover = true,
+    completion = true,
+    validate = true,
+    keyOrdering = true,
+  },
 }
 
 -- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
+local mason_lspconfig = require('mason-lspconfig')
 
-mason_lspconfig.setup {
+mason_lspconfig.setup({
   ensure_installed = vim.tbl_keys(servers),
-}
+})
 
-local lspconfig = require "lspconfig"
+local lspconfig = require('lspconfig')
 
-mason_lspconfig.setup_handlers {
+mason_lspconfig.setup_handlers({
   function(server_name)
-    local opts = vim.tbl_deep_extend("force", server_opts, servers[server_name] or {})
+    local opts = vim.tbl_deep_extend('force', server_opts, servers[server_name] or {})
     lspconfig[server_name].setup(opts)
   end,
-  ["lua_ls"] = function()
-    local opts = vim.tbl_deep_extend("force", server_opts, servers["lua_ls"] or {})
-    require("neodev").setup {}
+  ['lua_ls'] = function()
+    local opts = vim.tbl_deep_extend('force', server_opts, servers['lua_ls'] or {})
+    require('neodev').setup({})
     lspconfig.lua_ls.setup(opts)
   end,
-  ["gopls"] = function()
-    local opts = vim.tbl_deep_extend("force", server_opts, servers["gopls"] or {})
-    local go = require("config.lsp.go")
+  ['gopls'] = function()
+    local opts = vim.tbl_deep_extend('force', server_opts, servers['gopls'] or {})
+    local go = require('config.lsp.go')
     go.setup(go.customize_opts(opts))
   end,
-  ["rust_analyzer"] = function()
-    local opts = vim.tbl_deep_extend("force", server_opts, servers["rust_analyzer"] or {})
-    local rust = require("config.lsp.rust")
+  ['rust_analyzer'] = function()
+    local opts = vim.tbl_deep_extend('force', server_opts, servers['rust_analyzer'] or {})
+    local rust = require('config.lsp.rust')
     rust.setup(rust.customize_opts(opts))
   end,
-  ["pyright"] = function()
-    local opts = vim.tbl_deep_extend("force", server_opts, servers["pyright"] or {})
-    local python = require("config.lsp.python")
+  ['pyright'] = function()
+    local opts = vim.tbl_deep_extend('force', server_opts, servers['pyright'] or {})
+    local python = require('config.lsp.python')
     python.setup(python.customize_opts(opts))
   end,
-}
+})

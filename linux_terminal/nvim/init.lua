@@ -22,15 +22,14 @@ are first encountering a few different constructs in your nvim config.
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 
-if vim.loop.os_uname().sysname:match("Windows") then
+if vim.loop.os_uname().sysname:match('Windows') then
   local powershell_options = {
-    shell = vim.fn.executable "pwsh" == 1 and "pwsh" or "powershell",
-    shellcmdflag =
-    "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
-    shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
-    shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
-    shellquote = "",
-    shellxquote = "",
+    shell = vim.fn.executable('pwsh') == 1 and 'pwsh' or 'powershell',
+    shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;',
+    shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait',
+    shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode',
+    shellquote = '',
+    shellxquote = '',
   }
 
   for option, value in pairs(powershell_options) do
@@ -53,13 +52,13 @@ vim.o.termguicolors = true
 vim.o.cursorline = true
 
 -- tab options
+vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.softtabstop = 4
 vim.o.shiftwidth = 4
-vim.o.expandtab = true
 
 -- Text Folding (follows lukas-reineke/indent-blankline.nvim behaviour)
-vim.o.foldmethod = "indent"
+vim.o.foldmethod = 'indent'
 vim.o.foldenable = false
 vim.o.foldlevel = 99
 vim.g.markdown_folding = 1
@@ -118,16 +117,16 @@ vim.o.laststatus = 3
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
+  vim.fn.system({
     'git',
     'clone',
     '--filter=blob:none',
     'https://github.com/folke/lazy.nvim.git',
     '--branch=stable', -- latest stable release
     lazypath,
-  }
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -157,7 +156,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -187,10 +186,10 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',          opts = {} },
+  { 'folke/which-key.nvim', opts = {} },
 
   {
-    "mg979/vim-visual-multi",
+    'mg979/vim-visual-multi',
   },
 
   {
@@ -207,19 +206,28 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '[h', require('gitsigns').prev_hunk,
-          { buffer = bufnr, desc = 'Go to Previous Git Hunk' })
-        vim.keymap.set('n', ']h', require('gitsigns').next_hunk, { buffer = bufnr, desc = 'Go to Next Git Hunk' })
-        require("which-key").register({
+        vim.keymap.set(
+          'n',
+          '[h',
+          require('gitsigns').prev_hunk,
+          { buffer = bufnr, desc = 'Go to Previous Git Hunk' }
+        )
+        vim.keymap.set(
+          'n',
+          ']h',
+          require('gitsigns').next_hunk,
+          { buffer = bufnr, desc = 'Go to Next Git Hunk' }
+        )
+        require('which-key').register({
           h = {
-            name = "Hunk & Gitsigns",
-            p = { require('gitsigns').preview_hunk_inline, "Hunk Preview" },
-            s = { require('gitsigns').stage_hunk, "Stage Hunk" },
-            r = { require('gitsigns').reset_hunk, "Reset Hunk" },
-            b = { require('gitsigns').toggle_blame, "Toggle Blame" },
-            d = { require('gitsigns').toggle_deleted, "Toggle Deleted lines" },
-          }
-        }, { prefix = "<leader>" })
+            name = 'Hunk & Gitsigns',
+            p = { require('gitsigns').preview_hunk_inline, 'Hunk Preview' },
+            s = { require('gitsigns').stage_hunk, 'Stage Hunk' },
+            r = { require('gitsigns').reset_hunk, 'Reset Hunk' },
+            b = { require('gitsigns').toggle_blame, 'Toggle Blame' },
+            d = { require('gitsigns').toggle_deleted, 'Toggle Deleted lines' },
+          },
+        }, { prefix = '<leader>' })
       end,
     },
   },
@@ -228,7 +236,7 @@ require('lazy').setup({
     -- add toggleterm
     'akinsho/toggleterm.nvim',
     -- See :help toggleterm
-    version = "*"
+    version = '*',
   },
 
   {
@@ -257,7 +265,7 @@ require('lazy').setup({
     --       refer to the README for telescope-fzf-native for more instructions.
     build = 'make',
     cond = function()
-      return vim.fn.executable 'make' == 1
+      return vim.fn.executable('make') == 1
     end,
   },
 
@@ -270,7 +278,7 @@ require('lazy').setup({
         'nvim-treesitter/nvim-treesitter-context',
         init = function()
           require('treesitter-context').setup()
-        end
+        end,
       },
     },
     build = ':TSUpdate',
@@ -308,7 +316,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
-require('telescope').setup {
+require('telescope').setup({
   defaults = {
     mappings = {
       i = {
@@ -317,35 +325,34 @@ require('telescope').setup {
       },
     },
   },
-}
+})
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
-
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
-require('nvim-treesitter.configs').setup {
+require('nvim-treesitter.configs').setup({
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = {
-    "bash",
-    "c",
-    "css",
-    "html",
-    "go",
-    "javascript",
-    "json",
-    "jsonc",
-    "lua",
-    "markdown",
-    "markdown_inline",
-    "python",
-    "regex",
-    "rust",
-    "sql",
-    "toml",
-    "xml",
-    "yaml",
+    'bash',
+    'c',
+    'css',
+    'html',
+    'go',
+    'javascript',
+    'json',
+    'jsonc',
+    'lua',
+    'markdown',
+    'markdown_inline',
+    'python',
+    'regex',
+    'rust',
+    'sql',
+    'toml',
+    'xml',
+    'yaml',
   },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -406,13 +413,13 @@ require('nvim-treesitter.configs').setup {
       },
     },
   },
-}
+})
 
-require("config.extra_filetypes")
+require('config.extra_filetypes')
 
-vim.diagnostic.config {
-  float = { border = "rounded" },
-}
+vim.diagnostic.config({
+  float = { border = 'rounded' },
+})
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -420,56 +427,56 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
+local cmp = require('cmp')
+local luasnip = require('luasnip')
 require('luasnip.loaders.from_vscode').lazy_load()
-luasnip.config.setup {}
+luasnip.config.setup({})
 
 local lsp_symbols = {
-  Text = "   (Text) ",
-  Method = "   (Method)",
-  Function = "   (Function)",
-  Constructor = "   (Constructor)",
-  Field = " ﴲ  (Field)",
-  Variable = "[] (Variable)",
-  Class = "   (Class)",
-  Interface = " ﰮ  (Interface)",
-  Module = "   (Module)",
-  Property = " 襁 (Property)",
-  Unit = "   (Unit)",
-  Value = "   (Value)",
-  Enum = " 練 (Enum)",
-  Keyword = "   (Keyword)",
-  Snippet = "   (Snippet)",
-  Color = "   (Color)",
-  File = "   (File)",
-  Reference = "   (Reference)",
-  Folder = "   (Folder)",
-  EnumMember = "   (EnumMember)",
-  Constant = " ﲀ  (Constant)",
-  Struct = " ﳤ  (Struct)",
-  Event = "   (Event)",
-  Operator = "   (Operator)",
-  TypeParameter = "   (TypeParameter)",
+  Text = '   (Text) ',
+  Method = '   (Method)',
+  Function = '   (Function)',
+  Constructor = '   (Constructor)',
+  Field = ' ﴲ  (Field)',
+  Variable = '[] (Variable)',
+  Class = '   (Class)',
+  Interface = ' ﰮ  (Interface)',
+  Module = '   (Module)',
+  Property = ' 襁 (Property)',
+  Unit = '   (Unit)',
+  Value = '   (Value)',
+  Enum = ' 練 (Enum)',
+  Keyword = '   (Keyword)',
+  Snippet = '   (Snippet)',
+  Color = '   (Color)',
+  File = '   (File)',
+  Reference = '   (Reference)',
+  Folder = '   (Folder)',
+  EnumMember = '   (EnumMember)',
+  Constant = ' ﲀ  (Constant)',
+  Struct = ' ﳤ  (Struct)',
+  Event = '   (Event)',
+  Operator = '   (Operator)',
+  TypeParameter = '   (TypeParameter)',
 }
 
-cmp.setup {
+cmp.setup({
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
   },
-  mapping = cmp.mapping.preset.insert {
+  mapping = cmp.mapping.preset.insert({
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ["<C-e>"] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm {
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
-    },
+    }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -488,7 +495,7 @@ cmp.setup {
         fallback()
       end
     end, { 'i', 's' }),
-  },
+  }),
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
@@ -503,9 +510,9 @@ cmp.setup {
       return item
     end,
   },
-}
+})
 
-require("config.lsp")
+require('config.lsp')
 
 local which_key = require('which-key')
 --
@@ -514,9 +521,9 @@ local diffview_active = false
 local diffview_toggle = function()
   diffview_active = not diffview_active
   if diffview_active then
-    vim.cmd("silent windo diffthis")
+    vim.cmd('silent windo diffthis')
   else
-    vim.cmd("silent windo diffoff")
+    vim.cmd('silent windo diffoff')
   end
 end
 
@@ -528,27 +535,27 @@ which_key.register({
   ['/'] = { '<Plug>(comment_toggle_linewise_current)', 'Comment toggle current line' },
   ['e'] = { '<cmd>NvimTreeToggle<CR>', 'Open File Explorer' },
   d = {
-    name = "Debugging",
+    name = 'Debugging',
     s = {
       "<cmd>lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
-      "Set breakpoint with log print"
+      'Set breakpoint with log print',
     },
-    t = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", "Toggle breakpoint" },
-    u = { "<cmd>lua require('dapui').toggle()<CR>", "Toggle DapUi" },
-    I = { "<cmd>lua require('dap').step_out()<CR>", "Step out" },
-    i = { "<cmd>lua require('dap').step_into()<CR>", "Step in" },
-    o = { "<cmd>lua require('dap').step_over()<CR>", "Step over" },
-    c = { "<cmd>lua require('dap').continue()<CR>", "Continue" },
-    C = { "<cmd>lua require('dap').terminate()<CR>", "Close session" }
+    t = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", 'Toggle breakpoint' },
+    u = { "<cmd>lua require('dapui').toggle()<CR>", 'Toggle DapUi' },
+    I = { "<cmd>lua require('dap').step_out()<CR>", 'Step out' },
+    i = { "<cmd>lua require('dap').step_into()<CR>", 'Step in' },
+    o = { "<cmd>lua require('dap').step_over()<CR>", 'Step over' },
+    c = { "<cmd>lua require('dap').continue()<CR>", 'Continue' },
+    C = { "<cmd>lua require('dap').terminate()<CR>", 'Close session' },
   },
   t = {
-    name = "Toggle",
+    name = 'Toggle',
     d = { diffview_toggle, 'Toggle Diffview' },
-    w = { ":set wrap!<CR>", 'Toggle word wrap' },
+    w = { ':set wrap!<CR>', 'Toggle word wrap' },
   },
   -- smart telescope file search
   s = {
-    name = "Search",
+    name = 'Search',
     f = { require('telescope.builtin').git_files, 'Git files' },
     F = { require('telescope.builtin').find_files, 'All Files' },
     h = { require('telescope.builtin').help_tags, 'Help' },
@@ -560,30 +567,49 @@ which_key.register({
     b = { require('telescope.builtin').builtin, '[S]earch [B]uiltin options' },
     B = { require('telescope.builtin').buffers, '[S]earch existing [B]uffers' },
     W = { require('telescope.builtin').grep_string, 'Word under cursor' },
-    w = { function()
-      -- You can pass additional configuration to telescope to change theme, layout, etc.
-      require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        winblend = 10,
-        previewer = true,
-      })
-    end, 'Fuzzily search word in buffer' }
+    w = {
+      function()
+        -- You can pass additional configuration to telescope to change theme, layout, etc.
+        require('telescope.builtin').current_buffer_fuzzy_find(
+          require('telescope.themes').get_dropdown({
+            winblend = 10,
+            previewer = true,
+          })
+        )
+      end,
+      'Fuzzily search word in buffer',
+    },
   },
   l = {
-    name = "Lsp and Diagnostic actions",
+    name = 'Lsp and Diagnostic actions',
     e = { vim.diagnostic.open_float, 'Diagnostic message' },
     q = { vim.diagnostic.setloclist, 'Open diagnostics quickfix list' },
-  }
-
-}, { prefix = "<leader>", silent = true, noremap = true })
+  },
+}, { prefix = '<leader>', silent = true, noremap = true })
 
 -- Comment line visual mode
 
-vim.keymap.set('v', '<leader>/', '<Plug>(comment_toggle_linewise_visual)', { desc = 'Comment toggle line (visual)' })
+vim.keymap.set(
+  'v',
+  '<leader>/',
+  '<Plug>(comment_toggle_linewise_visual)',
+  { desc = 'Comment toggle line (visual)' }
+)
 
 -- Window and buffers commands
 
-vim.keymap.set('n', '<S-l>', ':BufferLineCycleNext<CR>', { desc = 'Cycle to next buffer', silent = true, })
-vim.keymap.set('n', '<S-h>', ':BufferLineCyclePrev<CR>', { desc = 'Cycle to previous buffer', silent = true })
+vim.keymap.set(
+  'n',
+  '<S-l>',
+  ':BufferLineCycleNext<CR>',
+  { desc = 'Cycle to next buffer', silent = true }
+)
+vim.keymap.set(
+  'n',
+  '<S-h>',
+  ':BufferLineCyclePrev<CR>',
+  { desc = 'Cycle to previous buffer', silent = true }
+)
 
 vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to right window' })
 vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to lower window' })
@@ -600,10 +626,8 @@ vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', { desc = '', silent 
 -- Auto indent on empty line.
 
 vim.keymap.set('n', 'i', function()
-  return string.match(vim.api.nvim_get_current_line(), '%g') == nil
-      and 'cc' or 'i'
-end, { expr = true, noremap = true }
-)
+  return string.match(vim.api.nvim_get_current_line(), '%g') == nil and 'cc' or 'i'
+end, { expr = true, noremap = true })
 
 -- visual indenting
 
@@ -612,18 +636,18 @@ vim.keymap.set('v', '>', '>gv', { desc = 'Stay in visual mode while indenting', 
 
 -- Move line
 
-vim.keymap.set('n', '<A-j>', ":m .+1<CR>==", { desc = 'Move line down', silent = true })
-vim.keymap.set('n', '<A-k>', ":m .-2<CR>==", { desc = 'Move line up', silent = true })
-vim.keymap.set('i', '<A-j>', "<Esc>:m .+1<CR>==gi", { desc = 'Move line down', silent = true })
-vim.keymap.set('i', '<A-k>', "<Esc>:m .-2<CR>==gi", { desc = 'Move line up', silent = true })
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move line down', silent = true })
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move line up', silent = true })
+vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { desc = 'Move line down', silent = true })
+vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { desc = 'Move line up', silent = true })
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>==gv-gv", { desc = 'Move line down', silent = true })
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>==gv-gv", { desc = 'Move line up', silent = true })
 
 -- Toggle term
 
 vim.keymap.set('n', '<C-t>', ':ToggleTerm<CR>', { desc = 'ToggleTerminal', silent = true })
-vim.keymap.set('t', '<Esc>', "<C-\\><C-n>")
-vim.keymap.set('t', '<C-w>', "<C-\\><C-n><C-w>")
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>')
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
