@@ -145,8 +145,7 @@ function get_github_latest_tag() {
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         https://api.github.com/repos/$1/$2/tags |
-        grep -m 1 name |
-        cut -d '"' -f 4
+        jq -cr '.[1].name'
 }
 
 function get_github_release_artifact_url() {
@@ -161,9 +160,7 @@ function get_github_release_artifact_url() {
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         https://api.github.com/repos/$1/$2/releases/tags/$3 |
-        grep browser_download_url |
-        cut -d '"' -f 4 |
-        grep "$4$"
+        jq -cr ".assets[] |select(.name == \"$4\") | .browser_download_url"
 }
 
 function download_github_release_artifact() {
@@ -173,7 +170,7 @@ function download_github_release_artifact() {
 }
 
 function install_nvim() {
-    local url=$(get_github_release_artifact_url neovim neovim "v0.9.2" "nvim.appimage")
+    local url=$(get_github_release_artifact_url neovim neovim "v0.9.5" "nvim.appimage")
     local file=$(download_github_release_artifact $url)
     if in_docker; then
         mkdir -p /tmp/nvim
@@ -529,7 +526,7 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     __wait "setting up" &
     sudo apt update >/dev/null 2>&1
     sudo apt upgrade -y >/dev/null 2>&1
-    sudo apt install -y file git bash-completion curl wget tree ripgrep fzf zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
+    sudo apt install -y file jq git bash-completion curl wget tree ripgrep fzf zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
     # kill __wait
     kill %1
 fi
