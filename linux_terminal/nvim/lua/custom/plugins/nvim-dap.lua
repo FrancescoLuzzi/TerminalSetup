@@ -3,6 +3,7 @@ return {
   dependencies = {
     'rcarriga/nvim-dap-ui',
     'theHamsta/nvim-dap-virtual-text',
+    'folke/which-key.nvim'
   },
   init = function()
     local dap = require('dap')
@@ -19,6 +20,26 @@ return {
     dap.listeners.before.event_exited['dapui_config'] = function()
       dapui.close()
     end
+
+    require('which-key').register({
+        d = {
+          name = 'Debugging',
+          s = {
+            "<cmd>lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
+            'Set breakpoint with log print',
+          },
+          t = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", 'Toggle breakpoint' },
+          u = { "<cmd>lua require('dapui').toggle()<CR>", 'Toggle DapUi' },
+          I = { "<cmd>lua require('dap').step_out()<CR>", 'Step out' },
+          i = { "<cmd>lua require('dap').step_into()<CR>", 'Step in' },
+          o = { "<cmd>lua require('dap').step_over()<CR>", 'Step over' },
+          c = { "<cmd>lua require('dap').continue()<CR>", 'Continue' },
+          C = { "<cmd>lua require('dap').terminate()<CR>", 'Close session' },
+        }
+      },
+      { prefix = '<leader>', silent = true, noremap = true }
+    )
+
 
     local group = vim.api.nvim_create_augroup('DapUIFirstSetup', { clear = true })
     vim.api.nvim_create_autocmd('ColorScheme', {

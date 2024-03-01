@@ -193,7 +193,7 @@ require('lazy').setup({
   },
 
   {
-    -- Adds git releated signs to the gutter, as well as utilities for managing changes
+    -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     dependencies = { 'folke/which-key.nvim' },
     opts = {
@@ -532,20 +532,6 @@ which_key.register({
   ['x'] = { ':bp<bar>sp<bar>bn<bar>bd<CR>', 'Close Buffer' },
   ['/'] = { '<Plug>(comment_toggle_linewise_current)', 'Comment toggle current line' },
   ['e'] = { '<cmd>NvimTreeToggle<CR>', 'Open File Explorer' },
-  d = {
-    name = 'Debugging',
-    s = {
-      "<cmd>lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
-      'Set breakpoint with log print',
-    },
-    t = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", 'Toggle breakpoint' },
-    u = { "<cmd>lua require('dapui').toggle()<CR>", 'Toggle DapUi' },
-    I = { "<cmd>lua require('dap').step_out()<CR>", 'Step out' },
-    i = { "<cmd>lua require('dap').step_into()<CR>", 'Step in' },
-    o = { "<cmd>lua require('dap').step_over()<CR>", 'Step over' },
-    c = { "<cmd>lua require('dap').continue()<CR>", 'Continue' },
-    C = { "<cmd>lua require('dap').terminate()<CR>", 'Close session' },
-  },
   t = {
     name = 'Toggle',
     d = { diffview_toggle, 'Toggle Diffview' },
@@ -554,16 +540,16 @@ which_key.register({
   -- smart telescope file search
   s = {
     name = 'Search',
+    a = { require('telescope.builtin').builtin, '[S]earch [A]ll builtin options' },
+    b = { require('telescope.builtin').git_branches, 'Git branches' },
+    B = { require('telescope.builtin').buffers, '[S]earch existing [B]uffers' },
+    d = { require('telescope.builtin').diagnostics, 'Diagnostics' },
     f = { require('telescope.builtin').git_files, 'Git files' },
     F = { require('telescope.builtin').find_files, 'All Files' },
-    h = { require('telescope.builtin').help_tags, 'Help' },
     g = { require('telescope.builtin').live_grep, 'Grep word' },
-    d = { require('telescope.builtin').diagnostics, 'Diagnostics' },
-    r = { require('telescope.builtin').lsp_references, 'Lsp References' },
-    b = { require('telescope.builtin').git_branches, 'Git branches' },
+    h = { require('telescope.builtin').help_tags, 'Help' },
     o = { require('telescope.builtin').oldfiles, '[S]earch [O]ld files' },
-    b = { require('telescope.builtin').builtin, '[S]earch [B]uiltin options' },
-    B = { require('telescope.builtin').buffers, '[S]earch existing [B]uffers' },
+    r = { require('telescope.builtin').lsp_references, 'Lsp References' },
     W = { require('telescope.builtin').grep_string, 'Word under cursor' },
     w = {
       function()
@@ -577,11 +563,6 @@ which_key.register({
       end,
       'Fuzzily search word in buffer',
     },
-  },
-  l = {
-    name = 'Lsp and Diagnostic actions',
-    e = { vim.diagnostic.open_float, 'Diagnostic message' },
-    q = { vim.diagnostic.setloclist, 'Open diagnostics quickfix list' },
   },
 }, { prefix = '<leader>', silent = true, noremap = true })
 

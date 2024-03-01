@@ -26,10 +26,12 @@ local on_attach = function(client, bufnr)
 
   require('which-key').register({
     l = {
-      name = 'Lsp actions',
+      name = 'Lsp and Diagnostic actions',
       r = { vim.lsp.buf.rename, 'Rename symbol' },
       a = { vim.lsp.buf.code_action, 'Code Action' },
       l = { vim.lsp.codelens.run, 'CodeLens' },
+      e = { vim.diagnostic.open_float, 'Diagnostic message' },
+      q = { vim.diagnostic.setloclist, 'Open diagnostics quickfix list' },
     },
     w = {
       name = 'Workspace',
