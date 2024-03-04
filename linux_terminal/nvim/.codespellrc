@@ -1,2 +1,2 @@
 [codespell]
-ignore-words-list = "windo"
+ignore-words-list=windo,crate
