@@ -277,7 +277,16 @@ require('lazy').setup({
       {
         'nvim-treesitter/nvim-treesitter-context',
         init = function()
-          require('treesitter-context').setup()
+          require('treesitter-context').setup({
+            max_lines = 3,
+          })
+
+          vim.keymap.set(
+            'n',
+            '<leader>t\\',
+            ':TSContextToggle<CR>',
+            { desc = 'Toggle TS context', silent = true }
+          )
         end,
       },
     },
