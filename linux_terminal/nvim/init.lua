@@ -224,7 +224,7 @@ require('lazy').setup({
             p = { require('gitsigns').preview_hunk_inline, 'Hunk Preview' },
             s = { require('gitsigns').stage_hunk, 'Stage Hunk' },
             r = { require('gitsigns').reset_hunk, 'Reset Hunk' },
-            b = { require('gitsigns').toggle_blame, 'Toggle Blame' },
+            b = { require('gitsigns').toggle_current_line_blame, 'Toggle Blame' },
             d = { require('gitsigns').toggle_deleted, 'Toggle Deleted lines' },
           },
         }, { prefix = '<leader>' })
