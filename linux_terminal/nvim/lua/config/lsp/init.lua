@@ -90,7 +90,8 @@ end
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+capabilities =
+  vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -189,6 +190,14 @@ local servers = {
   docker_compose_language_service = {},
   dockerls = {},
   html = {},
+  htmx = {},
+  tailwindcss = {
+    settings = {
+      tailwindCSS = {
+        emmetCompletions = true,
+      },
+    },
+  },
   -- https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
   emmet_ls = {
     filetypes = {
