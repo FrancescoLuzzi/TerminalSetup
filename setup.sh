@@ -17,13 +17,13 @@ Usage: ./setup.sh [-e vim|nvim] [-w tmux|zellij] [-IU] [-gnopr]
 
 -w [tmux|zellij]     Optional window manager with custom keybindings and packages
 
--g                   Install golang for developement
+-g                   Install golang for development
 
--n                   Install nvm/node/npm for developement (also installed with nvim and vim)
+-n                   Install nvm/node/npm for development (also installed with nvim and vim)
 
--p                   Install python for developement (also installed with nvim)
+-p                   Install python for development (also installed with nvim)
 
--r                   Install rust for developement (also installed with nvim)
+-r                   Install rust for development (also installed with nvim)
 EOF
 
 }
@@ -198,6 +198,7 @@ function install_nvim() {
 function install_tmux() {
     sudo apt install tmux -y
     ln -sf ${_pwd}/linux_terminal/.tmux.conf $HOME/.tmux.conf
+    sudo ln -sf ${_pwd}/linux_terminal/tmux-sessionizer /usr/bin/tmux-sessionizer
     if [ ! -d ~/.tmux/plugins/tpm ]; then
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
         # start a server but don't attach to it
