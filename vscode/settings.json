@@ -84,6 +84,10 @@
 	  {
 		"before": ["[","d"],
 		"commands": ["editor.action.marker.prevInFiles"]
+	  },
+	  {
+		"before": ["<leader>","s","f"],
+		"command": "workbench.action.quickOpen"
 	  }
 	],
 	"vim.insertModeKeyBindingsNonRecursive": [
