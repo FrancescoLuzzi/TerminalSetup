@@ -86,8 +86,8 @@
 		"commands": ["editor.action.marker.prevInFiles"]
 	  },
 	  {
-		"before": ["<leader>","s","f"],
-		"command": "workbench.action.quickOpen"
+		"before": ["<leader>","t","w"],
+		"commands": ["editor.action.toggleWordWrap"]
 	  }
 	],
 	"vim.insertModeKeyBindingsNonRecursive": [
