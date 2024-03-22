@@ -94,6 +94,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'preservim/nerdtree'
+    Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " set color scheme, silent to prevent error if not installed with :PlugInstall
@@ -121,5 +122,5 @@ nmap <leader>t <Esc>:vert ter<CR>
 nmap <leader>T <Esc>:ter<CR>
 
 " open fuzzy finder
-noremap <leader>f <Esc>:FZF<CR>
+noremap <leader>sf <Esc>:FZF<CR>
 noremap <leader>e <Esc>:NERDTreeToggle<CR>
