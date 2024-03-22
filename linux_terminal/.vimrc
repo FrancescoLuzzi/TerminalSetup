@@ -125,4 +125,5 @@ nmap <leader>T <Esc>:ter<CR>
 
 " open fuzzy finder
 noremap <leader>sf <Esc>:FZF<CR>
+noremap <leader>sg <Esc>:Rg<CR>
 noremap <leader>e <Esc>:NERDTreeToggle<CR>
