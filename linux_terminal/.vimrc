@@ -69,6 +69,10 @@ nnoremap <S-H> :bp<CR>
 vnoremap <M-J> :m '>+1<CR>gv=gv
 vnoremap <M-K> :m '<-2<CR>gv=gv
 
+" indent in visual mode
+vnoremap < <gv
+vnoremap > >gv
+
 " PLUGINS
 
 " load vim-plug
