@@ -30,20 +30,10 @@ augroup my_mappings
     autocmd!
     " trim spaces, for all files
     autocmd BufWritePre * :%s/\s\+$//e
-
-    " exclude for server .vimrc
-    " set cursor
-    autocmd VimEnter * silent !echo -ne "\e[2 q"
-    " reset cursor
-    autocmd VimLeave * silent !echo -ne "\e[6 q"
 augroup END
 
 " enable mouse events
 set mouse=a
-
-" In insert mode steady bar (|) else steady block
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
 
 " Netrw
 let g:netrw_banner = 0
