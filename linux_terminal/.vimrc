@@ -25,6 +25,10 @@ set cursorline
 set completeopt=menu,menuone,noselect
 set hidden
 
+" In insert mode steady bar (|) else steady block
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+
 " add event listeners mapping
 augroup my_mappings
     autocmd!
@@ -85,7 +89,11 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf.vim'
     Plug 'preservim/nerdtree'
     Plug 'christoomey/vim-tmux-navigator'
+    Plug 'machakann/vim-highlightedyank'
 call plug#end()
+
+" vim-highlightedyank
+let g:highlightedyank_highlight_duration = 170
 
 " set color scheme, silent to prevent error if not installed with :PlugInstall
 silent! colorscheme gruvbox
