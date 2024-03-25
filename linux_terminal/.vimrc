@@ -94,6 +94,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'preservim/nerdtree'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'machakann/vim-highlightedyank'
+    Plug 'tpope/vim-surround'
 call plug#end()
 
 " vim-highlightedyank
