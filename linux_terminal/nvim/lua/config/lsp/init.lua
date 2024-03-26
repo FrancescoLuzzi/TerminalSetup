@@ -189,7 +189,9 @@ local servers = {
   bashls = {},
   docker_compose_language_service = {},
   dockerls = {},
-  html = {},
+  html = {
+    filetypes = { 'html', 'templ', 'htmldjango' },
+  },
   htmx = {},
   tailwindcss = {
     settings = {
@@ -204,6 +206,7 @@ local servers = {
       'css',
       'eruby',
       'html',
+      'htmldjango',
       'javascript',
       'javascriptreact',
       'less',
