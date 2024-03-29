@@ -41,6 +41,7 @@ return {
       },
       renderer = {
         highlight_modified = 'icon',
+        group_empty = true,
       },
     }
   end,
