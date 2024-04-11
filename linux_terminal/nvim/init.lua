@@ -1,23 +1,3 @@
---[[
-If you don't know anything about Lua, I recommend taking some time to read through
-a guide. One possible example:
-- https://learnxinyminutes.com/docs/lua/
-
-And then you can explore or search through `:help lua-guide`
-
-
-Guide:
-
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you're doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
-
---]]
-
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -38,38 +18,38 @@ if vim.loop.os_uname().sysname:match('Windows') then
 end
 
 -- Set highlight on search
-vim.o.hlsearch = true
+vim.opt.hlsearch = true
 
 -- Make line numbers default
-vim.o.number = true
-vim.o.relativenumber = true
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- custom scrolloff
-vim.o.scrolloff = 8
+vim.opt.scrolloff = 8
 
 -- set termguicolors to enable highlight groups
-vim.o.termguicolors = true
-vim.o.cursorline = true
+vim.opt.termguicolors = true
+vim.opt.cursorline = true
 
 -- tab options
-vim.o.expandtab = true
-vim.o.tabstop = 4
-vim.o.softtabstop = 4
-vim.o.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 
 -- Text Folding (follows lukas-reineke/indent-blankline.nvim behaviour)
-vim.o.foldmethod = 'indent'
-vim.o.foldenable = false
-vim.o.foldlevel = 99
+vim.opt.foldmethod = 'indent'
+vim.opt.foldenable = false
+vim.opt.foldlevel = 99
 vim.g.markdown_folding = 1
 
 -- Enable mouse mode
-vim.o.mouse = 'a'
+vim.opt.mouse = 'a'
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
+vim.opt.clipboard = 'unnamedplus'
 
 -- this works the best but it's slow AF
 -- https://www.reddit.com/r/neovim/comments/16zb9hh/wsl2_lazyvim_and_clipboard/
@@ -83,25 +63,38 @@ if vim.fn.has('wsl') then
 end
 
 -- Enable break indent
-vim.o.breakindent = true
+vim.opt.breakindent = true
 
 -- Save undo history
-vim.o.undofile = true
+vim.opt.undofile = true
 
 -- Case-insensitive searching UNLESS \C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
+vim.opt.signcolumn = 'yes'
 
 -- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeout = true
-vim.o.timeoutlen = 300
+vim.opt.updatetime = 250
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300
+
+-- Configure split opening
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+
+-- Sets how neovim will display certain whitespace characters in the editor.
+--  See `:help 'list'`
+--  and `:help 'listchars'`
+vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+
+-- Preview substitutions live while typing of all occurrences in the buffer
+vim.opt.inccommand = 'split'
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect,noinsert'
+vim.opt.completeopt = 'menuone,noselect,noinsert'
 
 -- See `:help mapleader`
 vim.g.mapleader = ' '
@@ -112,7 +105,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- set single status bar
-vim.o.laststatus = 3
+vim.opt.laststatus = 3
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -301,7 +294,9 @@ require('lazy').setup({
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
+vim.opt.hlsearch = true
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { silent = true })
 
 -- exit insert mode with 'jj'
 vim.keymap.set('i', 'jj', '<Esc>', { silent = true })
@@ -431,6 +426,10 @@ vim.diagnostic.config({
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+--
+-- Quickfix keymaps
+vim.keymap.set('n', '[q', '<cmd>cprev<CR>', { desc = 'Go to previous quickfix item' })
+vim.keymap.set('n', ']q', '<cmd>cnext<CR>', { desc = 'Go to next quickfix item' })
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
