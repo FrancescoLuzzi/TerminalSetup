@@ -198,7 +198,7 @@ function install_nvim() {
 function install_tmux() {
     sudo apt install tmux -y
     ln -sf ${_pwd}/linux_terminal/.tmux.conf $HOME/.tmux.conf
-    sudo ln -sf ${_pwd}/linux_terminal/tmux-sessionizer /usr/bin/tmux-sessionizer
+    sudo ln -sf ${_pwd}/linux_terminal/scripts/tmux-sessionizer /usr/bin/tmux-sessionizer
     if [ ! -d ~/.tmux/plugins/tpm ]; then
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
         # start a server but don't attach to it
