@@ -31,7 +31,7 @@ local on_attach = function(client, bufnr)
       a = { vim.lsp.buf.code_action, 'Code Action' },
       l = { vim.lsp.codelens.run, 'CodeLens' },
       e = { vim.diagnostic.open_float, 'Diagnostic message' },
-      q = { vim.diagnostic.setloclist, 'Open diagnostics quickfix list' },
+      q = { vim.diagnostic.setqflist, 'Open diagnostics quickfix list' },
     },
     w = {
       name = 'Workspace',
