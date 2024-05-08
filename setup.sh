@@ -24,6 +24,8 @@ Usage: ./setup.sh [-e vim|nvim] [-w tmux|zellij] [-IU] [-gnopr]
 -p                   Install python for development (also installed with nvim)
 
 -r                   Install rust for development (also installed with nvim)
+
+-z                   Install zig for development
 EOF
 
 }
@@ -118,6 +120,22 @@ function install_rust() {
     fi
     rm rustup-init.sh
     source "$HOME/.cargo/env"
+}
+
+function install_zig() {
+    zig_version="0.12.0"
+    zig_folder="zig-linux-x86_64-${zig_version}"
+    curl --proto '=https' --tlsv1.2 https://ziglang.org/download/${zig_version}/${zig_folder}.tar.xz -S -O
+    tar xJvf $zig_folder.tar.xz
+    sudo mv -v $zig_folder /usr/local/zig
+    if [ ! -d ~/zig ]; then
+        mkdir ~/zig
+    fi
+    if ! grep -q 'export PATH=$PATH:/usr/local/zig' ~/.bashrc; then
+        echo 'export PATH=$PATH:/usr/local/zig' >>~/.bashrc
+    fi
+
+    rm $zig_folder.tar.xz
 }
 
 function install_python() {
@@ -303,6 +321,10 @@ while getopts ':IUghnpre:w:' OPTION; do
         add_to_set programs "rust"
         ;;
 
+    z)
+        add_to_set programs "zig"
+        ;;
+
     ?)
         echo "Flag \"-${OPTARG}\" not recognized"
         showHelp
@@ -438,6 +460,7 @@ function interactive_install() {
         PS3="Select editor to be installed: "
 
         items=("vim" "nvim" "none" "quit")
+        items_len=${#items[@]}
 
         SCREEN="save"
         while true; do
@@ -447,7 +470,7 @@ function interactive_install() {
                 echo "Editor selection done!"
                 break
                 ;;
-            4)
+            $items_len)
                 echo "Quitting... bye!"
                 exit 0
                 ;;
@@ -461,6 +484,7 @@ function interactive_install() {
         PS3="Select terminal window manager to be installed: "
 
         items=("tmux" "zellij" "none" "quit")
+        items_len=${#items[@]}
 
         while true; do
             custom_select "${items[@]}"
@@ -469,7 +493,7 @@ function interactive_install() {
                 echo "Terminal window manager selection done!"
                 break
                 ;;
-            4)
+            $items_len)
                 echo "Quitting... bye!"
                 exit 0
                 ;;
@@ -481,27 +505,28 @@ function interactive_install() {
 
     PS3="Select programs to be installed: "
 
-    items=("golang" "node" "python" "rust" "done" "quit")
+    items=("node" "python" "rust" "golang" "zig" "done" "quit")
+    items_len=${#items[@]}
     err_str="(since $editor selected)"
     if [ "$editor" = "nvim" ]; then
+        items[0]="$(toggle_text ${items[0]}) $err_str"
         items[1]="$(toggle_text ${items[1]}) $err_str"
         items[2]="$(toggle_text ${items[2]}) $err_str"
-        items[3]="$(toggle_text ${items[3]}) $err_str"
     fi
 
     while true; do
         custom_select "${items[@]}"
         case $REPLY in
-        [2-4]) # node, python, rust
+        [1-3]) # node, python, rust
             if [ "$editor" = "nvim" ]; then
                 continue
             fi
             ;;&
-        5)
+        $((items_len - 1)))
             echo "Selection done!"
             break
             ;;
-        6)
+        $items_len)
             echo "Quitting... bye!"
             exit 0
             ;;
@@ -575,6 +600,9 @@ for program in "${programs[@]}"; do
         install_rust
         ;;
 
+    zig)
+        install_zig
+        ;;
     esac
 
 done
