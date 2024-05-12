@@ -39,22 +39,26 @@ return {
       },
     }, { prefix = '<leader>', silent = true, noremap = true })
 
+    local set_colorscheme = function()
+      -- bg color for stopped line or lines with breakpoints
+      vim.api.nvim_set_hl(0, 'DapBreakpointLinehl', { bg = '#3f3131' })
+      vim.api.nvim_set_hl(0, 'DapLogPointLinehl', { bg = '#313b3f' })
+      vim.api.nvim_set_hl(0, 'DapStoppedLinehl', { bg = '#31353f' })
+
+      -- fg color for dap icons
+      vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg = 0, fg = '#993939' })
+      vim.api.nvim_set_hl(0, 'DapLogPoint', { ctermbg = 0, fg = '#61afef' })
+      vim.api.nvim_set_hl(0, 'DapStopped', { ctermbg = 0, fg = '#98c379' })
+    end
+
+    set_colorscheme()
+
     local group = vim.api.nvim_create_augroup('DapUIFirstSetup', { clear = true })
     vim.api.nvim_create_autocmd('ColorScheme', {
       pattern = '*',
       group = group,
       desc = 'prevent colorscheme clears self-defined DAP icon colors.',
-      callback = function()
-        -- bg color for stopped line or lines with breakpoints
-        vim.api.nvim_set_hl(0, 'DapBreakpointLinehl', { bg = '#3f3131' })
-        vim.api.nvim_set_hl(0, 'DapLogPointLinehl', { bg = '#313b3f' })
-        vim.api.nvim_set_hl(0, 'DapStoppedLinehl', { bg = '#31353f' })
-
-        -- fg color for dap icons
-        vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg = 0, fg = '#993939' })
-        vim.api.nvim_set_hl(0, 'DapLogPoint', { ctermbg = 0, fg = '#61afef' })
-        vim.api.nvim_set_hl(0, 'DapStopped', { ctermbg = 0, fg = '#98c379' })
-      end,
+      callback = set_colorscheme,
     })
 
     vim.fn.sign_define('DapBreakpoint', {
