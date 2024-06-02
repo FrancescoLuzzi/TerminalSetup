@@ -265,7 +265,7 @@ declare -a programs
 
 mkdir -p ~/.config
 
-while getopts ':IUghnpre:w:' OPTION; do
+while getopts ':IUghnprze:w:' OPTION; do
     case $OPTION in
     h)
         showHelp
