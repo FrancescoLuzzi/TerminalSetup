@@ -37,7 +37,6 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 
--- Text Folding (follows lukas-reineke/indent-blankline.nvim behaviour)
 vim.opt.foldmethod = 'indent'
 vim.opt.foldenable = false
 vim.opt.foldlevel = 99
@@ -228,20 +227,6 @@ require('lazy').setup({
     version = '*',
   },
 
-  {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    tag = 'v2.20.8',
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-      show_current_context = true,
-      show_current_context_start = true,
-    },
-  },
-
   -- Fuzzy Finder (files, lsp, etc)
   {
     'nvim-telescope/telescope.nvim',
@@ -352,26 +337,18 @@ require('nvim-treesitter.configs').setup({
     'python',
     'regex',
     'rust',
+    'typescript',
     'sql',
     'toml',
     'xml',
     'yaml',
+    'zig',
   },
 
-  -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-  auto_install = false,
-
+  auto_install = true,
+  sync_install = false,
   highlight = { enable = true },
   indent = { enable = true },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = '<c-space>',
-      node_incremental = '<c-space>',
-      scope_incremental = '<c-s>',
-      node_decremental = '<M-space>',
-    },
-  },
   textobjects = {
     select = {
       enable = true,

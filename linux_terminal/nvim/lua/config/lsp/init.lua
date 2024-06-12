@@ -192,14 +192,29 @@ local servers = {
   html = {
     filetypes = { 'html', 'templ', 'htmldjango' },
   },
-  htmx = {},
+  htmx = {
+    filetypes = { 'html', 'templ', 'htmldjango' },
+  },
   tailwindcss = {
+    init_options = {
+      userLanguages = {
+        rust = 'html',
+      },
+    },
+    filetypes = { 'html', 'templ', 'htmldjango', 'rust', 'typescriptreact', 'javascriptreact' },
     settings = {
       tailwindCSS = {
         emmetCompletions = true,
       },
     },
+    root_dir = require 'lspconfig'.util.root_pattern(
+      'tailwind.config.js',
+      'tailwind.config.ts',
+      'postcss.config.js',
+      'postcss.config.ts'
+    ),
   },
+  zls = {},
   -- https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
   emmet_ls = {
     filetypes = {
@@ -240,6 +255,32 @@ local servers = {
     completion = true,
     validate = true,
     keyOrdering = true,
+  },
+  tsserver = {
+    settings = {
+      javascript = {
+        inlayHints = {
+          includeInlayEnumMemberValueHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayParameterNameHints = 'all', -- 'none' | 'literals' | 'all';
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
+      typescript = {
+        inlayHints = {
+          includeInlayEnumMemberValueHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayParameterNameHints = 'all', -- 'none' | 'literals' | 'all';
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
+    },
   },
 }
 
