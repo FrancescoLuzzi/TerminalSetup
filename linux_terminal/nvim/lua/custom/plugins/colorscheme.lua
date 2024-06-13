@@ -13,6 +13,10 @@ return {
       hl.TelescopeNormal = { fg = c.fg, bg = c.none }
       hl.TelescopePromptBorder = { fg = c.orange, bg = c.none }
       hl.TelescopePromptTitle = { fg = c.orange, bg = c.none }
+      hl.MiniIndentscopeSymbol = {
+        fg = c.comment,
+        nocombine = true
+      }
     end,
   },
   init = function()
