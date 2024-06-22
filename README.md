@@ -1,6 +1,6 @@
 # TerminalSetup
 
-Download [Caskaydia Cove Nerd Font](https://www.nerdfonts.com/font-downloads) (download v2.3.3 for now) -> Install all .ttf files for all users
+Download [Cascadia Code](https://github.com/microsoft/cascadia-code/releases/latest) -> Install all .ttf files for all users
 
 Download and install "Oh My Posh" for [Windows](https://ohmyposh.dev/docs/installation/windows) or for [Linux/wsl](https://ohmyposh.dev/docs/installation/linux)
 
@@ -26,7 +26,7 @@ This script will install and configure the developement enviroment with what you
 
 Notes:
 
-- to add and update tmux packages `tmux new` then `Ctrl+<Space> +I`
+- to add and update tmux packages `tmux new` then `Ctrl+<Space>+I`
 
 ## Windows autosetup: setup.ps1
 
@@ -74,7 +74,7 @@ Download and install [Windows Terminal](https://aka.ms/terminal), then edit the 
             "backgroundImageOpacity": 0.3,
             "colorScheme": "Campbell",
             "font": {
-                "face": "CaskaydiaCove NF"
+                "face": "Cascadia Code NF"
             },
             "opacity": 100,
             "bellStyle": "none"
