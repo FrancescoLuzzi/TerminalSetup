@@ -21,7 +21,7 @@ return {
           background = 'Normal',
         },
       },
-      -- open_mapping = [[<C-t>]],
+      open_mapping = [[<C-t>]],
     }
   end,
 }
