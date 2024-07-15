@@ -162,8 +162,8 @@ function get_github_latest_tag() {
     curl -s -L \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
-        https://api.github.com/repos/$1/$2/tags |
-        jq -cr '.[1].name'
+        https://api.github.com/repos/$1/$2/releases/latest |
+        jq -cr ".tag_name"
 }
 
 function get_github_release_artifact_url() {
@@ -185,6 +185,17 @@ function download_github_release_artifact() {
     local file_name=$(basename $1)
     wget $1 -r -O $file_name
     echo $file_name
+}
+
+function install_just() {
+    local td=$(mktemp -d || mktemp -d -t tmp)
+    local latest_tag=$(get_github_latest_tag casey just)
+    local artifact_file="just-${latest_tag}-x86_64-unknown-linux-musl.tar.gz"
+    local url=$(get_github_release_artifact_url casey just $latest_tag $artifact_file)
+    local file=$(download_github_release_artifact $url)
+    tar -C "$td" -xzf "$artifact_file"
+    sudo install "$td/just" /usr/local/bin
+    rm -r "$artifact_file" "$td"
 }
 
 function install_nvim() {
@@ -233,7 +244,8 @@ function install_tmux() {
 }
 
 function install_zellij() {
-    local url=$(get_github_release_artifact_url zellij-org zellij $(get_github_latest_tag zellij-org zellij) "zellij-x86_64-unknown-linux-musl.tar.gz")
+    local latest_tag=$(get_github_latest_tag zellij-org zellij)
+    local url=$(get_github_release_artifact_url zellij-org zellij $latest_tag "zellij-x86_64-unknown-linux-musl.tar.gz")
     local file=$(download_github_release_artifact $url)
     tar xzvf $file
     sudo install zellij /usr/local/bin
@@ -552,7 +564,8 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     __wait "setting up" &
     sudo apt update >/dev/null 2>&1
     sudo apt upgrade -y >/dev/null 2>&1
-    sudo apt install -y file jq git bash-completion curl wget tree ripgrep fzf just zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
+    sudo apt install -y file jq git bash-completion curl wget tree ripgrep fzf zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
+    install_just
     # kill __wait
     kill %1
 fi

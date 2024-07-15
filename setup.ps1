@@ -175,7 +175,7 @@ if ($neovim) {
   }
   $__job_body = {
     # https://github.com/BurntSushi/ripgrep#installation
-    $packages = @("gnuwin32.make", "Neovim.Neovim", "BurntSushi.ripgrep.MSVC", "fzf","Casey.Just")
+    $packages = @("gnuwin32.make", "Neovim.Neovim", "BurntSushi.ripgrep.MSVC", "fzf", "Casey.Just")
     foreach($package in $packages){
       winget install $package --accept-package-agreements --accept-source-agreements --silent --uninstall-previous
     }
