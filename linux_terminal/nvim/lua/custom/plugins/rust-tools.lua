@@ -9,6 +9,7 @@ return {
       dependencies = { 'nvim-lua/plenary.nvim' },
       init = function()
         require('crates').setup {
+          open_programs = { 'explorer.exe', 'xdg-open', 'open' },
           popup = {
             border = 'rounded',
             autofocus = true,

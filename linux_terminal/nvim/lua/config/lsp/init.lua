@@ -14,7 +14,6 @@ local on_attach = function(client, bufnr)
   --
   -- In this case, we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
-  require('lsp-inlayhints').on_attach(client, bufnr)
 
   local nmap = function(keys, func, desc)
     if desc then
@@ -81,13 +80,17 @@ local on_attach = function(client, bufnr)
     vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr()'
   end
 
-  if caps.inlayHintProvider then
-    local ih = require('lsp-inlayhints')
-    nmap('<leader>th', ih.toggle, 'Toggle Inlay Hints')
-    ih.on_attach(client, bufnr)
+  if vim.lsp.inlay_hint and caps.inlayHintProvider then
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    nmap('<leader>th', function()
+      local enabled_hints = not vim.lsp.inlay_hint.is_enabled()
+      print('Setting inlay_hint to: ' .. tostring(enabled_hints))
+      vim.lsp.inlay_hint.enable(not enabled_hints)
+    end, 'Toggle Inlay Hints')
   end
 end
 
+vim.lsp.inlay_hint.enable(true)
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities =
@@ -102,23 +105,39 @@ capabilities =
 local server_opts = {
   on_attach = on_attach,
   capabilities = capabilities,
+  inlay_hints = {
+    enabled = true,
+  },
   flags = {
     debounce_text_changes = 150,
   },
 }
 
 local servers = {
-  --[[
-   clangd = {settings={}},
-   gopls = {settings={}},
-   tsserver = {settings={}},
-  -- ]]
-
+  -- https://github.com/OmniSharp/omnisharp-roslyn/wiki/Configuration-Options
+  omnisharp = {
+    cmd = { 'omnisharp' },
+    settings = {
+      FormattingOptions = {
+        OrganizeImports = true,
+      },
+      RoslynExtensionsOptions = {
+        EnableAnalyzersSupport = true,
+        EnableImportCompletion = true,
+      },
+      MsBuild = {
+        LoadProjectsOnDemand = false,
+      },
+    },
+  },
   rust_analyzer = {
     settings = {
       ['rust-analyzer'] = {
         checkOnSave = {
           command = 'clippy',
+        },
+        diagnostics = {
+          enable = true,
         },
         lens = {
           enable = true,
@@ -128,6 +147,10 @@ local servers = {
             snippets = 'fill_arguments',
           },
         },
+        inlayHints = {
+          enable = true,
+          showParameterNames = true,
+        },
       },
     },
   },
@@ -136,7 +159,7 @@ local servers = {
       Lua = {
         workspace = { checkThirdParty = false },
         telemetry = { enable = false },
-        hints = { enable = true },
+        hint = { enable = true },
       },
     },
   },

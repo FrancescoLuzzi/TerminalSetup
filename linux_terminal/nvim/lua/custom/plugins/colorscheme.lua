@@ -15,8 +15,9 @@ return {
       hl.TelescopePromptTitle = { fg = c.orange, bg = c.none }
       hl.MiniIndentscopeSymbol = {
         fg = c.comment,
-        nocombine = true
+        nocombine = true,
       }
+      hl.LspInlayHint = { fg = hl.LspInlayHint.fg, bg = c.none }
     end,
   },
   init = function()
