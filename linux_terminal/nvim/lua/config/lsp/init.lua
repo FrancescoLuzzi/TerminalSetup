@@ -83,14 +83,16 @@ local on_attach = function(client, bufnr)
   if vim.lsp.inlay_hint and caps.inlayHintProvider then
     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     nmap('<leader>th', function()
-      local enabled_hints = not vim.lsp.inlay_hint.is_enabled()
-      print('Setting inlay_hint to: ' .. tostring(enabled_hints))
-      vim.lsp.inlay_hint.enable(not enabled_hints)
+      local next_hint_config = not vim.lsp.inlay_hint.is_enabled()
+      print('Setting inlay_hint to: ' .. tostring(next_hint_config))
+      vim.lsp.inlay_hint.enable(next_hint_config)
     end, 'Toggle Inlay Hints')
   end
 end
 
+-- enable inlay_hints globally
 vim.lsp.inlay_hint.enable(true)
+
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities =
@@ -105,9 +107,6 @@ capabilities =
 local server_opts = {
   on_attach = on_attach,
   capabilities = capabilities,
-  inlay_hints = {
-    enabled = true,
-  },
   flags = {
     debounce_text_changes = 150,
   },
