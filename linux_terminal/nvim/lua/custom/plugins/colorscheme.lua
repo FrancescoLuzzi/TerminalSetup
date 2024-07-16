@@ -17,7 +17,6 @@ return {
         fg = c.comment,
         nocombine = true,
       }
-      hl.LspInlayHint = { fg = hl.LspInlayHint.fg, bg = c.none }
     end,
   },
   init = function()
