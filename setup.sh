@@ -123,19 +123,19 @@ function install_rust() {
 }
 
 function install_zig() {
-    zig_version="0.12.0"
-    zig_folder="zig-linux-x86_64-${zig_version}"
-    curl --proto '=https' --tlsv1.2 https://ziglang.org/download/${zig_version}/${zig_folder}.tar.xz -S -O
-    tar xJvf $zig_folder.tar.xz
-    sudo mv -v $zig_folder /usr/local/zig
+    local latest_tag=$(get_github_latest_tag ziglang zig)
+    local tar_ball="zig-linux-x86_64-${latest_tag}"
+    curl --proto '=https' --tlsv1.2 https://ziglang.org/download/${latest_tag}/${tar_ball}.tar.xz -S -O
+    tar xJvf $tar_ball.tar.xz
+    sudo rm -rfv /usr/local/zig
+    sudo mv -v $tar_ball /usr/local/zig
     if [ ! -d ~/zig ]; then
         mkdir ~/zig
     fi
     if ! grep -q 'export PATH=$PATH:/usr/local/zig' ~/.bashrc; then
         echo 'export PATH=$PATH:/usr/local/zig' >>~/.bashrc
     fi
-
-    rm $zig_folder.tar.xz
+    rm $tar_ball.tar.xz
 }
 
 function install_python() {
