@@ -22,22 +22,24 @@ return {
       dapui.close()
     end
 
-    require('which-key').register({
-      d = {
-        name = 'Debugging',
-        s = {
-          "<cmd>lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
-          'Set breakpoint with log print',
-        },
-        t = { "<cmd>lua require('dap').toggle_breakpoint()<CR>", 'Toggle breakpoint' },
-        u = { "<cmd>lua require('dapui').toggle()<CR>", 'Toggle DapUi' },
-        I = { "<cmd>lua require('dap').step_out()<CR>", 'Step out' },
-        i = { "<cmd>lua require('dap').step_into()<CR>", 'Step in' },
-        o = { "<cmd>lua require('dap').step_over()<CR>", 'Step over' },
-        c = { "<cmd>lua require('dap').continue()<CR>", 'Continue' },
-        C = { "<cmd>lua require('dap').terminate()<CR>", 'Close session' },
+    require('which-key').add({
+      { "<leader>d",  group = "Debugging", remap = false },
+      { "<leader>dC", dap.terminate,       desc = "Close session", remap = false },
+      { "<leader>dI", dap.step_out,        desc = "Step out",      remap = false },
+      { "<leader>dc", dap.continue,        desc = "Continue",      remap = false },
+      { "<leader>di", dap.step_into,       desc = "Step in",       remap = false },
+      { "<leader>do", dap.step_over,       desc = "Step over",     remap = false },
+      {
+        "<leader>ds",
+        function()
+          dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
+        end,
+        desc = "Set breakpoint with log print",
+        remap = false
       },
-    }, { prefix = '<leader>', silent = true, noremap = true })
+      { "<leader>dt", dap.toggle_breakpoint, desc = "Toggle breakpoint", remap = false },
+      { "<leader>du", dapui.toggle,          desc = "Toggle DapUi",      remap = false },
+    })
 
     local set_colorscheme = function()
       -- bg color for stopped line or lines with breakpoints

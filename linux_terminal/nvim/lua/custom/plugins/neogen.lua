@@ -6,18 +6,18 @@ return {
     placeholders_hl = 'None',
   },
   init = function()
-    require('which-key').register({
-      n = {
-        name = 'Neogen docs',
-        c = { ":lua require('neogen').generate({ type = 'class' })<CR>", 'Document class' },
-        f = { ":lua require('neogen').generate({ type = 'func' })<CR>", 'Document function' },
-        t = { ":lua require('neogen').generate({ type = 'type' })<CR>", 'Document type' },
-        F = { ":lua require('neogen').generate({ type = 'file' })<CR>", 'Document file' },
-      },
-    }, {
-      prefix = '<leader>',
-      noremap = true,
-      silent = true,
+    local ng = require('neogen')
+    local generate_callback = function(params)
+      return function()
+        ng.generate(params)
+      end
+    end
+    require('which-key').add({
+      { "<leader>n",  group = "Neogen docs",                 remap = false, },
+      { "<leader>nF", generate_callback({ type = 'file' }),  desc = "Document file",     remap = false },
+      { "<leader>nc", generate_callback({ type = 'class' }), desc = "Document class",    remap = false },
+      { "<leader>nf", generate_callback({ type = 'func' }),  desc = "Document function", remap = false },
+      { "<leader>nt", generate_callback({ type = 'type' }),  desc = "Document type",     remap = false },
     })
   end,
 }

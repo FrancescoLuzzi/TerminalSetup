@@ -1,4 +1,5 @@
 -- Style lsp windows
+local ts_builtin = require('telescope.builtin')
 
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = 'rounded',
@@ -23,32 +24,26 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  require('which-key').register({
-    l = {
-      name = 'Lsp and Diagnostic actions',
-      r = { vim.lsp.buf.rename, 'Rename symbol' },
-      a = { vim.lsp.buf.code_action, 'Code Action' },
-      l = { vim.lsp.codelens.run, 'CodeLens' },
-      e = { vim.diagnostic.open_float, 'Diagnostic message' },
-      q = { vim.diagnostic.setqflist, 'Open diagnostics quickfix list' },
+  require('which-key').add({
+    { "<leader>l",  group = "Lsp and Diagnostic actions", remap = false },
+    { "<leader>la", vim.lsp.buf.code_action,              desc = "Code Action",                    remap = false },
+    { "<leader>le", vim.diagnostic.open_float,            desc = "Diagnostic message",             remap = false },
+    { "<leader>ll", vim.lsp.codelens.run,                 desc = "CodeLens",                       remap = false },
+    { "<leader>lq", vim.diagnostic.setqflist,             desc = "Open diagnostics quickfix list", remap = false },
+    { "<leader>lr", vim.lsp.buf.rename,                   desc = "Rename symbol",                  remap = false },
+    { "<leader>w",  group = "Workspace",                  remap = false },
+    { "<leader>wa", vim.lsp.buf.add_workspace_folder,     desc = "Add folder",                     remap = false },
+    {
+      "<leader>wl",
+      function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      end,
+      desc = "List folders",
+      remap = false
     },
-    w = {
-      name = 'Workspace',
-      a = { vim.lsp.buf.add_workspace_folder, 'Add folder' },
-      r = { vim.lsp.buf.remove_workspace_folder, 'Remove folder' },
-      l = {
-        function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end,
-        'List folders',
-      },
-      s = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'All workspaces symbols' },
-      S = { require('telescope.builtin').lsp_document_symbols, 'Current workspace symbols' },
-    },
-  }, {
-    prefix = '<leader>',
-    noremap = true,
-    silent = true,
+    { "<leader>wr", vim.lsp.buf.remove_workspace_folder,      desc = "Remove folder",             remap = false },
+    { "<leader>ws", ts_builtin.lsp_dynamic_workspace_symbols, desc = "All workspaces symbols",    remap = false },
+    { "<leader>wS", ts_builtin.lsp_document_symbols,          desc = "Current workspace symbols", remap = false },
   })
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
@@ -96,7 +91,7 @@ vim.lsp.inlay_hint.enable(true)
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities =
-  vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.

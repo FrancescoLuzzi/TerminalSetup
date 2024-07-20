@@ -5,7 +5,8 @@
 if vim.loop.os_uname().sysname:match('Windows') then
   local powershell_options = {
     shell = vim.fn.executable('pwsh') == 1 and 'pwsh' or 'powershell',
-    shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;',
+    shellcmdflag =
+    '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;',
     shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait',
     shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode',
     shellquote = '',
@@ -148,7 +149,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -178,7 +179,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',   opts = {} },
 
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -206,16 +207,17 @@ require('lazy').setup({
           require('gitsigns').next_hunk,
           { buffer = bufnr, desc = 'Go to Next Git Hunk' }
         )
-        require('which-key').register({
-          h = {
-            name = 'Hunk & Gitsigns',
-            p = { require('gitsigns').preview_hunk_inline, 'Hunk Preview' },
-            s = { require('gitsigns').stage_hunk, 'Stage Hunk' },
-            r = { require('gitsigns').reset_hunk, 'Reset Hunk' },
-            b = { require('gitsigns').toggle_current_line_blame, 'Toggle Blame' },
-            d = { require('gitsigns').toggle_deleted, 'Toggle Deleted lines' },
-          },
-        }, { prefix = '<leader>' })
+        local gs = require('gitsigns')
+        require('which-key').add(
+          {
+            { "<leader>h",  group = "Hunk & Gitsigns" },
+            { "<leader>hp", gs.preview_hunk_inline,       desc = 'Hunk Preview' },
+            { "<leader>hs", gs.stage_hunk,                desc = 'Stage Hunk' },
+            { "<leader>hr", gs.reset_hunk,                desc = 'Reset Hunk' },
+            { "<leader>hb", gs.toggle_current_line_blame, desc = 'Toggle Blame' },
+            { "<leader>hd", gs.toggle_deleted,            desc = 'Toggle Deleted lines' },
+          }
+        )
       end,
     },
   },
@@ -505,46 +507,45 @@ local diffview_toggle = function()
   end
 end
 
-which_key.register({
-  ['\\'] = { ':vsplit<CR>', 'Split window vertically' },
-  ['-'] = { ':split<CR>', 'Split window orizzontally' },
-  ['o'] = { ':only<CR>', 'Close all other windows' },
-  ['x'] = { ':bp<bar>sp<bar>bn<bar>bd<CR>', 'Close Buffer' },
-  ['/'] = { '<Plug>(comment_toggle_linewise_current)', 'Comment toggle current line' },
-  ['e'] = { '<cmd>NvimTreeToggle<CR>', 'Open File Explorer' },
-  t = {
-    name = 'Toggle',
-    d = { diffview_toggle, 'Toggle Diffview' },
-    w = { ':set wrap!<CR>', 'Toggle word wrap' },
+local ts_builtin = require('telescope.builtin')
+
+which_key.add({
+  { "<leader>-",  "<cmd>split<CR>",                          desc = "Split window orizzontally",      remap = false },
+  { "<leader>/",  "<Plug>(comment_toggle_linewise_current)", desc = "Comment toggle current line",    remap = false },
+  { "<leader>\\", "<cmd>vsplit<CR>",                         desc = "Split window vertically",        remap = false },
+  { "<leader>e",  "<cmd>NvimTreeToggle<CR>",                 desc = "Open File Explorer",             remap = false },
+  { "<leader>o",  "<cmd>only<CR>",                           desc = "Close all other windows",        remap = false },
+  { "<leader>s",  group = "Search",                          remap = false },
+  { "<leader>sa", ts_builtin.builtin,                        desc = "[S]earch [A]LL builtin options", remap = false },
+  { "<leader>sb", ts_builtin.git_branches,                   desc = "Git branches",                   remap = false },
+  { "<leader>sB", ts_builtin.buffers,                        desc = "[S]earch existing [B]uffers",    remap = false },
+  { "<leader>sd", ts_builtin.diagnostics,                    desc = "Diagnostics",                    remap = false },
+  { "<leader>sf", ts_builtin.git_files,                      desc = "Git files",                      remap = false },
+  { "<leader>sF", ts_builtin.find_files,                     desc = "All Files",                      remap = false },
+  { "<leader>sg", ts_builtin.live_grep,                      desc = "Grep word",                      remap = false },
+  { "<leader>sh", ts_builtin.help_tags,                      desc = "Help",                           remap = false },
+  { "<leader>so", ts_builtin.oldfiles,                       desc = "[S]earch [O]ld files",           remap = false },
+  { "<leader>sr", ts_builtin.lsp_references,                 desc = "Lsp References",                 remap = false },
+  {
+    "<leader>sw",
+    function()
+      -- You can pass additional configuration to telescope to change theme, layout, etc.
+      ts_builtin.current_buffer_fuzzy_find(
+        require('telescope.themes').get_dropdown({
+          winblend = 10,
+          previewer = true,
+        })
+      )
+    end,
+    desc = "Fuzzily search word in buffer",
+    remap = false
   },
-  -- smart telescope file search
-  s = {
-    name = 'Search',
-    a = { require('telescope.builtin').builtin, '[S]earch [A]ll builtin options' },
-    b = { require('telescope.builtin').git_branches, 'Git branches' },
-    B = { require('telescope.builtin').buffers, '[S]earch existing [B]uffers' },
-    d = { require('telescope.builtin').diagnostics, 'Diagnostics' },
-    f = { require('telescope.builtin').git_files, 'Git files' },
-    F = { require('telescope.builtin').find_files, 'All Files' },
-    g = { require('telescope.builtin').live_grep, 'Grep word' },
-    h = { require('telescope.builtin').help_tags, 'Help' },
-    o = { require('telescope.builtin').oldfiles, '[S]earch [O]ld files' },
-    r = { require('telescope.builtin').lsp_references, 'Lsp References' },
-    W = { require('telescope.builtin').grep_string, 'Word under cursor' },
-    w = {
-      function()
-        -- You can pass additional configuration to telescope to change theme, layout, etc.
-        require('telescope.builtin').current_buffer_fuzzy_find(
-          require('telescope.themes').get_dropdown({
-            winblend = 10,
-            previewer = true,
-          })
-        )
-      end,
-      'Fuzzily search word in buffer',
-    },
-  },
-}, { prefix = '<leader>', silent = true, noremap = true })
+  { "<leader>sW", ts_builtin.grep_string,         desc = "Word under cursor", remap = false },
+  { "<leader>t",  group = "Toggle",               remap = false },
+  { "<leader>td", diffview_toggle,                desc = "Toggle Diffview",   remap = false },
+  { "<leader>tw", ":set wrap!<CR>",               desc = "Toggle word wrap",  remap = false },
+  { "<leader>x",  ":bp<bar>sp<bar>bn<bar>bd<CR>", desc = "Close Buffer",      remap = false },
+})
 
 -- Comment line visual mode
 
