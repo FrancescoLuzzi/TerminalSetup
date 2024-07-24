@@ -28,7 +28,7 @@ return {
     end
 
     -- pass to setup along with your other options
-    require('nvim-tree').setup {
+    require('nvim-tree').setup({
       ---
       on_attach = my_on_attach,
       ---
@@ -43,6 +43,11 @@ return {
         highlight_modified = 'icon',
         group_empty = true,
       },
-    }
+      ui = {
+        confirm = {
+          default_yes = true,
+        },
+      },
+    })
   end,
 }
