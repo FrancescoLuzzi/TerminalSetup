@@ -6,6 +6,92 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   underline = true,
 })
 
+function Once(func)
+  local called = false
+  return function()
+    if not called then
+      called = true
+      func()
+    end
+  end
+end
+
+local setup_keymaps = Once(function()
+  require('which-key').add({
+    { '<leader>l', group = 'Lsp and Diagnostic actions', remap = false },
+    {
+      '<leader>la',
+      vim.lsp.buf.code_action,
+      desc = 'Code Action',
+      remap = false,
+    },
+    {
+      '<leader>le',
+      vim.diagnostic.open_float,
+      desc = 'Diagnostic message',
+      remap = false,
+    },
+    {
+      '<leader>ll',
+      vim.lsp.codelens.run,
+      desc = 'CodeLens',
+      remap = false,
+    },
+    {
+      '<leader>lq',
+      vim.diagnostic.setqflist,
+      desc = 'Open diagnostics quickfix list',
+      remap = false,
+    },
+    {
+      '<leader>lr',
+      vim.lsp.buf.rename,
+      desc = 'Rename symbol',
+      remap = false,
+    },
+    { '<leader>w', group = 'Workspace', remap = false },
+    {
+      '<leader>wa',
+      vim.lsp.buf.add_workspace_folder,
+      desc = 'Add folder',
+      remap = false,
+    },
+    {
+      '<leader>wl',
+      function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      end,
+      desc = 'List folders',
+      remap = false,
+    },
+    {
+      '<leader>wr',
+      vim.lsp.buf.remove_workspace_folder,
+      desc = 'Remove folder',
+      remap = false,
+    },
+    {
+      '<leader>ws',
+      ts_builtin.lsp_dynamic_workspace_symbols,
+      desc = 'All workspaces symbols',
+      remap = false,
+    },
+    {
+      '<leader>wS',
+      ts_builtin.lsp_document_symbols,
+      desc = 'Current workspace symbols',
+      remap = false,
+    },
+    { 'gd', ts_builtin.lsp_definitions, desc = '[G]oto [D]efinition' },
+    { 'gD', vim.lsp.buf.declaration, desc = '[G]oto [D]eclaration' },
+    { 'gr', ts_builtin.lsp_references, desc = '[G]oto [R]eferences' },
+    { 'gI', ts_builtin.lsp_implementations, desc = '[G]oto [I]mplementation' },
+    { 'gt', ts_builtin.lsp_type_definitions, desc = '[G]oto [T]ype Definition' },
+    { 'K', vim.lsp.buf.hover, desc = 'Hover Documentation' },
+    { 'J', vim.lsp.buf.signature_help, desc = 'Signature Documentation' },
+  })
+end)
+
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(client, bufnr)
@@ -24,37 +110,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  require('which-key').add({
-    { "<leader>l",  group = "Lsp and Diagnostic actions", remap = false },
-    { "<leader>la", vim.lsp.buf.code_action,              desc = "Code Action",                    remap = false },
-    { "<leader>le", vim.diagnostic.open_float,            desc = "Diagnostic message",             remap = false },
-    { "<leader>ll", vim.lsp.codelens.run,                 desc = "CodeLens",                       remap = false },
-    { "<leader>lq", vim.diagnostic.setqflist,             desc = "Open diagnostics quickfix list", remap = false },
-    { "<leader>lr", vim.lsp.buf.rename,                   desc = "Rename symbol",                  remap = false },
-    { "<leader>w",  group = "Workspace",                  remap = false },
-    { "<leader>wa", vim.lsp.buf.add_workspace_folder,     desc = "Add folder",                     remap = false },
-    {
-      "<leader>wl",
-      function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-      end,
-      desc = "List folders",
-      remap = false
-    },
-    { "<leader>wr", vim.lsp.buf.remove_workspace_folder,      desc = "Remove folder",             remap = false },
-    { "<leader>ws", ts_builtin.lsp_dynamic_workspace_symbols, desc = "All workspaces symbols",    remap = false },
-    { "<leader>wS", ts_builtin.lsp_document_symbols,          desc = "Current workspace symbols", remap = false },
-  })
-
-  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-  nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-  nmap('gt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
-
-  -- See `:help K` for why this keymap
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('J', vim.lsp.buf.signature_help, 'Signature Documentation')
+  setup_keymaps()
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
@@ -91,7 +147,7 @@ vim.lsp.inlay_hint.enable(true)
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities =
-    vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+  vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.

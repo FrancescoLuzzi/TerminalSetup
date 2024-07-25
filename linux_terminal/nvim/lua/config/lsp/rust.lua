@@ -1,29 +1,48 @@
 local M = {}
 
 local function configure_keymappings()
-  require('which-key').register({
-    c = {
-      name = 'RustCoding',
-      c = { '<cmd>RustOpenCargo<Cr>', 'Open Cargo' },
-      D = { "<cmd>lua require'crates'.show_dependencies_popup()<cr>", '[crates] show dependencies' },
-      d = { '<cmd>RustDebuggables<Cr>', 'Debuggables' },
-      f = { "<cmd>lua require'crates'.show_features_popup()<cr>", '[crates] show features' },
-      i = { "<cmd>lua require'crates'.show_crate_popup()<cr>", '[crates] show info' },
-      m = { '<cmd>RustExpandMacro<Cr>', 'Expand Macro' },
-      o = { '<cmd>RustOpenExternalDocs<Cr>', 'Open External Docs' },
-      P = { "<cmd>lua require'crates'.show_popup()<cr>", '[crates] show popup' },
-      p = { '<cmd>RustParentModule<Cr>', 'Parent Module' },
-      R = {
-        "<cmd>lua require('rust-tools/workspace_refresh')._reload_workspace_from_cargo_toml()<Cr>",
-        'Reload Workspace',
-      },
-      r = { '<cmd>RustRunnables<Cr>', 'Runnables' },
-      t = { '<cmd>lua _CARGO_TEST()<cr>', 'Cargo Test' },
-      V = { "<cmd>lua require'crates'.show_versions_popup()<cr>", '[crates] show versions popup' },
-      v = { '<cmd>RustViewCrateGraph<Cr>', 'View Crate Graph' },
-      y = { "<cmd>lua require'crates'.open_repository()<cr>", '[crates] open repository' },
+  require('which-key').add({
+    { '<leader>c', group = 'RustCoding' },
+    {
+      '<leader>cD',
+      "<cmd>lua require'crates'.show_dependencies_popup()<cr>",
+      desc = '[crates] show dependencies',
     },
-  }, { prefix = '<leader>' })
+    { '<leader>cP', "<cmd>lua require'crates'.show_popup()<cr>", desc = '[crates] show popup' },
+    {
+      '<leader>cR',
+      "<cmd>lua require('rust-tools/workspace_refresh')._reload_workspace_from_cargo_toml()<Cr>",
+      desc = 'Reload Workspace',
+    },
+    {
+      '<leader>cV',
+      "<cmd>lua require'crates'.show_versions_popup()<cr>",
+      desc = '[crates] show versions popup',
+    },
+    { '<leader>cc', '<cmd>RustOpenCargo<Cr>', desc = 'Open Cargo' },
+    { '<leader>cd', '<cmd>RustDebuggables<Cr>', desc = 'Debuggables' },
+    {
+      '<leader>cf',
+      "<cmd>lua require'crates'.show_features_popup()<cr>",
+      desc = '[crates] show features',
+    },
+    {
+      '<leader>ci',
+      "<cmd>lua require'crates'.show_crate_popup()<cr>",
+      desc = '[crates] show info',
+    },
+    { '<leader>cm', '<cmd>RustExpandMacro<Cr>', desc = 'Expand Macro' },
+    { '<leader>co', '<cmd>RustOpenExternalDocs<Cr>', desc = 'Open External Docs' },
+    { '<leader>cp', '<cmd>RustParentModule<Cr>', desc = 'Parent Module' },
+    { '<leader>cr', '<cmd>RustRunnables<Cr>', desc = 'Runnables' },
+    { '<leader>ct', '<cmd>lua _CARGO_TEST()<cr>', desc = 'Cargo Test' },
+    { '<leader>cv', '<cmd>RustViewCrateGraph<Cr>', desc = 'View Crate Graph' },
+    {
+      '<leader>cy',
+      "<cmd>lua require'crates'.open_repository()<cr>",
+      desc = '[crates] open repository',
+    },
+  })
 end
 
 M.customize_opts = function(server_opts)
