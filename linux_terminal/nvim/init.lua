@@ -608,7 +608,7 @@ vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>')
 
 -- handle git merge conflicts
 
-vim.keymap.set('n', '<leader>m', ':Gvdiffsplit!', { desc = 'Start 3way merge' })
+vim.keymap.set('n', '<leader>m', ':Gvdiffsplit!<CR>', { desc = 'Start 3way merge' })
 vim.keymap.set('n', '<leader>1', ':diffget LOCAL<CR>', { desc = 'diffget LOCAL change' })
 vim.keymap.set('n', '<leader>2', ':diffget BASE<CR>', { desc = 'diffget BASE change' })
 vim.keymap.set('n', '<leader>3', ':diffget REMOTE<CR>', { desc = 'diffget REMOTE change' })
