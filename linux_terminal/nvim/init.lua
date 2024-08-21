@@ -544,7 +544,7 @@ which_key.add({
   { "<leader>t",  group = "Toggle",               remap = false },
   { "<leader>td", diffview_toggle,                desc = "Toggle Diffview",   remap = false },
   { "<leader>tw", ":set wrap!<CR>",               desc = "Toggle word wrap",  remap = false },
-  { "<leader>x",  ":bp<bar>sp<bar>bn<bar>bd<CR>", desc = "Close Buffer",      remap = false },
+  { "<leader>x",  ":bn<bar>sp<bar>bp<bar>bd<CR>", desc = "Close Buffer",      remap = false },
 })
 
 -- Comment line visual mode
