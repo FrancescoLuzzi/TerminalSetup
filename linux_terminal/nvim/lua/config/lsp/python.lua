@@ -18,16 +18,13 @@ local function configure_keymappings(bufnr)
   -- attach my LSP configs keybindings
   local wk = require('which-key')
   local default_options = { silent = true }
-  wk.register({
-    c = {
-      name = 'PythonCoding',
-      p = {
-        name = 'Pip commands',
-        i = { pip_install, 'Install package' },
-        r = { pip_freeze, 'Generate requirements.txt' },
-      },
-    },
-  }, { prefix = '<leader>', mode = 'n', default_options })
+  wk.add({
+    { "<leader>c", group = "PythonCoding" },
+    { "<leader>cp", group = "Pip commands" },
+    { "<leader>cpi", pip_install, desc = "Install package" },
+    { "<leader>cpr", pip_freeze, desc = "Generate requirements.txt" },
+  }
+
 end
 
 M.customize_opts = function(server_opts)
