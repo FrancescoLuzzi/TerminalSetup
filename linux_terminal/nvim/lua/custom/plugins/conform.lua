@@ -6,10 +6,10 @@ return {
       -- Conform will run multiple formatters sequentially
       go = { 'goimports', 'gofmt' },
       -- Use a sub-list to run only the first available formatter
-      javascript = { { 'prettierd', 'prettier' } },
-      typescript = { { 'prettierd', 'prettier' } },
-      javascriptreact = { { 'prettierd', 'prettier' } },
-      typescriptreact = { { 'prettierd', 'prettier' } },
+      javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
       -- You can use a function here to determine the formatters dynamically
       -- rust = { 'rust-analizer' },
       -- for python just use ruff-lsp, the new GOAT
@@ -24,7 +24,7 @@ return {
       -- ['*'] = { 'codespell' },
       -- Use the "_" filetype to run formatters on filetypes that don't
       -- have other formatters configured.
-      ['_'] = { 'trim_whitespace' },
+      ['_'] = { 'trim_whitespace', 'trim_newlines' },
     },
     -- If this is set, Conform will run the formatter on save.
     -- It will pass the table to conform.format().
@@ -35,7 +35,7 @@ return {
       if vim.g.disable_autoformat then
         return
       end
-      return { timeout_ms = 500, lsp_fallback = true }
+      return { timeout_ms = 500, lsp_fallback = 'last' }
     end,
   },
   init = function()
