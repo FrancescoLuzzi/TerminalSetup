@@ -23,8 +23,7 @@ local function configure_keymappings(bufnr)
     { "<leader>cp", group = "Pip commands" },
     { "<leader>cpi", pip_install, desc = "Install package" },
     { "<leader>cpr", pip_freeze, desc = "Generate requirements.txt" },
-  }
-
+  })
 end
 
 M.customize_opts = function(server_opts)
