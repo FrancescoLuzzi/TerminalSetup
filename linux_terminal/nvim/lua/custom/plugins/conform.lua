@@ -35,7 +35,7 @@ return {
       if vim.g.disable_autoformat then
         return
       end
-      return { timeout_ms = 500, lsp_fallback = 'last' }
+      return { timeout_ms = 500, lsp_fallback = true }
     end,
   },
   init = function()
