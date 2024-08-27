@@ -269,12 +269,7 @@ local servers = {
     filetypes = { 'html', 'templ', 'htmldjango' },
   },
   tailwindcss = {
-    init_options = {
-      userLanguages = {
-        rust = 'html',
-      },
-    },
-    filetypes = { 'html', 'templ', 'htmldjango', 'rust', 'typescriptreact', 'javascriptreact' },
+    filetypes = { 'html', 'templ', 'htmldjango', 'typescriptreact', 'javascriptreact' },
     settings = {
       tailwindCSS = {
         emmetCompletions = true,
