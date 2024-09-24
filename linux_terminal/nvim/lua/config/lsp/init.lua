@@ -324,7 +324,7 @@ local servers = {
     validate = true,
     keyOrdering = true,
   },
-  tsserver = {
+  ts_ls = {
     settings = {
       javascript = {
         inlayHints = {
