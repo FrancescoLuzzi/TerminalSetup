@@ -74,6 +74,11 @@
 		"when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
 	  },
 	  {
+		"before":["<leader>","d","t"],
+		"commands": ["editor.debug.action.toggleBreakpoint"],
+		"when": "debuggersAvailable && disassemblyViewFocus || debuggersAvailable && editorTextFocus"
+	  },
+	  {
 		"before": ["<leader>", "e"],
 		"commands": ["workbench.action.toggleSidebarVisibility"]
 	  },
