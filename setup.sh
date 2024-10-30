@@ -85,9 +85,9 @@ function install_golang() {
 
     sudo rm -rf /usr/local/go
     sudo tar -C /usr/local -xzf $go_out
-
-    if ! grep -q 'export PATH=$PATH:/usr/local/go/bin' ~/.bashrc; then
-        echo 'export PATH=$PATH:/usr/local/go/bin' >>~/.bashrc
+    
+    if ! grep -q 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' ~/.bashrc; then
+        echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> ~/.bashrc
     fi
 
     if [ ! -d ~/go ]; then
