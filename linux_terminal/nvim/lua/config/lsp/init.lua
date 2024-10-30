@@ -49,7 +49,11 @@ local setup_keymaps = Once(function()
       desc = 'Rename symbol',
       remap = false,
     },
-    { '<leader>w', group = 'Workspace', remap = false },
+    {
+      '<leader>w',
+      group = 'Workspace',
+      remap = false
+    },
     {
       '<leader>wa',
       vim.lsp.buf.add_workspace_folder,
@@ -82,13 +86,13 @@ local setup_keymaps = Once(function()
       desc = 'Current workspace symbols',
       remap = false,
     },
-    { 'gd', ts_builtin.lsp_definitions, desc = '[G]oto [D]efinition' },
-    { 'gD', vim.lsp.buf.declaration, desc = '[G]oto [D]eclaration' },
-    { 'gr', ts_builtin.lsp_references, desc = '[G]oto [R]eferences' },
-    { 'gI', ts_builtin.lsp_implementations, desc = '[G]oto [I]mplementation' },
-    { 'gt', ts_builtin.lsp_type_definitions, desc = '[G]oto [T]ype Definition' },
-    { 'K', vim.lsp.buf.hover, desc = 'Hover Documentation' },
-    { 'J', vim.lsp.buf.signature_help, desc = 'Signature Documentation' },
+    { 'gd',        ts_builtin.lsp_definitions,           desc = '[G]oto [D]efinition' },
+    { 'gD',        vim.lsp.buf.declaration,              desc = '[G]oto [D]eclaration' },
+    { 'gr',        ts_builtin.lsp_references,            desc = '[G]oto [R]eferences' },
+    { 'gI',        ts_builtin.lsp_implementations,       desc = '[G]oto [I]mplementation' },
+    { 'gt',        ts_builtin.lsp_type_definitions,      desc = '[G]oto [T]ype Definition' },
+    { 'K',         vim.lsp.buf.hover,                    desc = 'Hover Documentation' },
+    { 'J',         vim.lsp.buf.signature_help,           desc = 'Signature Documentation' },
   })
 end)
 
@@ -147,7 +151,7 @@ vim.lsp.inlay_hint.enable(true)
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities =
-  vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -296,6 +300,7 @@ local servers = {
       'sass',
       'scss',
       'svelte',
+      'templ',
       'pug',
       'typescriptreact',
       'vue',
@@ -350,6 +355,7 @@ local servers = {
       },
     },
   },
+  templ = {},
 }
 
 -- Ensure the servers above are installed
