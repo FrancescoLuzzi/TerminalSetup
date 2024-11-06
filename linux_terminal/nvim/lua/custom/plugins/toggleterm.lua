@@ -3,7 +3,7 @@ return {
   -- See :help toggleterm
   version = '*',
   init = function()
-    require('toggleterm').setup {
+    require('toggleterm').setup({
       direction = 'float',
       float_opts = {
         size = 20,
@@ -21,7 +21,7 @@ return {
           background = 'Normal',
         },
       },
-      open_mapping = [[<C-t>]],
-    }
+      open_mapping = '<C-t>',
+    })
   end,
 }
