@@ -19,11 +19,11 @@ Usage: ./setup.sh [-e vim|nvim] [-w tmux|zellij] [-IU] [-gnopr]
 
 -g                   Install golang for development
 
--n                   Install nvm/node/npm for development (also installed with nvim and vim)
+-n                   Install nvm/node/npm for development
 
--p                   Install python for development (also installed with nvim)
+-p                   Install python for development
 
--r                   Install rust for development (also installed with nvim)
+-r                   Install rust for development
 
 -z                   Install zig for development
 EOF
@@ -214,9 +214,6 @@ function install_nvim() {
         chmod u+x ./$file
         sudo mv ./$file /usr/local/bin/nvim
     fi
-    if ! grep -q 'alias vi=nvim' ~/.bashrc; then
-        echo 'alias vi=nvim' >>~/.bashrc
-    fi
     # backup old nvim config
     if file ~/.config/nvim | grep -q 'directory'; then
         mv ~/.config/nvim ~/.config/nvim_bck
@@ -268,7 +265,7 @@ unset editor
 editor=""
 
 unset window_manager
-window_manager=""
+terminal_multiplexer=""
 
 unset programs
 interactive=false
@@ -297,9 +294,6 @@ while getopts ':IUghnprze:w:' OPTION; do
             editor=$OPTARG
         elif [ "$OPTARG" = "nvim" ]; then
             editor=$OPTARG
-            add_to_set programs "rust"
-            add_to_set programs "python"
-            add_to_set programs "node"
         else
             echo "unsupported value for -e: $OPTARG"
             showHelp
@@ -309,7 +303,7 @@ while getopts ':IUghnprze:w:' OPTION; do
 
     w)
         if [[ "$OPTARG" =~ (^tmux$|^zellij$) ]]; then
-            window_manager=$OPTARG
+            terminal_multiplexer=$OPTARG
         else
             echo "unsupported value for -w: $OPTARG"
             showHelp
@@ -478,13 +472,13 @@ function interactive_install() {
         while true; do
             custom_select "${items[@]}"
             case $REPLY in
-            [1-3])
-                echo "Editor selection done!"
-                break
-                ;;
             $items_len)
                 echo "Quitting... bye!"
                 exit 0
+                ;;
+            *)
+                echo "Editor selection done!"
+                break
                 ;;
             esac
         done
@@ -492,8 +486,8 @@ function interactive_install() {
         editor=$item
     fi
 
-    if [ -z "${window_manager}" ]; then
-        PS3="Select terminal window manager to be installed: "
+    if [ -z "${terminal_multiplexer}" ]; then
+        PS3="Select terminal multiplexer to be installed: "
 
         items=("tmux" "zellij" "none" "quit")
         items_len=${#items[@]}
@@ -501,39 +495,28 @@ function interactive_install() {
         while true; do
             custom_select "${items[@]}"
             case $REPLY in
-            [1-3])
-                echo "Terminal window manager selection done!"
-                break
-                ;;
             $items_len)
                 echo "Quitting... bye!"
                 exit 0
                 ;;
+            *)
+                echo "Terminal multiplexer selection done!"
+                break
+                ;;
             esac
         done
 
-        window_manager=$item
+        terminal_multiplexer=$item
     fi
 
     PS3="Select programs to be installed: "
 
     items=("node" "python" "rust" "golang" "zig" "done" "quit")
     items_len=${#items[@]}
-    err_str="(since $editor selected)"
-    if [ "$editor" = "nvim" ]; then
-        items[0]="$(toggle_text ${items[0]}) $err_str"
-        items[1]="$(toggle_text ${items[1]}) $err_str"
-        items[2]="$(toggle_text ${items[2]}) $err_str"
-    fi
 
     while true; do
         custom_select "${items[@]}"
         case $REPLY in
-        [1-3]) # node, python, rust
-            if [ "$editor" = "nvim" ]; then
-                continue
-            fi
-            ;;&
         $((items_len - 1)))
             echo "Selection done!"
             break
@@ -626,9 +609,9 @@ elif [ "$editor" = "nvim" ]; then
     install_nvim
 fi
 
-if [ "$window_manager" = "tmux" ]; then
+if [ "$terminal_multiplexer" = "tmux" ]; then
     install_tmux
-elif [ "$window_manager" = "zellij" ]; then
+elif [ "$terminal_multiplexer" = "zellij" ]; then
     install_zellij
 fi
 
