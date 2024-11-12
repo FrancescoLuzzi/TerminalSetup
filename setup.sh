@@ -210,7 +210,9 @@ function install_nvim() {
         sudo ln -sf /tmp/nvim/squashfs-root/AppRun /usr/local/bin/nvim
         cd -
     else
-        sudo apt install fuse -y
+        if ! sudo apt list | grep -q "fuse3"; then
+            sudo apt install fuse3 -y
+        fi
         chmod u+x ./$file
         sudo mv ./$file /usr/local/bin/nvim
     fi
