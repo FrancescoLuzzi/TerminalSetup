@@ -1,0 +1,29 @@
+# AUTO CHANGE MARKER: LIGHT/DARK
+# import = ["~/.config/alacritty/themes/gruvbox_material_hard_dark.toml"]
+
+[font]
+size = 12
+normal = { family = "CascadiaCodeNF", style = "Regular" }
+
+[window]
+decorations = "None"
+dynamic_padding = true
+padding = { x = 3, y = 3 }
+opacity = 0.8
+startup_mode = "Maximized"
+dynamic_title = false
+
+[selection]
+save_to_clipboard = true
+
+[keyboard]
+bindings = [
+  { key = "Left", mods = "Control", chars = "\u001bb" },         # Skip word left
+  { key = "Right", mods = "Control", chars = "\u001bf" },        # Skip word right
+  { key = "Back", mods = "Control", chars = "\u001b\u007f" },    # Delete word
+  { key = "Escape", mods = "Control", action = "ToggleViMode" },
+  { key = "i", mode = "Vi", action = "ToggleViMode" },
+]
+
+[env]
+ENABLE_TMUX_STARTUP="true"
