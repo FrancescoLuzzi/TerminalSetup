@@ -34,16 +34,6 @@
     "command": "workbench.action.togglePanel"
   },
   {
-    "key": "shift+L",
-    "command": "workbench.action.nextEditorInGroup",
-    "when": "editorTextFocus && inputFocus && vim.mode == 'Normal' && notebookEditorCursorAtBoundary != 'none' && notebookEditorCursorAtBoundary != 'top'"
-  },
-  {
-    "key": "shift+H",
-    "command": "workbench.action.previousEditorInGroup",
-    "when": "editorTextFocus && inputFocus && vim.mode == 'Normal' && notebookEditorCursorAtBoundary != 'none' && notebookEditorCursorAtBoundary != 'top'"
-  },
-  {
     "key": "ctrl+n",
     "command": "editor.action.addSelectionToNextFindMatch",
     "when": "editorTextFocus && vim.active && vim.use<C-n> && !inDebugRepl && ( vim.mode == 'Normal' || vim.mode == 'Visual')"
@@ -69,4 +59,3 @@
     "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
   }
 ]
-  

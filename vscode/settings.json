@@ -1,104 +1,115 @@
 {
-	"editor.fontFamily": "'Cascadia Code', 'Segoe UI Emoji', 'Noto Color Emoji'",
-	"editor.fontSize": 13,
-	"terminal.integrated.cursorBlinking": true,
-	"terminal.integrated.fontSize": 13,
-	"editor.fontLigatures": true,
-	"editor.stickyScroll.enabled": true,
-	"files.trimTrailingWhitespace": true,
-	"workbench.colorCustomizations": {
-		"editor.lineHighlightBackground": "#292e42"
-	},
-	// Vim extension configuration //
-	"vim.leader": " ",
-	"vim.useSystemClipboard": true,
-	"vim.handleKeys": {
-	  "<C-y>": false
-	},
-	"vim.visualModeKeyBindingsNonRecursive": [
-	  {
-		"before": ["<leader>", "/"],
-		"commands": ["editor.action.commentLine"],
-		"when": "editorTextFocus && !editorReadonly"
-	  },
-	  {
-		"before": [">"],
-		"commands": ["editor.action.indentLines"]
-	  },
-	  {
-		"before": ["<"],
-		"commands": ["editor.action.outdentLines"]
-	  }
-	],
-	"vim.normalModeKeyBindingsNonRecursive": [
-	  {
-		"before": ["<leader>", "/"],
-		"commands": ["editor.action.commentLine"],
-		"when": "editorTextFocus && !editorReadonly"
-	  },
-	  {
-		"before": ["<leader>", "-"],
-		"commands": [":split", "<esc>"]
-	  },
-	  {
-		"before": ["<leader>", "\\"],
-		"commands": [":vsplit", "<esc>"]
-	  },
-	  {
-		"before": ["<leader>","x"],
-		"commands":["workbench.action.closeActiveEditor"]
-	  },
-	  {
-		"before": ["K"],
-		"commands": ["editor.action.showDefinitionPreviewHover"]
-	  },
-	  {
-		"before": ["<leader>", "o"],
-		"commands": ["workbench.action.closeEditorsInOtherGroups","workbench.action.closeOtherEditors"]
-	  },
-	  {
-		"before": ["<leader>", "s", "f"],
-		"commands": ["workbench.action.quickOpen"]
-	  },
-	  {
-		"before": ["<leader>", "s", "g"],
-		"commands": ["workbench.action.findInFiles"]
-	  },
-	  {
-	    "before": ["<leader>","l","a"],
-		"commands": ["editor.action.sourceAction"]
-	  },
-	  {
-		"before":["<leader>","l","r"],
-		"commands": ["editor.action.rename"],
-		"when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
-	  },
-	  {
-		"before":["<leader>","d","t"],
-		"commands": ["editor.debug.action.toggleBreakpoint"],
-		"when": "debuggersAvailable && disassemblyViewFocus || debuggersAvailable && editorTextFocus"
-	  },
-	  {
-		"before": ["<leader>", "e"],
-		"commands": ["workbench.action.toggleSidebarVisibility"]
-	  },
-	  {
-		"before": ["]","d"],
-		"commands": ["editor.action.marker.nextInFiles"]
-	  },
-	  {
-		"before": ["[","d"],
-		"commands": ["editor.action.marker.prevInFiles"]
-	  },
-	  {
-		"before": ["<leader>","t","w"],
-		"commands": ["editor.action.toggleWordWrap"]
-	  }
-	],
-	"vim.insertModeKeyBindingsNonRecursive": [
-	  {
-		"before": ["j","j"],
-		"after": ["<Esc>"]
-	  }
-	]
-  }
+  "editor.fontFamily": "'Cascadia Code', 'Segoe UI Emoji', 'Noto Color Emoji'",
+  "editor.fontSize": 13,
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.fontSize": 13,
+  "editor.fontLigatures": true,
+  "editor.stickyScroll.enabled": true,
+  "files.trimTrailingWhitespace": true,
+  "workbench.colorCustomizations": {
+    "editor.lineHighlightBackground": "#292e42"
+  },
+  // Vim extension configuration //
+  "vim.leader": " ",
+  "vim.useSystemClipboard": true,
+  "vim.handleKeys": {
+    "<C-y>": false
+  },
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "/"],
+      "commands": ["editor.action.commentLine"],
+      "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+      "before": [">"],
+      "commands": ["editor.action.indentLines"]
+    },
+    {
+      "before": ["<"],
+      "commands": ["editor.action.outdentLines"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["shift+l"],
+      "commands": ["workbench.action.nextEditorInGroup"]
+    },
+    {
+      "before": ["shift+h"],
+      "commands": ["workbench.action.previousEditorInGroup"]
+    },
+    {
+      "before": ["<leader>", "/"],
+      "commands": ["editor.action.commentLine"],
+      "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+      "before": ["<leader>", "-"],
+      "commands": [":split", "<esc>"]
+    },
+    {
+      "before": ["<leader>", "\\"],
+      "commands": [":vsplit", "<esc>"]
+    },
+    {
+      "before": ["<leader>", "x"],
+      "commands": ["workbench.action.closeActiveEditor"]
+    },
+    {
+      "before": ["K"],
+      "commands": ["editor.action.showDefinitionPreviewHover"]
+    },
+    {
+      "before": ["<leader>", "o"],
+      "commands": [
+        "workbench.action.closeEditorsInOtherGroups",
+        "workbench.action.closeOtherEditors"
+      ]
+    },
+    {
+      "before": ["<leader>", "s", "f"],
+      "commands": ["workbench.action.quickOpen"]
+    },
+    {
+      "before": ["<leader>", "s", "g"],
+      "commands": ["workbench.action.findInFiles"]
+    },
+    {
+      "before": ["<leader>", "l", "a"],
+      "commands": ["editor.action.sourceAction"]
+    },
+    {
+      "before": ["<leader>", "l", "r"],
+      "commands": ["editor.action.rename"],
+      "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+    },
+    {
+      "before": ["<leader>", "d", "t"],
+      "commands": ["editor.debug.action.toggleBreakpoint"],
+      "when": "debuggersAvailable && disassemblyViewFocus || debuggersAvailable && editorTextFocus"
+    },
+    {
+      "before": ["<leader>", "e"],
+      "commands": ["workbench.action.toggleSidebarVisibility"]
+    },
+    {
+      "before": ["]", "d"],
+      "commands": ["editor.action.marker.nextInFiles"]
+    },
+    {
+      "before": ["[", "d"],
+      "commands": ["editor.action.marker.prevInFiles"]
+    },
+    {
+      "before": ["<leader>", "t", "w"],
+      "commands": ["editor.action.toggleWordWrap"]
+    }
+  ],
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    }
+  ]
+}
