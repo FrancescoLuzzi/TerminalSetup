@@ -5,13 +5,10 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#21c7a8",
-          "properties": {
-            "windows": "\ue62a"
-          },
+          "foreground": "#fb7e14",
           "style": "plain",
-          "template": "{{ if .WSL }}WSL at {{ end }}{{.Icon}}  ",
-          "type": "os"
+          "template": "{{ if .SSHSession }} {{ end }}{{ .UserName }} ",
+          "type": "session"
         },
         {
           "foreground": "#ef5350",
@@ -24,7 +21,7 @@
           "properties": {
             "folder_icon": "\uf07c",
             "folder_separator_icon": "<#82AAFF>/</>",
-            "home_icon": "\ueb06",
+            "home_icon": "~",
             "style": "agnoster_full"
           },
           "style": "plain",
@@ -60,8 +57,8 @@
         {
           "foreground": "#D6DEEB",
           "style": "plain",
-          "template": "\uf489 {{ .Name }} ",
-          "type": "shell"
+          "template": "💻 {{ .HostName }} ",
+          "type": "session"
         },
         {
           "foreground": "#D6DEEB",
@@ -80,12 +77,6 @@
       "alignment": "left",
       "newline": true,
       "segments": [
-        {
-          "foreground": "#21c7a8",
-          "style": "plain",
-          "template": "\u2570\u2500",
-          "type": "text"
-        },
         {
           "foreground": "#ADDB67",
           "foreground_templates": [
