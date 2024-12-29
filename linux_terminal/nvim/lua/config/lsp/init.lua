@@ -96,24 +96,17 @@ local setup_keymaps = Once(function()
   })
 end)
 
+local setup_inlay_hints_keymaps = Once(function()
+  vim.keymap.set('n', '<leader>th', function()
+    local next_hint_config = not vim.lsp.inlay_hint.is_enabled()
+    vim.lsp.inlay_hint.enable(next_hint_config)
+  end, { desc = 'Toggle Inlay Hints' })
+end)
+
+
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(client, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don't have to repeat yourself
-  -- many times.
-  --
-  -- In this case, we create a function that lets us more easily define mappings specific
-  -- for LSP related items. It sets the mode, buffer and description for us each time.
-
-  local nmap = function(keys, func, desc)
-    if desc then
-      desc = 'LSP: ' .. desc
-    end
-
-    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-  end
-
   setup_keymaps()
 
   -- Create a command `:Format` local to the LSP buffer
@@ -136,12 +129,10 @@ local on_attach = function(client, bufnr)
   end
 
   if vim.lsp.inlay_hint and caps.inlayHintProvider then
-    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    nmap('<leader>th', function()
-      local next_hint_config = not vim.lsp.inlay_hint.is_enabled()
-      print('Setting inlay_hint to: ' .. tostring(next_hint_config))
-      vim.lsp.inlay_hint.enable(next_hint_config)
-    end, 'Toggle Inlay Hints')
+    if vim.lsp.inlay_hint.is_enabled() then
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    end
+    setup_inlay_hints_keymaps()
   end
 end
 
