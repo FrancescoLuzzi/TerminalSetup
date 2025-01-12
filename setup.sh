@@ -552,7 +552,7 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     __wait "setting up" &
     sudo apt update >/dev/null 2>&1
     sudo apt upgrade -y >/dev/null 2>&1
-    sudo apt install -y file jq git bash-completion curl wget tree ripgrep fzf zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
+    sudo apt install -y file jq git bash-completion curl wget tree ripgrep fzf xsel zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
     install_just
     # kill __wait
     kill %1
