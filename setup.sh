@@ -213,6 +213,9 @@ function install_nvim() {
         if ! sudo apt list | grep -q "fuse3"; then
             sudo apt install fuse3 -y
         fi
+        if ! sudo apt list | grep -q "libfuse2t64"; then
+            sudo apt install libfuse2t64 -y
+        fi
         chmod u+x ./$file
         sudo mv ./$file /usr/local/bin/nvim
     fi
