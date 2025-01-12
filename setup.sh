@@ -274,6 +274,10 @@ function configure_gnome_desktop(){
     gsettings set org.gnome.desktop.background picture-uri-dark file://$_pwd/theme/DesktopBackground/wallpaper.png
     # enable accessibility button
     gsettings set org.gnome.desktop.a11y always-show-universal-access-status true
+    # configure dock
+    gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
+    gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
+    # config power button to suspend
     gsettings set org.gnome.settings-daemon.plugins.power power-button-action suspend
 }
 
