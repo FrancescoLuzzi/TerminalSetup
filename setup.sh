@@ -26,6 +26,8 @@ Usage: ./setup.sh [-e vim|nvim] [-w tmux|zellij] [-IU] [-gnopr]
 -r                   Install rust for development
 
 -z                   Install zig for development
+
+-d                   Setup gnome desktop
 EOF
 
 }
@@ -266,6 +268,15 @@ function install_oh_my_posh() {
     fi
 }
 
+function configure_gnome_desktop(){
+    # change background image
+    gsettings set org.gnome.desktop.background picture-uri file://$_pwd/theme/DesktopBackground/wallpaper.png
+    gsettings set org.gnome.desktop.background picture-uri-dark file://$_pwd/theme/DesktopBackground/wallpaper.png
+    # enable accessibility button
+    gsettings set org.gnome.desktop.a11y always-show-universal-access-status true
+    gsettings set org.gnome.settings-daemon.plugins.power power-button-action suspend
+}
+
 unset editor
 editor=""
 
@@ -275,6 +286,7 @@ terminal_multiplexer=""
 unset programs
 interactive=false
 update=false
+setup_desktop=false
 declare -a programs
 
 mkdir -p ~/.config
@@ -292,6 +304,10 @@ while getopts ':IUghnprze:w:' OPTION; do
 
     U)
         update=true
+        ;;
+
+    d)
+        setup_desktop=true
         ;;
 
     e)
@@ -582,6 +598,10 @@ if [ "$is_ping_usable" = "2" ]; then
 fi
 
 install_oh_my_posh
+
+if $setup_desktop; then
+    setup_desktop
+fi
 
 for program in "${programs[@]}"; do
     case $program in
