@@ -200,6 +200,22 @@ function install_just() {
     rm -r "$artifact_file" "$td"
 }
 
+function install_fzf() {
+    local td=$(mktemp -d || mktemp -d -t tmp)
+    local latest_tag=$(get_github_latest_tag junegunn fzf)
+    local artifact_file="fzf-${latest_tag:1}-linux_amd64.tar.gz"
+    local url=$(get_github_release_artifact_url junegunn fzf $latest_tag $artifact_file)
+    local file=$(download_github_release_artifact $url)
+    tar -C "$td" -xzf "$artifact_file"
+    sudo install "$td/fzf" /usr/local/bin
+    rm -r "$artifact_file" "$td"
+    
+    if ! grep -q 'eval "$(fzf --bash)"' ~/.bashrc; then
+        echo 'eval "$(fzf --bash)"' >>~/.bashrc
+    fi
+
+}
+
 function install_nvim() {
     local url=$(get_github_release_artifact_url neovim neovim "v0.10.2" "nvim.appimage")
     local file=$(download_github_release_artifact $url)
@@ -572,8 +588,9 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     __wait "setting up" &
     sudo apt update >/dev/null 2>&1
     sudo apt upgrade -y >/dev/null 2>&1
-    sudo apt install -y file jq git bash-completion curl wget tree ripgrep fzf xsel zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
+    sudo apt install -y file jq git bash-completion curl wget tree ripgrep xsel zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
     install_just
+    install_fzf
     # kill __wait
     kill %1
 fi
