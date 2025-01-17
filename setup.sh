@@ -26,6 +26,8 @@ Usage: ./setup.sh [-e vim|nvim] [-w tmux|zellij] [-IU] [-gnopr]
 -r                   Install rust for development
 
 -z                   Install zig for development
+
+-d                   Setup gnome desktop
 EOF
 
 }
@@ -198,6 +200,22 @@ function install_just() {
     rm -r "$artifact_file" "$td"
 }
 
+function install_fzf() {
+    local td=$(mktemp -d || mktemp -d -t tmp)
+    local latest_tag=$(get_github_latest_tag junegunn fzf)
+    local artifact_file="fzf-${latest_tag:1}-linux_amd64.tar.gz"
+    local url=$(get_github_release_artifact_url junegunn fzf $latest_tag $artifact_file)
+    local file=$(download_github_release_artifact $url)
+    tar -C "$td" -xzf "$artifact_file"
+    sudo install "$td/fzf" /usr/local/bin
+    rm -r "$artifact_file" "$td"
+    
+    if ! grep -q 'eval "$(fzf --bash)"' ~/.bashrc; then
+        echo 'eval "$(fzf --bash)"' >>~/.bashrc
+    fi
+
+}
+
 function install_nvim() {
     local url=$(get_github_release_artifact_url neovim neovim "v0.10.2" "nvim.appimage")
     local file=$(download_github_release_artifact $url)
@@ -212,6 +230,9 @@ function install_nvim() {
     else
         if ! sudo apt list | grep -q "fuse3"; then
             sudo apt install fuse3 -y
+        fi
+        if ! sudo apt list | grep -q "libfuse2t64"; then
+            sudo apt install libfuse2t64 -y
         fi
         chmod u+x ./$file
         sudo mv ./$file /usr/local/bin/nvim
@@ -263,6 +284,19 @@ function install_oh_my_posh() {
     fi
 }
 
+function configure_gnome_desktop(){
+    # change background image
+    gsettings set org.gnome.desktop.background picture-uri file://$_pwd/theme/DesktopBackground/wallpaper.png
+    gsettings set org.gnome.desktop.background picture-uri-dark file://$_pwd/theme/DesktopBackground/wallpaper.png
+    # enable accessibility button
+    gsettings set org.gnome.desktop.a11y always-show-universal-access-status true
+    # configure dock
+    gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
+    gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
+    # config power button to suspend
+    gsettings set org.gnome.settings-daemon.plugins.power power-button-action suspend
+}
+
 unset editor
 editor=""
 
@@ -272,6 +306,7 @@ terminal_multiplexer=""
 unset programs
 interactive=false
 update=false
+setup_desktop=false
 declare -a programs
 
 mkdir -p ~/.config
@@ -289,6 +324,10 @@ while getopts ':IUghnprze:w:' OPTION; do
 
     U)
         update=true
+        ;;
+
+    d)
+        setup_desktop=true
         ;;
 
     e)
@@ -549,8 +588,9 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     __wait "setting up" &
     sudo apt update >/dev/null 2>&1
     sudo apt upgrade -y >/dev/null 2>&1
-    sudo apt install -y file jq git bash-completion curl wget tree ripgrep fzf zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
+    sudo apt install -y file jq git bash-completion curl wget tree ripgrep xsel zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
     install_just
+    install_fzf
     # kill __wait
     kill %1
 fi
@@ -579,6 +619,10 @@ if [ "$is_ping_usable" = "2" ]; then
 fi
 
 install_oh_my_posh
+
+if $setup_desktop; then
+    setup_desktop
+fi
 
 for program in "${programs[@]}"; do
     case $program in
