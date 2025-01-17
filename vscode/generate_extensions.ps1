@@ -1,1 +1,0 @@
-code --list-extensions | ForEach-Object {"code --install-extension $_"} > install_vscode_extensions.ps1
