@@ -88,8 +88,9 @@ function install_golang() {
     sudo rm -rf /usr/local/go
     sudo tar -C /usr/local -xzf $go_out
     
-    if ! grep -q 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' ~/.bashrc; then
-        echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> ~/.bashrc
+    local add_golang='export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' 
+    if ! grep -q -F "$add_golang" ~/.bashrc; then
+        echo "$add_golang" >> ~/.bashrc
     fi
 
     if [ ! -d ~/go ]; then
@@ -134,8 +135,9 @@ function install_zig() {
     if [ ! -d ~/zig ]; then
         mkdir ~/zig
     fi
-    if ! grep -q 'export PATH=$PATH:/usr/local/zig' ~/.bashrc; then
-        echo 'export PATH=$PATH:/usr/local/zig' >>~/.bashrc
+    local add_zig='export PATH=$PATH:/usr/local/zig' 
+    if ! grep -q -F "$add_zig" ~/.bashrc; then
+        echo "$add_zig" >>~/.bashrc
     fi
     rm $tar_ball.tar.xz
 }
@@ -209,9 +211,9 @@ function install_fzf() {
     tar -C "$td" -xzf "$artifact_file"
     sudo install "$td/fzf" /usr/local/bin
     rm -r "$artifact_file" "$td"
-    
-    if ! grep -q 'eval "$(fzf --bash)"' ~/.bashrc; then
-        echo 'eval "$(fzf --bash)"' >>~/.bashrc
+    local enable_fzf='eval "$(fzf --bash)"' 
+    if ! grep -q -F "$enable_fzf" ~/.bashrc; then
+        echo "$enable_fzf" >>~/.bashrc
     fi
 
 }
@@ -261,6 +263,10 @@ function install_tmux() {
         # killing the server is not required, I guess
         tmux kill-server
     fi
+    local startup_tmux_script='if [ -n "$ENABLE_TMUX_STARTUP" ] && [ -z "$TMUX" ] && [ -z "$NVIM" ]; then tmux-sessionizer; fi'
+    if ! grep -q -F "$startup_tmux_script" ~/.bashrc; then
+        echo "$startup_tmux_script" >>~/.bashrc
+    fi
 }
 
 function install_zellij() {
@@ -279,8 +285,9 @@ function install_oh_my_posh() {
     fi
     ln -sf ${_pwd}/linux_terminal/.theme.omp.json $HOME/.theme.omp.json
 
-    if ! grep -q 'eval "$(oh-my-posh --init --shell bash --config ~/.theme.omp.json)"' ~/.bashrc; then
-        echo 'eval "$(oh-my-posh --init --shell bash --config ~/.theme.omp.json)"' >>~/.bashrc
+    local startup_posh_script='eval "$(oh-my-posh --init --shell bash --config ~/.theme.omp.json)"' 
+    if ! grep -q -F "$startup_posh_script" ~/.bashrc; then
+        echo "$startup_posh_script" >>~/.bashrc
     fi
 }
 
@@ -604,8 +611,9 @@ fi
 source ~/.nvm/nvm.sh 2>/dev/null
 
 ln -sf ${_pwd}/linux_terminal/.git.plugin.sh $HOME/.git.plugin.sh
-if ! grep -q 'source ~/.git.plugin.sh' ~/.bashrc; then
-    echo 'source ~/.git.plugin.sh' >>~/.bashrc
+git_plugin='source ~/.git.plugin.sh' 
+if ! grep -q -F "$git_plugin" ~/.bashrc; then
+    echo "$git_plugin" >>~/.bashrc
 fi
 
 is_ping_usable=$(
