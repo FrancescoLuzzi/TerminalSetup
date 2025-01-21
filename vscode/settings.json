@@ -77,7 +77,8 @@
     },
     {
       "before": ["<leader>", "l", "a"],
-      "commands": ["editor.action.sourceAction"]
+      "commands": ["editor.action.quickFix"],
+      "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
     },
     {
       "before": ["<leader>", "l", "r"],
@@ -102,9 +103,19 @@
       "commands": ["editor.action.marker.prevInFiles"]
     },
     {
+      "before": ["]","h"],
+      "command": ["workbench.action.compareEditor.nextChange","workbench.action.editor.nextChange"],
+      "when": "textCompareEditorVisible || editorTextFocus && !textCompareEditorActive"
+    },
+    {
+      "before": ["[","h"],
+      "commands": ["workbench.action.compareEditor.previousChange","workbench.action.editor.previousChange"],
+      "when": "textCompareEditorVisible || editorTextFocus && !textCompareEditorActive"
+    },
+    {
       "before": ["<leader>", "t", "w"],
       "commands": ["editor.action.toggleWordWrap"]
-    }
+    },
   ],
   "vim.insertModeKeyBindingsNonRecursive": [
     {
@@ -113,3 +124,4 @@
     }
   ]
 }
+
