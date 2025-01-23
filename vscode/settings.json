@@ -104,7 +104,7 @@
     },
     {
       "before": ["]","h"],
-      "command": ["workbench.action.compareEditor.nextChange","workbench.action.editor.nextChange"],
+      "commands": ["workbench.action.compareEditor.nextChange","workbench.action.editor.nextChange"],
       "when": "textCompareEditorVisible || editorTextFocus && !textCompareEditorActive"
     },
     {
