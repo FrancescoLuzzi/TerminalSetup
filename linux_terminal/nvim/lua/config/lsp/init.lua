@@ -243,7 +243,7 @@ local servers = {
       },
     },
   },
-  ruff_lsp = {
+  ruff = {
     settings = {
       -- Any extra CLI arguments for `ruff` go here.
       args = {},
