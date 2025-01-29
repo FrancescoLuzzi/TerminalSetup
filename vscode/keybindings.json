@@ -40,6 +40,11 @@
     "command": "workbench.action.terminal.focusNextPane"
   },
   {
+    "key": "ctrl+\\",
+    "when": "terminalFocus",
+    "command": "workbench.action.terminal.split"
+  },
+  {
     "key": "ctrl+alt+w",
     "command": "toggleVim"
   },
