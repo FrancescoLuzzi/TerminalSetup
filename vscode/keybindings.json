@@ -52,6 +52,17 @@
     "key": "ctrl+t",
     "command": "workbench.action.togglePanel"
   },
+  // resize current view
+  {
+    "key": "alt+left",
+    "command": "workbench.action.decreaseViewSize",
+    "when": "!isAuxiliaryWindowFocusedContext"
+  },
+  {
+    "key": "alt+right",
+    "command": "workbench.action.increaseViewWidth",
+    "when": "!isAuxiliaryWindowFocusedContext"
+  },
   // navigate completions
   {
     "key": "ctrl+n",

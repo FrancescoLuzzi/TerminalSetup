@@ -116,6 +116,11 @@
       "before": ["<leader>", "t", "w"],
       "commands": ["editor.action.toggleWordWrap"]
     },
+    {
+      "before": ["<leader>", "t", "z"],
+      "commands": ["workbench.action.toggleZenMode"],
+      "when": "!isAuxiliaryWindowFocusedContext"
+    },
   ],
   "vim.insertModeKeyBindingsNonRecursive": [
     {
