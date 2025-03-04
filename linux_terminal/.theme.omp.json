@@ -55,6 +55,13 @@
       "overflow": "break",
       "segments": [
         {
+          "type": "python",
+          "style": "plain",
+          "foreground": "#D6DEEB",
+          "background": "transparent",
+          "template": "  {{ .Full }} "
+        },
+        {
           "foreground": "#D6DEEB",
           "style": "plain",
           "template": "💻 {{ .HostName }} ",
