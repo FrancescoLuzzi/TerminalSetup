@@ -35,7 +35,8 @@ return {
               crates.open_repository,
               desc = '[crates] open repository',
             },
-          }, { bufn = bufnr })
+          }, { buffer = bufnr })
+          require('config.lsp').on_attach(client, bufnr)
         end,
         actions = true,
         hover = true,
