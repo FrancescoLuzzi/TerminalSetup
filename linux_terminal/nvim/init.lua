@@ -2,7 +2,8 @@
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 
-if vim.loop.os_uname().sysname:match('Windows') then local powershell_options = {
+if vim.loop.os_uname().sysname:match('Windows') then
+  local powershell_options = {
     shell = vim.fn.executable('pwsh') == 1 and 'pwsh' or 'powershell',
     shellcmdflag =
     '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;',

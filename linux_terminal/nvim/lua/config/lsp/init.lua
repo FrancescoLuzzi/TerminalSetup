@@ -175,30 +175,7 @@ local servers = {
       },
     },
   },
-  rust_analyzer = {
-    settings = {
-      ['rust-analyzer'] = {
-        checkOnSave = {
-          command = 'clippy',
-        },
-        diagnostics = {
-          enable = true,
-        },
-        lens = {
-          enable = true,
-        },
-        completion = {
-          callable = {
-            snippets = 'fill_arguments',
-          },
-        },
-        inlayHints = {
-          enable = true,
-          showParameterNames = true,
-        },
-      },
-    },
-  },
+  rust_analyzer = {},
   lua_ls = {
     options = {
       Lua = {
@@ -374,9 +351,7 @@ mason_lspconfig.setup_handlers({
     go.setup(go.customize_opts(opts))
   end,
   ['rust_analyzer'] = function()
-    local opts = vim.tbl_deep_extend('force', server_opts, servers['rust_analyzer'] or {})
-    local rust = require('config.lsp.rust')
-    rust.setup(rust.customize_opts(opts))
+    return true
   end,
   ['pyright'] = function()
     local opts = vim.tbl_deep_extend('force', server_opts, servers['pyright'] or {})
