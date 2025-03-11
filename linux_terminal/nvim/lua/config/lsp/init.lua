@@ -350,12 +350,16 @@ mason_lspconfig.setup_handlers({
     local go = require('config.lsp.go')
     go.setup(go.customize_opts(opts))
   end,
-  ['rust_analyzer'] = function()
-    return true
-  end,
+  ['rust_analyzer'] = function() end,
   ['pyright'] = function()
     local opts = vim.tbl_deep_extend('force', server_opts, servers['pyright'] or {})
     local python = require('config.lsp.python')
     python.setup(python.customize_opts(opts))
   end,
 })
+
+local M = {}
+
+M.on_attach = on_attach
+
+return M

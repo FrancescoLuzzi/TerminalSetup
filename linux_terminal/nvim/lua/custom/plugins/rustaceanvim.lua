@@ -20,12 +20,16 @@ return {
       end
 
       local cfg = require('rustaceanvim.config')
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities =
+          vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+
       return {
         dap = {
           adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
         },
         server = {
-          capabilities = vim.lsp.protocol.make_client_capabilities(),
+          capabilities = capabilities,
           cmd = function()
             local mason_registry = require('mason-registry')
             if mason_registry.is_installed('rust-analyzer') then
@@ -48,6 +52,7 @@ return {
               { '<leader>ct', '<cmd>RustLsp testables<cr>',   desc = 'Cargo Test' },
               { '<leader>cv', '<cmd>RustLsp crateGraph<Cr>',  desc = 'View Crate Graph' },
             }, { bufn = bufnr })
+            require('config.lsp').on_attach(client, bufnr)
           end,
           tools = {
             executor = require('rustaceanvim.executors').termopen, -- can be quickfix or termopen
