@@ -195,26 +195,25 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
+        local gs = require('gitsigns')
         vim.keymap.set(
           'n',
           '[h',
-          require('gitsigns').prev_hunk,
+          function() gs.nav_hunk('prev') end,
           { buffer = bufnr, desc = 'Go to Previous Git Hunk' }
         )
         vim.keymap.set(
           'n',
           ']h',
-          require('gitsigns').next_hunk,
+          function() gs.nav_hunk('next') end,
           { buffer = bufnr, desc = 'Go to Next Git Hunk' }
         )
-        local gs = require('gitsigns')
         require('which-key').add({
           { '<leader>h',  group = 'Hunk & Gitsigns' },
           { '<leader>hp', gs.preview_hunk_inline,       desc = 'Hunk Preview' },
           { '<leader>hs', gs.stage_hunk,                desc = 'Stage Hunk' },
           { '<leader>hr', gs.reset_hunk,                desc = 'Reset Hunk' },
           { '<leader>hb', gs.toggle_current_line_blame, desc = 'Toggle Blame' },
-          { '<leader>hd', gs.toggle_deleted,            desc = 'Toggle Deleted lines' },
         })
       end,
     },
