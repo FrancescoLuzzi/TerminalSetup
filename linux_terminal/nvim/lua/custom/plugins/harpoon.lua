@@ -7,7 +7,7 @@ return {
     harpoon:setup()
 
     require('which-key').add({
-      { '<leader>e', group = 'Harpoon' },
+      { '<leader>p', group = 'Harpoon' },
       {
         '<leader>pa',
         function()
