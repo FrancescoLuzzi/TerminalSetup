@@ -5,7 +5,8 @@
 if vim.loop.os_uname().sysname:match('Windows') then
   local powershell_options = {
     shell = vim.fn.executable('pwsh') == 1 and 'pwsh' or 'powershell',
-    shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;',
+    shellcmdflag =
+    '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;',
     shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait',
     shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode',
     shellquote = '',
@@ -148,7 +149,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'v1.6.1', opts = {} },
+      { 'j-hui/fidget.nvim',       tag = 'v1.6.1', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -178,7 +179,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',   opts = {} },
 
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -202,10 +203,10 @@ require('lazy').setup({
           gs.nav_hunk('next')
         end, { buffer = bufnr, desc = 'Go to Next Git Hunk' })
         require('which-key').add({
-          { '<leader>h', group = 'Hunk & Gitsigns' },
-          { '<leader>hp', gs.preview_hunk_inline, desc = 'Hunk Preview' },
-          { '<leader>hs', gs.stage_hunk, desc = 'Stage Hunk' },
-          { '<leader>hr', gs.reset_hunk, desc = 'Reset Hunk' },
+          { '<leader>h',  group = 'Hunk & Gitsigns' },
+          { '<leader>hp', gs.preview_hunk_inline,       desc = 'Hunk Preview' },
+          { '<leader>hs', gs.stage_hunk,                desc = 'Stage Hunk' },
+          { '<leader>hr', gs.reset_hunk,                desc = 'Reset Hunk' },
           { '<leader>hb', gs.toggle_current_line_blame, desc = 'Toggle Blame' },
         })
       end,
@@ -388,12 +389,20 @@ vim.diagnostic.config({
 })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
---
--- Quickfix keymaps
-vim.keymap.set('n', '[q', '<cmd>cprev<CR>', { desc = 'Go to previous quickfix item' })
-vim.keymap.set('n', ']q', '<cmd>cnext<CR>', { desc = 'Go to next quickfix item' })
+vim.keymap.set(
+  'n', '[d',
+  function()
+    vim.diagnostic.jump({ count = -1, float = true })
+  end,
+  { desc = 'Go to previous diagnostic message' }
+)
+vim.keymap.set(
+  'n', ']d',
+  function()
+    vim.diagnostic.jump({ count = 1, float = true })
+  end,
+  { desc = 'Go to next diagnostic message' }
+)
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
@@ -530,7 +539,7 @@ which_key.add({
     desc = 'Close all other windows',
     remap = false,
   },
-  { '<leader>s', group = 'Search', remap = false },
+  { '<leader>s',  group = 'Search',               remap = false },
   {
     '<leader>sa',
     ts_builtin.builtin,
@@ -603,11 +612,11 @@ which_key.add({
     desc = 'Fuzzily search word in buffer',
     remap = false,
   },
-  { '<leader>sW', ts_builtin.grep_string, desc = 'Word under cursor', remap = false },
-  { '<leader>t', group = 'Toggle', remap = false },
-  { '<leader>td', diffview_toggle, desc = 'Toggle Diffview', remap = false },
-  { '<leader>tw', ':set wrap!<CR>', desc = 'Toggle word wrap', remap = false },
-  { '<leader>x', ':bn<bar>sp<bar>bp<bar>bd<CR>', desc = 'Close Buffer', remap = false },
+  { '<leader>sW', ts_builtin.grep_string,         desc = 'Word under cursor', remap = false },
+  { '<leader>t',  group = 'Toggle',               remap = false },
+  { '<leader>td', diffview_toggle,                desc = 'Toggle Diffview',   remap = false },
+  { '<leader>tw', ':set wrap!<CR>',               desc = 'Toggle word wrap',  remap = false },
+  { '<leader>x',  ':bn<bar>sp<bar>bp<bar>bd<CR>', desc = 'Close Buffer',      remap = false },
 })
 
 -- Comment line visual mode

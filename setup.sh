@@ -219,8 +219,10 @@ function install_fzf() {
 }
 
 function install_nvim() {
-    local url=$(get_github_release_artifact_url neovim neovim "v0.10.2" "nvim.appimage")
+    local url=$(get_github_release_artifact_url neovim neovim "stable" "nvim-linux-x86_64.appimage")
+    echo $url
     local file=$(download_github_release_artifact $url)
+    echo $file
     if in_docker; then
         mkdir -p /tmp/nvim
         chmod a+x ./$file
