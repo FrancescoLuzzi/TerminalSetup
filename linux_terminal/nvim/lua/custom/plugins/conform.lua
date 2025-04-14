@@ -12,7 +12,7 @@ return {
       javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
       typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
       -- You can use a function here to determine the formatters dynamically
-      -- rust = { 'rust-analizer' },
+      rust = { 'rust-analizer' },
       -- for python just use ruff-lsp, the new GOAT
       -- python = function(bufnr)
       --   if require('conform').get_formatter_info('ruff_format', bufnr).available then
@@ -36,7 +36,7 @@ return {
       if vim.g.disable_autoformat then
         return
       end
-      return { timeout_ms = 500, lsp_fallback = true }
+      return { timeout_ms = 1000, lsp_fallback = true }
     end,
   },
   init = function()
