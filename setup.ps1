@@ -10,12 +10,12 @@ $e = "$([char]27)"
 
 $GreenCheck = "$e[92m$([char]8730)"
 
-$RedCross =  "$e[91mX"
+$RedCross = "$e[91mX"
 
 # setting up spinner and exit messages
-$__stopping_states = @{"Failed" = "Execution failed $RedCross"; "Stopped" = "Exetuction stopped $RedCross"; "Completed" = "Done $GreenCheck"}
+$__stopping_states = @{"Failed" = "Execution failed $RedCross"; "Stopped" = "Exetuction stopped $RedCross"; "Completed" = "Done $GreenCheck" }
 # $__frames = @('┤','┘','┴','└','├','┌','┬','┐')
-$__frames = @([char]9508,[char]9496,[char]9524,[char]9492,[char]9500,[char]9484,[char]9516,[char]9488)
+$__frames = @([char]9508, [char]9496, [char]9524, [char]9492, [char]9500, [char]9484, [char]9516, [char]9488)
 $__framesCount = $__frames.count
 $__frameInterval = 125
 
@@ -162,7 +162,7 @@ if ($theme) {
 
 # setup wsl
 if ($wsl) {
-  wsl --install -d Debian
+  wsl --install -d Ubuntu
   Write-Host "After setting up for the first time your wsl instance you can follow the linux tutorial to set up that enviroment!"
 }
 
@@ -176,7 +176,7 @@ if ($neovim) {
   $__job_body = {
     # https://github.com/BurntSushi/ripgrep#installation
     $packages = @("gnuwin32.make", "Neovim.Neovim", "BurntSushi.ripgrep.MSVC", "fzf", "Casey.Just", "astral-sh.uv")
-    foreach($package in $packages){
+    foreach ($package in $packages) {
       winget install $package --accept-package-agreements --accept-source-agreements --silent --uninstall-previous
     }
     Remove-Item -Force -Recurse -ErrorAction Ignore $env:LOCALAPPDATA/nvim
