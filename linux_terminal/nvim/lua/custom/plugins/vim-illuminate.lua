@@ -14,7 +14,7 @@ return {
         'toggleterm',
       },
     })
-    local illuminate_bg = '#4f4536'
+    local illuminate_bg = '#2d6f8f'
     vim.api.nvim_set_hl(0, 'IlluminateWordText', { bg = illuminate_bg })
     vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { bg = illuminate_bg })
     vim.api.nvim_set_hl(0, 'IlluminatedWordWrite', { bg = illuminate_bg })
