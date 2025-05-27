@@ -67,12 +67,12 @@
   {
     "key": "ctrl+n",
     "command": "editor.action.addSelectionToNextFindMatch",
-    "when": "editorTextFocus && vim.active && vim.use<C-n> && !inDebugRepl && ( vim.mode == 'Normal' || vim.mode == 'Visual')"
+    "when": "editorTextFocus && !codeActionMenuVisible && vim.active && vim.use<C-n> && !inDebugRepl && ( vim.mode == 'Normal' || vim.mode == 'Visual')"
   },
   {
     "key": "ctrl+n",
     "command": "extension.vim_ctrl+n",
-    "when": "editorTextFocus && vim.active && vim.use<C-n> && !inDebugRepl && vim.mode == 'Insert'"
+    "when": "editorTextFocus && !codeActionMenuVisible && vim.active && vim.use<C-n> && !inDebugRepl && vim.mode == 'Insert'"
   },
   // navigate quickfix
   {
@@ -94,7 +94,7 @@
   {
     "key": "ctrl+p",
     "command": "workbench.action.quickOpen",
-    "when": "vim.mode == 'Normal'"
+    "when": "!codeActionMenuVisible && vim.mode == 'Normal'"
   },
   {
     "key": "ctrl+p",

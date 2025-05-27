@@ -22,6 +22,11 @@
       "when": "editorTextFocus && !editorReadonly"
     },
     {
+      "before": ["<leader>", "h", "r"],
+      "commands": ["git.revertSelectedRanges"],
+      "when": "!operationInProgress"
+    },
+    {
       "before": [">"],
       "commands": ["editor.action.indentLines"]
     },
@@ -95,22 +100,9 @@
       "commands": ["workbench.action.toggleSidebarVisibility"]
     },
     {
-      "before": ["]", "d"],
-      "commands": ["editor.action.marker.nextInFiles"]
-    },
-    {
-      "before": ["[", "d"],
-      "commands": ["editor.action.marker.prevInFiles"]
-    },
-    {
-      "before": ["]","h"],
-      "commands": ["workbench.action.compareEditor.nextChange","workbench.action.editor.nextChange"],
-      "when": "textCompareEditorVisible || editorTextFocus && !textCompareEditorActive"
-    },
-    {
-      "before": ["[","h"],
-      "commands": ["workbench.action.compareEditor.previousChange","workbench.action.editor.previousChange"],
-      "when": "textCompareEditorVisible || editorTextFocus && !textCompareEditorActive"
+      "before": ["<leader>", "h", "r"],
+      "commands": ["git.revertSelectedRanges"],
+      "when": "!operationInProgress"
     },
     {
       "before": ["<leader>", "t", "w"],
@@ -121,6 +113,30 @@
       "commands": ["workbench.action.toggleZenMode"],
       "when": "!isAuxiliaryWindowFocusedContext"
     },
+    {
+      "before": ["]", "d"],
+      "commands": ["editor.action.marker.nextInFiles"]
+    },
+    {
+      "before": ["[", "d"],
+      "commands": ["editor.action.marker.prevInFiles"]
+    },
+    {
+      "before": ["]", "h"],
+      "commands": [
+        "workbench.action.compareEditor.nextChange",
+        "workbench.action.editor.nextChange"
+      ],
+      "when": "textCompareEditorVisible || editorTextFocus && !textCompareEditorActive"
+    },
+    {
+      "before": ["[", "h"],
+      "commands": [
+        "workbench.action.compareEditor.previousChange",
+        "workbench.action.editor.previousChange"
+      ],
+      "when": "textCompareEditorVisible || editorTextFocus && !textCompareEditorActive"
+    }
   ],
   "vim.insertModeKeyBindingsNonRecursive": [
     {
