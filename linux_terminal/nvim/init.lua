@@ -536,6 +536,12 @@ which_key.add({
     desc = 'Close all other windows',
     remap = false,
   },
+  {
+    '<leader>O',
+    '<cmd>%bd|e#|bd#<CR>',
+    desc = 'Close all other buffers',
+    remap = false,
+  },
   { '<leader>s', group = 'Search', remap = false },
   {
     '<leader>sa',
