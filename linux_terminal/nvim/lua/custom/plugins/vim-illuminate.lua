@@ -12,6 +12,8 @@ return {
         'NvimTree',
         'TelescopePrompt',
         'toggleterm',
+        'snacks_input',
+        'harpoon'
       },
     })
     local illuminate_bg = '#2d6f8f'
