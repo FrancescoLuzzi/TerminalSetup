@@ -87,8 +87,8 @@ function install_golang() {
 
     sudo rm -rf /usr/local/go
     sudo tar -C /usr/local -xzf $go_out
-    
-    local add_golang='export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' 
+
+    local add_golang='export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin'
     if ! grep -q -F "$add_golang" ~/.bashrc; then
         echo "$add_golang" >> ~/.bashrc
     fi
@@ -135,7 +135,7 @@ function install_zig() {
     if [ ! -d ~/zig ]; then
         mkdir ~/zig
     fi
-    local add_zig='export PATH=$PATH:/usr/local/zig' 
+    local add_zig='export PATH=$PATH:/usr/local/zig'
     if ! grep -q -F "$add_zig" ~/.bashrc; then
         echo "$add_zig" >>~/.bashrc
     fi
@@ -211,11 +211,21 @@ function install_fzf() {
     tar -C "$td" -xzf "$artifact_file"
     sudo install "$td/fzf" /usr/local/bin
     rm -r "$artifact_file" "$td"
-    local enable_fzf='eval "$(fzf --bash)"' 
+    local enable_fzf='eval "$(fzf --bash)"'
     if ! grep -q -F "$enable_fzf" ~/.bashrc; then
         echo "$enable_fzf" >>~/.bashrc
     fi
+}
 
+function install_lazygit() {
+    local td=$(mktemp -d || mktemp -d -t tmp)
+    local latest_tag=$(get_github_latest_tag jesseduffield lazygit)
+    local artifact_file="lazygit_${latest_tag:1}_Linux_x86_64.tar.gz"
+    local url=$(get_github_release_artifact_url jesseduffield lazygit $latest_tag $artifact_file)
+    local file=$(download_github_release_artifact $url)
+    tar -C "$td" -xzf "$artifact_file"
+    sudo install "$td/lazygit" /usr/local/bin
+    rm -r "$artifact_file" "$td"
 }
 
 function install_nvim() {
@@ -287,7 +297,7 @@ function install_oh_my_posh() {
     fi
     ln -sf ${_pwd}/linux_terminal/.theme.omp.json $HOME/.theme.omp.json
 
-    local startup_posh_script='eval "$(oh-my-posh --init --shell bash --config ~/.theme.omp.json)"' 
+    local startup_posh_script='eval "$(oh-my-posh --init --shell bash --config ~/.theme.omp.json)"'
     if ! grep -q -F "$startup_posh_script" ~/.bashrc; then
         echo "$startup_posh_script" >>~/.bashrc
     fi
@@ -600,6 +610,7 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     sudo apt install -y file jq git bash-completion curl wget tree ripgrep xsel zip build-essential libssl-dev libffi-dev libicu-dev >/dev/null 2>&1
     install_just
     install_fzf
+    install_lazygit
     # kill __wait
     kill %1
 fi
@@ -613,7 +624,7 @@ fi
 source ~/.nvm/nvm.sh 2>/dev/null
 
 ln -sf ${_pwd}/linux_terminal/.git.plugin.sh $HOME/.git.plugin.sh
-git_plugin='source ~/.git.plugin.sh' 
+git_plugin='source ~/.git.plugin.sh'
 if ! grep -q -F "$git_plugin" ~/.bashrc; then
     echo "$git_plugin" >>~/.bashrc
 fi
