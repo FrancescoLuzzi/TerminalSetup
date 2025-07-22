@@ -1,4 +1,5 @@
 -- Style lsp windows
+local lspconfig = require('lspconfig')
 local ts_builtin = require('telescope.builtin')
 
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
@@ -159,22 +160,6 @@ local server_opts = {
 }
 
 local servers = {
-  -- https://github.com/OmniSharp/omnisharp-roslyn/wiki/Configuration-Options
-  omnisharp = {
-    cmd = { 'omnisharp' },
-    settings = {
-      FormattingOptions = {
-        OrganizeImports = true,
-      },
-      RoslynExtensionsOptions = {
-        EnableAnalyzersSupport = true,
-        EnableImportCompletion = true,
-      },
-      MsBuild = {
-        LoadProjectsOnDemand = false,
-      },
-    },
-  },
   rust_analyzer = {},
   lua_ls = {
     options = {
@@ -226,33 +211,23 @@ local servers = {
       args = {},
     },
   },
-  lemminx = {
-    settings = {
-      xml = { catalogs = { './catalog.xml' } },
-    },
-  },
   bashls = {},
   docker_compose_language_service = {},
   dockerls = {},
   html = {
-    filetypes = { 'html', 'templ', 'htmldjango' },
+    filetypes = { 'html', 'vue', 'templ', 'htmldjango' },
   },
   htmx = {
     filetypes = { 'html', 'templ', 'htmldjango' },
   },
   tailwindcss = {
-    filetypes = { 'html', 'templ', 'htmldjango', 'typescriptreact', 'javascriptreact' },
+    filetypes = { 'html', 'vue', 'templ', 'htmldjango', 'typescriptreact', 'javascriptreact' },
     settings = {
       tailwindCSS = {
         emmetCompletions = true,
       },
     },
-    root_dir = require 'lspconfig'.util.root_pattern(
-      'tailwind.config.js',
-      'tailwind.config.ts',
-      'postcss.config.js',
-      'postcss.config.ts'
-    ),
+    root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.ts", "package.json"),
   },
   zls = {},
   -- https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
@@ -297,7 +272,38 @@ local servers = {
     validate = true,
     keyOrdering = true,
   },
+  volar = {
+    settings = {
+      css = {
+        validate = true,
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+      scss = {
+        validate = true,
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+      less = {
+        validate = true,
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+    },
+  },
   ts_ls = {
+    init_options = {
+      plugins = {
+        {
+          name = '@vue/typescript-plugin',
+          location = vim.fn.stdpath('data') .. '/mason/packages/vue-language-server/node_modules/@vue/language-server',
+          languages = { 'vue' },
+        },
+      },
+    },
     settings = {
       javascript = {
         inlayHints = {
@@ -322,6 +328,7 @@ local servers = {
         },
       },
     },
+    filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
   },
   templ = {},
 }
@@ -332,8 +339,6 @@ local mason_lspconfig = require('mason-lspconfig')
 mason_lspconfig.setup({
   ensure_installed = vim.tbl_keys(servers),
 })
-
-local lspconfig = require('lspconfig')
 
 mason_lspconfig.setup_handlers({
   function(server_name)
