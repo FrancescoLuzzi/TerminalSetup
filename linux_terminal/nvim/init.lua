@@ -656,7 +656,7 @@ vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', { desc = '', silent 
 -- Auto indent on empty line.
 
 vim.keymap.set('n', 'i', function()
-  return string.match(vim.api.nvim_get_current_line(), '%g') == nil and 'cc' or 'i'
+  return string.match(vim.api.nvim_get_current_line(), '%g') == nil and '"_cc' or 'i'
 end, { expr = true, noremap = true })
 
 -- visual indenting
@@ -678,10 +678,10 @@ vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>')
 
 -- handle git merge conflicts
 
-vim.keymap.set('n', '<leader>m', ':Gvdiffsplit!<CR>', { desc = 'Start 3way merge' })
-vim.keymap.set('n', '<leader>1', ':diffget LOCAL<CR>', { desc = 'diffget LOCAL change' })
-vim.keymap.set('n', '<leader>2', ':diffget BASE<CR>', { desc = 'diffget BASE change' })
-vim.keymap.set('n', '<leader>3', ':diffget REMOTE<CR>', { desc = 'diffget REMOTE change' })
+vim.keymap.set('n', '<leader>mm', ':Gvdiffsplit!<CR>', { desc = 'Start 3way merge' })
+vim.keymap.set('n', '<leader>m1', ':diffget LOCAL<CR>', { desc = 'diffget LOCAL change' })
+vim.keymap.set('n', '<leader>m2', ':diffget BASE<CR>', { desc = 'diffget BASE change' })
+vim.keymap.set('n', '<leader>m3', ':diffget REMOTE<CR>', { desc = 'diffget REMOTE change' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
