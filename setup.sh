@@ -27,7 +27,7 @@ Usage: ./setup.sh [-e vim|nvim] [-w tmux|zellij] [-IU] [-gnopr]
 
 -z                   Install zig for development
 
--d                   Setup gnome desktop
+-d                   Setup desktop configurations
 EOF
 
 }
@@ -301,6 +301,10 @@ function install_oh_my_posh() {
     if ! grep -q -F "$startup_posh_script" ~/.bashrc; then
         echo "$startup_posh_script" >>~/.bashrc
     fi
+}
+
+function get_current_desktop_environment(){
+    echo $XDG_CURRENT_DESKTOP | grep -i -o -E "gnome|xfce" | tr "[:upper:]" "[:lower:]"
 }
 
 function configure_gnome_desktop(){
@@ -642,7 +646,16 @@ fi
 install_oh_my_posh
 
 if $setup_desktop; then
-    setup_desktop
+    case $(get_current_desktop_environment) in
+    gnome)
+        configure_gnome_desktop
+        break
+        ;;
+    *)
+        echo "Unknown Desktop Environment"
+        break
+        ;;
+    esac
 fi
 
 for program in "${programs[@]}"; do
