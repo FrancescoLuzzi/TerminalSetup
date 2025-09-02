@@ -21,8 +21,11 @@ bindings = [
   { key = "Left", mods = "Control", chars = "\u001bb" },         # Skip word left
   { key = "Right", mods = "Control", chars = "\u001bf" },        # Skip word right
   { key = "Back", mods = "Control", chars = "\u001b\u007f" },    # Delete word
-  { key = "Escape", mods = "Control", action = "ToggleViMode" },
-  { key = "i", mode = "Vi", action = "ToggleViMode" },
+]
+
+[mouse]
+bindings = [
+  { mouse = "Right", mods = "Control", action = "Paste" },
 ]
 
 [env]
