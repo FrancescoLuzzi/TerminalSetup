@@ -127,10 +127,10 @@ function install_rust() {
 
 function install_zig() {
     local latest_tag=$(get_github_latest_tag ziglang zig)
-    local tar_ball="zig-linux-x86_64-${latest_tag}"
+    local tar_ball="zig-x86_64-linux-${latest_tag}"
     curl --proto '=https' --tlsv1.2 https://ziglang.org/download/${latest_tag}/${tar_ball}.tar.xz -S -O
     tar xJvf $tar_ball.tar.xz
-    sudo rm -rfv /usr/local/zig
+    sudo rm -rf /usr/local/zig
     sudo mv -v $tar_ball /usr/local/zig
     if [ ! -d ~/zig ]; then
         mkdir ~/zig
@@ -220,7 +220,7 @@ function install_fzf() {
 function install_lazygit() {
     local td=$(mktemp -d || mktemp -d -t tmp)
     local latest_tag=$(get_github_latest_tag jesseduffield lazygit)
-    local artifact_file="lazygit_${latest_tag:1}_Linux_x86_64.tar.gz"
+    local artifact_file="lazygit_${latest_tag:1}_linux_x86_64.tar.gz"
     local url=$(get_github_release_artifact_url jesseduffield lazygit $latest_tag $artifact_file)
     local file=$(download_github_release_artifact $url)
     tar -C "$td" -xzf "$artifact_file"
