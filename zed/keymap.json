@@ -1,0 +1,153 @@
+[
+  // Move lines up/down
+  {
+    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      "alt-j": "editor::MoveLineDown",
+      "alt-k": "editor::MoveLineUp"
+    }
+  },
+  // Navigate between panes (not in insert mode)
+  {
+    "context": "(Editor && vim_mode == normal) || Terminal || (ProjectPanel && not_editing)",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
+    }
+  },
+  // Terminal pane navigation
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-\\": "pane::SplitVertical",
+      "ctrl--": "pane::SplitHorizontal",
+      "ctrl-w": "pane::CloseActiveItem",
+      "ctrl-r": ["terminal::SendKeystroke", "ctrl-r"]
+    }
+  },
+  // Toggle panel
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-t": "workspace::ToggleBottomDock",
+      "alt-h": "vim::ResizePaneLeft",
+      "alt-l": "vim::ResizePaneRight"
+    }
+  },
+  // Navigate completions
+  {
+    "context": "Editor && (showing_completions || showing_code_actions)",
+    "bindings": {
+      "ctrl-n": "editor::ContextMenuNext",
+      "ctrl-p": "editor::ContextMenuPrevious"
+    }
+  },
+  {
+    "context": "FileFinder || CommandPalette",
+    "bindings": {
+      "ctrl-n": "menu::SelectNext",
+      "ctrl-p": "menu::SelectPrevious"
+    }
+  },
+  // File navigation (not in code actions or completions)
+  {
+    "context": "Workspace && vim_mode == normal && !showing_completions && !showing_code_actions",
+    "bindings": {
+      "space s f": "file_finder::Toggle"
+    }
+  },
+  // Multiple cursors (Vim normal/visual mode)
+  {
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !(showing_completions || showing_code_actions)",
+    "bindings": {
+      "ctrl-n": "editor::SelectNext"
+    }
+  },
+  // Project panel file operations
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "space e": "workspace::ToggleLeftDock",
+      "a": "project_panel::NewFile",
+      "d": "project_panel::Delete",
+      "r": "project_panel::Rename"
+    }
+  },
+  // Vim Normal Mode - Leader key mappings (space as leader)
+  {
+    "context": "VimControl && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      // Comment line
+      "space /": "editor::ToggleComments",
+
+      // Window splits
+      "space -": "pane::SplitDown",
+      "space \\": "pane::SplitRight",
+      "space x": "pane::CloseActiveItem",
+
+      // Close other editors
+      "space o": "pane::CloseOtherItems",
+
+      // Search
+      "space s f": "file_finder::Toggle",
+      "space s g": "project_search::SearchInNew",
+
+      // LSP actions
+      "space l a": "editor::ToggleCodeActions",
+      "space l r": "editor::Rename",
+
+      // Debug
+      "space d t": "editor::ToggleBreakpoint",
+
+      // Toggle sidebar
+      "space e": "workspace::ToggleLeftDock",
+
+      // Git hunks
+      "space h r": "git::Restore",
+
+      // Toggle settings
+      "space t w": "editor::ToggleSoftWrap",
+      "space t z": "workspace::ToggleZoom",
+
+      // Navigate between editor tabs
+      "shift-h": "pane::ActivatePreviousItem",
+      "shift-l": "pane::ActivateNextItem",
+      "alt-n": "workspace::NewFile",
+
+      // Hover info
+      "shift-k": "editor::Hover",
+
+      // Navigate diagnostics
+      "] d": "editor::GoToDiagnostic",
+      "[ d": "editor::GoToPreviousDiagnostic",
+
+      // Navigate git hunks
+      "] h": "editor::GoToHunk",
+      "[ h": "editor::GoToPreviousHunk"
+    }
+  },
+  // Vim Visual Mode - Leader key mappings
+  {
+    "context": "VimControl && vim_mode == visual && !VimWaiting && !menu",
+    "bindings": {
+      // Comment selection
+      "space /": "editor::ToggleComments",
+
+      // Git revert
+      "space h r": "git::Restore",
+
+      // Indent/outdent
+      ">": "editor::Indent",
+      "<": "editor::Outdent"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "j j": "vim::NormalBefore",
+      "ctrl-v": "editor::Paste"
+    }
+  }
+]
