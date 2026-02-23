@@ -628,9 +628,10 @@ fi
 source ~/.nvm/nvm.sh 2>/dev/null
 
 ln -sf ${_pwd}/linux_terminal/.git.plugin.sh $HOME/.git.plugin.sh
-git_plugin='source ~/.git.plugin.sh'
-if ! grep -q -F "$git_plugin" ~/.bashrc; then
-    echo "$git_plugin" >>~/.bashrc
+ln -sf ${_pwd}/linux_terminal/.custom_bashrc $HOME/.custom_bashrc
+LOADER_BLOCK="if [ -f ~/.bash_custom ]; then . ~/.bash_custom; fi"
+if ! grep -q -F "$LOADER_BLOCK" ~/.bashrc; then
+    echo "$LOADER_BLOCK" >>~/.bashrc
 fi
 
 is_ping_usable=$(

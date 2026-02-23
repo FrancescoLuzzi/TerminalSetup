@@ -1,0 +1,2 @@
+source ~/.git.plugin.sh
+bind '\C-w:backward-kill-word'
