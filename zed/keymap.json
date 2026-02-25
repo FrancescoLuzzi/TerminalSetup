@@ -4,8 +4,8 @@
     "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
     "bindings": {
       "alt-j": "editor::MoveLineDown",
-      "alt-k": "editor::MoveLineUp"
-    }
+      "alt-k": "editor::MoveLineUp",
+    },
   },
   // Navigate between panes (not in insert mode)
   {
@@ -14,8 +14,8 @@
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-k": "workspace::ActivatePaneUp",
-      "ctrl-j": "workspace::ActivatePaneDown"
-    }
+      "ctrl-j": "workspace::ActivatePaneDown",
+    },
   },
   // Terminal pane navigation
   {
@@ -24,46 +24,46 @@
       "ctrl-\\": "pane::SplitVertical",
       "ctrl--": "pane::SplitHorizontal",
       "ctrl-w": "pane::CloseActiveItem",
-      "ctrl-r": ["terminal::SendKeystroke", "ctrl-r"]
-    }
+      "ctrl-r": ["terminal::SendKeystroke", "ctrl-r"],
+      "ctrl-t": "terminal_panel::Toggle",
+    },
   },
   // Toggle panel
   {
     "context": "Workspace",
     "bindings": {
-      "ctrl-t": "workspace::ToggleBottomDock",
       "alt-h": "vim::ResizePaneLeft",
-      "alt-l": "vim::ResizePaneRight"
-    }
+      "alt-l": "vim::ResizePaneRight",
+    },
   },
   // Navigate completions
   {
     "context": "Editor && (showing_completions || showing_code_actions)",
     "bindings": {
       "ctrl-n": "editor::ContextMenuNext",
-      "ctrl-p": "editor::ContextMenuPrevious"
-    }
+      "ctrl-p": "editor::ContextMenuPrevious",
+    },
   },
   {
     "context": "FileFinder || CommandPalette",
     "bindings": {
       "ctrl-n": "menu::SelectNext",
-      "ctrl-p": "menu::SelectPrevious"
-    }
+      "ctrl-p": "menu::SelectPrevious",
+    },
   },
   // File navigation (not in code actions or completions)
   {
     "context": "Workspace && vim_mode == normal && !showing_completions && !showing_code_actions",
     "bindings": {
-      "space s f": "file_finder::Toggle"
-    }
+      "space s f": "file_finder::Toggle",
+    },
   },
   // Multiple cursors (Vim normal/visual mode)
   {
     "context": "Editor && (vim_mode == normal || vim_mode == visual) && !(showing_completions || showing_code_actions)",
     "bindings": {
-      "ctrl-n": "editor::SelectNext"
-    }
+      "ctrl-n": "editor::SelectNext",
+    },
   },
   // Project panel file operations
   {
@@ -72,8 +72,8 @@
       "space e": "workspace::ToggleLeftDock",
       "a": "project_panel::NewFile",
       "d": "project_panel::Delete",
-      "r": "project_panel::Rename"
-    }
+      "r": "project_panel::Rename",
+    },
   },
   // Vim Normal Mode - Leader key mappings (space as leader)
   {
@@ -106,6 +106,7 @@
 
       // Git hunks
       "space h r": "git::Restore",
+      "space h s": "git::StageRange",
 
       // Toggle settings
       "space t w": "editor::ToggleSoftWrap",
@@ -125,8 +126,14 @@
 
       // Navigate git hunks
       "] h": "editor::GoToHunk",
-      "[ h": "editor::GoToPreviousHunk"
-    }
+      "[ h": "editor::GoToPreviousHunk",
+
+      // toggle terminal
+      "ctrl-t": "terminal_panel::Toggle",
+
+      // toggle agent
+      "ctrl-a": "agent::ToggleFocus",
+    },
   },
   // Vim Visual Mode - Leader key mappings
   {
@@ -140,14 +147,22 @@
 
       // Indent/outdent
       ">": "editor::Indent",
-      "<": "editor::Outdent"
-    }
+      "<": "editor::Outdent",
+    },
   },
   {
     "context": "Editor && vim_mode == insert",
     "bindings": {
       "j j": "vim::NormalBefore",
-      "ctrl-v": "editor::Paste"
-    }
-  }
+      "ctrl-v": "editor::Paste",
+    },
+  },
+  {
+    "context": "AgentPanel > Editor && vim_mode == normal",
+    "use_key_equivalents": true,
+    "bindings": {
+      "tab": "agent::CycleModeSelector",
+      "ctrl-a": "agent::Toggle",
+    },
+  },
 ]

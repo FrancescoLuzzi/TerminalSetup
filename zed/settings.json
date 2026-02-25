@@ -3,85 +3,89 @@
   "languages": {
     "JavaScript": {
       "prettier": {
-        "allowed": false
+        "allowed": false,
       },
       "code_actions_on_format": {
-        "source.fixAll.eslint": true
-      }
+        "source.fixAll.eslint": true,
+      },
     },
     "TypeScript": {
       "prettier": {
-        "allowed": false
+        "allowed": false,
       },
       "code_actions_on_format": {
-        "source.fixAll.eslint": true
-      }
+        "source.fixAll.eslint": true,
+      },
     },
     "Vue.js": {
       "prettier": {
-        "allowed": false
+        "allowed": false,
       },
       "code_actions_on_format": {
-        "source.fixAll.eslint": true
-      }
+        "source.fixAll.eslint": true,
+      },
     },
     "Python": {
-      "formatter": "language_server",
-      "language_servers": ["ruff"],
+      "formatter": {
+        "language_server": {
+          "name": "ruff",
+        },
+      },
+      "language_servers": ["pyright", "ruff"],
       "code_actions_on_format": {
         "source.organizeImports.ruff": true,
-        "source.fixAll.ruff": true
-      }
+        "source.fixAll.ruff": true,
+      },
     },
     "Rust": {
       "formatter": "language_server",
       "code_actions_on_format": {
         "source.organizeImports": true,
-        "source.fix.clippy": true
-      }
+        "source.fix.clippy": true,
+      },
     },
     "Go": {
       "formatter": "language_server",
       "code_actions_on_format": {
-        "source.organizeImports": true
-      }
+        "source.organizeImports": true,
+      },
     },
     "Go Mod": {
       "formatter": {
         "external": {
           "command": "go",
-          "arguments": ["mod", "edit", "-fmt", "{buffer_path}"]
-        }
+          "arguments": ["mod", "edit", "-fmt", "{buffer_path}"],
+        },
       },
-      "format_on_save": "on"
+      "format_on_save": "on",
     },
     "Go Work": {
       "formatter": {
         "external": {
           "command": "go",
-          "arguments": ["work", "edit", "-fmt", "{buffer_path}"]
-        }
+          "arguments": ["work", "edit", "-fmt", "{buffer_path}"],
+        },
       },
-      "format_on_save": "on"
+      "format_on_save": "on",
     },
     "JSON": {
       "code_actions_on_format": {
-        "source.fixAll": true
+        "source.fixAll": true,
       },
-      "format_on_save": "on"
-    }
+      "format_on_save": "on",
+    },
   },
   "vim_mode": true,
   "base_keymap": "VSCode",
   "minimap": {
-    "show": "auto"
+    "show": "auto",
   },
   "buffer_font_family": "Cascadia Code NF",
   "terminal": {
     "font_size": 13.0,
     "blinking": "on",
-    "line_height": "standard"
+    "line_height": "standard",
   },
   "ui_font_size": 16,
-  "buffer_font_size": 13.0
+  "buffer_font_size": 13.0,
 }
