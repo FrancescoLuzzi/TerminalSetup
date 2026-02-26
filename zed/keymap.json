@@ -1,3 +1,4 @@
+// reference https://github.com/zed-industries/zed/blob/main/assets/keymaps/
 [
   // Move lines up/down
   {
@@ -60,7 +61,7 @@
   },
   // Multiple cursors (Vim normal/visual mode)
   {
-    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !(showing_completions || showing_code_actions)",
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !(showing_completions || showing_code_actions) && !AgentPanel",
     "bindings": {
       "ctrl-n": "editor::SelectNext",
     },
