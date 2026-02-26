@@ -1,2 +1,5 @@
 source ~/.git.plugin.sh
 bind '\C-w:backward-kill-word'
+
+# set all the possible directories to the same color
+export LS_COLORS="$LS_COLORS:di=01;34:ow=01;34:st=01;34"
