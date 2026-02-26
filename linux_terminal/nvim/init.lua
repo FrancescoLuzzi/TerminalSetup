@@ -659,6 +659,11 @@ vim.keymap.set('n', 'i', function()
   return string.match(vim.api.nvim_get_current_line(), '%g') == nil and '"_cc' or 'i'
 end, { expr = true, noremap = true })
 
+-- visual delete without clipboard save
+
+vim.keymap.set('v', 'D', '"_d',
+  { desc = 'Delete without saving to clipboardStay in visual mode while indenting', silent = true })
+
 -- visual indenting
 
 vim.keymap.set('v', '<', '<gv', { desc = 'Stay in visual mode while indenting', silent = true })
