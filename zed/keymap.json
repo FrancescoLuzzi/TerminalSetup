@@ -2,7 +2,7 @@
 [
   // Move lines up/down
   {
-    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
     "bindings": {
       "alt-j": "editor::MoveLineDown",
       "alt-k": "editor::MoveLineUp",
@@ -112,6 +112,7 @@
       // Toggle settings
       "space t w": "editor::ToggleSoftWrap",
       "space t z": "workspace::ToggleZoom",
+      "space t b": "editor::ToggleGitBlameInline",
 
       // Navigate between editor tabs
       "shift-h": "pane::ActivatePreviousItem",
