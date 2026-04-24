@@ -86,7 +86,7 @@ files.setup({
   mappings = {
     close = 'q',
     go_in = '',
-    go_in_plus = 'L',
+    go_in_plus = '<CR>',
     go_out = 'H',
     go_out_plus = '',
     reset = '<BS>',
@@ -162,6 +162,7 @@ statusline.setup({
     end,
   },
   set_vim_settings = true,
+  use_icons = true,
 })
 vim.opt.laststatus = 3
 

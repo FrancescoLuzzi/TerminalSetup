@@ -32,11 +32,15 @@ local keymaps = require('keymaps')
 local augroup = utils.create_augroup('LSP')
 
 require('lazydev').setup({
-  {
-    path = '${3rd}/luv/library',
-    words = { 'vim%.uv' },
+  enabled = true,
+  library = {
+    {
+      path = '${3rd}/luv/library',
+      words = { 'vim%.uv' },
+    },
   },
 })
+
 
 require('which-key').add({
   { '<leader>l', group = 'Lsp and Diagnostic actions', remap = false },

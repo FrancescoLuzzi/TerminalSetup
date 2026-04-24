@@ -136,13 +136,13 @@ vim.keymap.set(
   'n',
   '<leader>\\',
   ':vsplit<CR>',
-  { desc = 'Split window vertically', remap = false }
+  { desc = 'Split window vertically', remap = false, silent = true }
 )
 vim.keymap.set(
   'n',
   '<leader>-',
   ':split<CR>',
-  { desc = 'Split window horizontally', remap = false }
+  { desc = 'Split window horizontally', remap = false, silent = true }
 )
 
 -- resize windows
