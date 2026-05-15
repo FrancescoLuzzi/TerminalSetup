@@ -17,7 +17,7 @@ snacks.setup({
   picker = { enabled = true },
   quickfile = { enabled = true },
   scope = { enabled = true },
-  scroll = { enabled = true },
+  scroll = { enabled = false },
   statuscolumn = { enabled = true },
   terminal = {
     win = {
