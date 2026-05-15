@@ -5,7 +5,20 @@ vim.pack.add({
   },
 })
 
+local utils = require('utils')
+
 vim.api.nvim_set_hl(0, 'AlphaHeader', { ctermbg = 0, fg = '#9d7cd8' })
+
+-- Define your custom commands
+utils.create_usrcmd('FindFiles', function()
+  Snacks.picker.files()
+end)
+utils.create_usrcmd('FindRecent', function()
+  Snacks.picker.recent()
+end)
+utils.create_usrcmd('FindGrep', function()
+  Snacks.picker.grep()
+end)
 
 local dashboard = require('alpha.themes.dashboard')
 local logo = [[
@@ -22,12 +35,11 @@ local vimrc_dir = vim.fn.resolve(vim.fn.fnamemodify(vim.fn.expand('$MYVIMRC'), '
 
 dashboard.section.header.val = vim.split(logo, '\n')
 dashboard.section.buttons.val = {
-  dashboard.button('f', ' ' .. ' Find file', ':Telescope find_files <CR>'),
+  dashboard.button('f', ' ' .. ' Find file', ':FindFiles <CR>'),
   dashboard.button('n', ' ' .. ' New file', ':ene <BAR> startinsert <CR>'),
-  dashboard.button('r', ' ' .. ' Recent files', ':Telescope oldfiles <CR>'),
-  dashboard.button('g', ' ' .. ' Find text', ':Telescope live_grep <CR>'),
+  dashboard.button('r', ' ' .. ' Recent files', ':FindRecent <CR>'),
+  dashboard.button('g', ' ' .. ' Find text', ':FindGrep <CR>'),
   dashboard.button('c', ' ' .. ' Config', ':cd ' .. vimrc_dir .. ' <BAR> e $MYVIMRC <CR>'),
-  dashboard.button('l', '󰒲 ' .. ' Lazy', ':Lazy<CR>'),
   dashboard.button('q', ' ' .. ' Quit', ':qa<CR>'),
 }
 
