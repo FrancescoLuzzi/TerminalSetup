@@ -86,7 +86,7 @@ files.setup({
   mappings = {
     close = 'q',
     go_in = '',
-    go_in_plus = '<CR>',
+    go_in_plus = 'L',
     go_out = 'H',
     go_out_plus = '',
     reset = '<BS>',
@@ -152,12 +152,12 @@ statusline.setup({
       local time = os.date('%H:%M | %d/%m/%y')
 
       return statusline.combine_groups({
-        { hl = mode_hl,                  strings = { mode } },
-        { hl = 'MiniStatuslineDevinfo',  strings = { git, diff, diagnostics } },
+        { hl = mode_hl, strings = { mode } },
+        { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics } },
         { hl = 'MiniStatuslineFilename', strings = { filename } },
         '%=', -- Right align split
         { hl = 'MiniStatuslineFileinfo', strings = { fileinfo, time } },
-        { hl = mode_hl,                  strings = { location } },
+        { hl = mode_hl, strings = { location } },
       })
     end,
   },
