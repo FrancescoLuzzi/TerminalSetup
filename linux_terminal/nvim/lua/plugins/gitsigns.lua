@@ -5,29 +5,30 @@ vim.pack.add({
   },
 })
 
-local keymaps = require('keymaps')
+local utils = require('utils')
+
 local gs = require('gitsigns')
 gs.setup({
-    signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-    },
-    on_attach = function(bufnr)
-        vim.keymap.set('n', '[h', function()
-            gs.nav_hunk('prev')
-        end, { buffer = bufnr, desc = 'Go to Previous Git Hunk' })
-        vim.keymap.set('n', ']h', function()
-            gs.nav_hunk('next')
-        end, { buffer = bufnr, desc = 'Go to Next Git Hunk' })
-        keymaps.add({
-            { '<leader>h',  group = 'Hunk & Gitsigns' },
-            { '<leader>hp', gs.preview_hunk_inline,       desc = 'Hunk Preview' },
-            { '<leader>hs', gs.stage_hunk,                desc = 'Stage Hunk' },
-            { '<leader>hr', gs.reset_hunk,                desc = 'Reset Hunk' },
-            { '<leader>hb', gs.toggle_current_line_blame, desc = 'Toggle Blame' },
-        })
-    end,
+  signs = {
+    add = { text = '+' },
+    change = { text = '~' },
+    delete = { text = '_' },
+    topdelete = { text = '‾' },
+    changedelete = { text = '~' },
+  },
+  on_attach = function(bufnr)
+    local register_normal = utils.create_keymap_setter('n', bufnr)
+
+    utils.register_keymap_group('<leader>h', 'Hunk & Gitsigns', bufnr)
+    register_normal('[h', 'Go to Previous Git Hunk', function()
+      gs.nav_hunk('prev')
+    end)
+    register_normal(']h', 'Go to Next Git Hunk', function()
+      gs.nav_hunk('next')
+    end)
+    register_normal('<leader>hp', 'Hunk Preview', gs.preview_hunk_inline)
+    register_normal('<leader>hs', 'Stage Hunk', gs.stage_hunk)
+    register_normal('<leader>hr', 'Reset Hunk', gs.reset_hunk)
+    register_normal('<leader>hb', 'Toggle Blame', gs.toggle_current_line_blame)
+  end,
 })

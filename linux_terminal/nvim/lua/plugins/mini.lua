@@ -5,10 +5,10 @@ vim.pack.add({
   },
 })
 
-local keymaps = require('keymaps')
 local utils = require('utils')
 
 local augroup = utils.create_augroup('MiniGroup')
+local register_normal = utils.create_keymap_setter('n')
 
 -- icons
 local icons = require('mini.icons')
@@ -104,11 +104,7 @@ files.setup({
     width_preview = 30,
   },
 })
-keymaps.add({
-  '<leader>e',
-  files.open,
-  desc = 'Open file explorer',
-})
+register_normal('<leader>e', 'Open file explorer', files.open)
 
 -- surround
 require('mini.surround').setup({

@@ -5,7 +5,7 @@ vim.pack.add({
   },
 })
 
-local keymaps = require('keymaps')
+local utils = require('utils')
 local snacks = require('snacks')
 
 snacks.setup({
@@ -41,100 +41,30 @@ snacks.setup({
 })
 
 local snacks_picker = snacks.picker
+local register_normal = utils.create_keymap_setter('n')
 
-keymaps.add({
-  { '<leader>l', group = 'Lsp and Diagnostic actions', remap = false },
-  {
-    '<leader>le',
-    snacks_picker.diagnostics,
-    desc = 'Diagnostic message',
-    remap = false,
-  },
-  {
-    '<leader>wr',
-    vim.lsp.buf.remove_workspace_folder,
-    desc = 'Remove folder',
-    remap = false,
-  },
-  {
-    '<leader>ws',
-    snacks_picker.lsp_symbols,
-    desc = 'All workspaces symbols',
-    remap = false,
-  },
-  {
-    '<leader>wS',
-    snacks_picker.lsp_workspace_symbols,
-    desc = 'Current workspace symbols',
-    remap = false,
-  },
-  {
-    '<leader>s',
-    group = 'Search',
-    remap = false,
-  },
-  { 'gd', snacks_picker.lsp_definitions, desc = '[G]oto [D]efinition' },
-  { 'gD', snacks_picker.lsp_declarations, desc = '[G]oto [D]eclaration' },
-  { 'gr', snacks_picker.lsp_references, desc = '[G]oto [R]eferences' },
-  { 'gI', snacks_picker.lsp_implementations, desc = '[G]oto [I]mplementation' },
-  { 'gt', snacks_picker.lsp_type_definitions, desc = '[G]oto [T]ype Definition' },
-  {
-    '<leader>sb',
-    snacks_picker.git_branches,
-    desc = 'Git branches',
-    remap = false,
-  },
-  {
-    '<leader>sB',
-    snacks_picker.buffers,
-    desc = '[S]earch existing [B]uffers',
-    remap = false,
-  },
-  {
-    '<leader>sd',
-    snacks_picker.diagnostics,
-    desc = 'Diagnostics',
-    remap = false,
-  },
-  {
-    '<leader>sf',
-    snacks_picker.git_files,
-    desc = 'Git files',
-    remap = false,
-  },
-  {
-    '<leader>sF',
-    function()
-      snacks_picker.files({ cmd = 'rg', hidden = true, supports_live = true })
-    end,
-    desc = 'All Files',
-    remap = false,
-  },
-  {
-    '<leader>sg',
-    snacks_picker.grep,
-    desc = 'Grep word',
-    remap = false,
-  },
-  {
-    '<leader>sh',
-    snacks_picker.help,
-    desc = 'Help',
-    remap = false,
-  },
-  {
-    '<leader>sr',
-    snacks_picker.lsp_references,
-    desc = 'Lsp References',
-    remap = false,
-  },
-  {
-    '<leader>sw',
-    snacks_picker.lines,
-    desc = 'Fuzzily search word in buffer',
-    remap = false,
-  },
-  { '<leader>sW', snacks_picker.grep_word, desc = 'Word under cursor', remap = false },
-  { '<leader>tz', snacks.zen.zen, desc = 'Toggle ZenMode', silent = true },
-  { '<C-t>', snacks.terminal.toggle, desc = 'Toggle Terminal', silent = true },
-})
+utils.register_keymap_group('<leader>s', 'Search')
+
+register_normal('<leader>le', 'Diagnostic message', snacks_picker.diagnostics)
+register_normal('<leader>wr', 'Remove folder', vim.lsp.buf.remove_workspace_folder)
+register_normal('<leader>ws', 'All workspaces symbols', snacks_picker.lsp_symbols)
+register_normal('<leader>wS', 'Current workspace symbols', snacks_picker.lsp_workspace_symbols)
+register_normal('gd', '[G]oto [D]efinition', snacks_picker.lsp_definitions)
+register_normal('gD', '[G]oto [D]eclaration', snacks_picker.lsp_declarations)
+register_normal('gr', '[G]oto [R]eferences', snacks_picker.lsp_references)
+register_normal('gI', '[G]oto [I]mplementation', snacks_picker.lsp_implementations)
+register_normal('gt', '[G]oto [T]ype Definition', snacks_picker.lsp_type_definitions)
+register_normal('<leader>sb', 'Git branches', snacks_picker.git_branches)
+register_normal('<leader>sB', '[S]earch existing [B]uffers', snacks_picker.buffers)
+register_normal('<leader>sd', 'Diagnostics', snacks_picker.diagnostics)
+register_normal('<leader>sf', 'Git files', snacks_picker.git_files)
+register_normal('<leader>sF', 'All Files', function()
+  snacks_picker.files({ cmd = 'rg', hidden = true, supports_live = true })
+end)
+register_normal('<leader>sg', 'Grep word', snacks_picker.grep)
+register_normal('<leader>sh', 'Help', snacks_picker.help)
+register_normal('<leader>sr', 'Lsp References', snacks_picker.lsp_references)
+register_normal('<leader>sw', 'Fuzzily search word in buffer', snacks_picker.lines)
+register_normal('<leader>sW', 'Word under cursor', snacks_picker.grep_word)
+register_normal('<leader>tz', 'Toggle ZenMode', snacks.zen.zen, { silent = true })
+register_normal('<C-t>', 'Toggle Terminal', snacks.terminal.toggle, { silent = true })

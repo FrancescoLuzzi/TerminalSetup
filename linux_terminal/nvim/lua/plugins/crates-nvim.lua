@@ -6,10 +6,14 @@ vim.pack.add({
   },
 })
 
+local utils = require('utils')
+
 vim.api.nvim_create_autocmd('BufRead', {
   pattern = 'Cargo.toml',
   callback = function(args)
     local crates = require('crates')
+    local register_normal = utils.create_keymap_setter('n', args.buf)
+
     crates.setup({
       autoupdate_throttle = 50,
       popup = {
@@ -33,13 +37,12 @@ vim.api.nvim_create_autocmd('BufRead', {
       },
     })
 
-    require('which-key').add({
-      { '<leader>cD', crates.show_dependencies_popup, desc = '[crates] show dependencies' },
-      { '<leader>cP', crates.show_popup, desc = '[crates] show popup' },
-      { '<leader>cV', crates.show_versions_popup, desc = '[crates] show versions popup' },
-      { '<leader>cf', crates.show_features_popup, desc = '[crates] show features' },
-      { '<leader>ci', crates.show_crate_popup, desc = '[crates] show info' },
-      { '<leader>cy', crates.open_repository, desc = '[crates] open repository' },
-    }, { buffer = args.buf })
+    utils.register_keymap_group('<leader>c', 'Crates', args.buf)
+    register_normal('<leader>cD', '[crates] show dependencies', crates.show_dependencies_popup)
+    register_normal('<leader>cP', '[crates] show popup', crates.show_popup)
+    register_normal('<leader>cV', '[crates] show versions popup', crates.show_versions_popup)
+    register_normal('<leader>cf', '[crates] show features', crates.show_features_popup)
+    register_normal('<leader>ci', '[crates] show info', crates.show_crate_popup)
+    register_normal('<leader>cy', '[crates] open repository', crates.open_repository)
   end,
 })

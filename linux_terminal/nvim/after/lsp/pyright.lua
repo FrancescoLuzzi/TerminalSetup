@@ -1,3 +1,5 @@
+local utils = require('utils')
+
 local function pip_install()
   vim.ui.input({ prompt = 'Install packages (separated by space): ' }, function(packages)
     vim.cmd('!pip install ' .. packages)
@@ -35,14 +37,11 @@ local new_capability = {
 ---@type vim.lsp.Config
 return {
   -- cmd = { "delance-langserver", "--stdio" },
-  on_attach = function(client, bufnr)
-    local wk = require('which-key')
-    wk.add({
-      { '<leader>c', group = 'PythonCoding' },
-      { '<leader>cp', group = 'Pip commands' },
-      { '<leader>cpi', pip_install, desc = 'Install package' },
-      { '<leader>cpr', pip_freeze, desc = 'Generate requirements.txt' },
-    })
+  on_attach = function(_, bufnr)
+    local register_normal = utils.create_keymap_setter('n', bufnr)
+    utils.register_keymap_group('<leader>c', 'PythonCoding', bufnr)
+    register_normal('<leader>ci', 'Install package', pip_install)
+    register_normal('<leader>cf', 'Generate requirements.txt', pip_freeze)
   end,
   ---@type lspconfig.settings.pyright
   settings = {

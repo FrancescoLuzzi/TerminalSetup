@@ -28,8 +28,8 @@ require('mason').setup()
 local mason_lspconfig = require('mason-lspconfig')
 local mason_tool_installer = require('mason-tool-installer')
 local utils = require('utils')
-local keymaps = require('keymaps')
 local augroup = utils.create_augroup('LSP')
+local register_normal = utils.create_keymap_setter('n')
 
 require('lazydev').setup({
   enabled = true,
@@ -41,76 +41,26 @@ require('lazydev').setup({
   },
 })
 
+utils.register_keymap_group('<leader>l', 'Lsp and Diagnostic actions')
+utils.register_keymap_group('<leader>w', 'Workspace')
 
-require('which-key').add({
-  { '<leader>l', group = 'Lsp and Diagnostic actions', remap = false },
-  {
-    '<leader>la',
-    vim.lsp.buf.code_action,
-    desc = 'Code Action',
-    remap = false,
-  },
-  {
-    '<leader>ld',
-    vim.diagnostic.open_float,
-    desc = 'Diagnostic message',
-    remap = false,
-  },
-  {
-    '<leader>ll',
-    vim.lsp.codelens.run,
-    desc = 'CodeLens',
-    remap = false,
-  },
-  {
-    '<leader>lq',
-    vim.diagnostic.setqflist,
-    desc = 'Open diagnostics quickfix list',
-    remap = false,
-  },
-  {
-    '<leader>lr',
-    vim.lsp.buf.rename,
-    desc = 'Rename symbol',
-    remap = false,
-  },
-  {
-    '<leader>w',
-    group = 'Workspace',
-    remap = false,
-  },
-  {
-    '<leader>wa',
-    vim.lsp.buf.add_workspace_folder,
-    desc = 'Add folder',
-    remap = false,
-  },
-  {
-    '<leader>wl',
-    function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end,
-    desc = 'List folders',
-    remap = false,
-  },
-  {
-    '<leader>wr',
-    vim.lsp.buf.remove_workspace_folder,
-    desc = 'Remove folder',
-    remap = false,
-  },
-  {
-    'K',
-    function()
-      vim.lsp.buf.hover({
-        border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
-        close_events = { 'CursorMoved', 'BufLeave', 'WinLeave', 'LSPDetach' },
-      })
-    end,
-    desc = 'Hover Documentation',
-  },
-  { 'J', vim.lsp.buf.signature_help, desc = 'Signature Documentation' },
-})
+register_normal('<leader>la', 'Code Action', vim.lsp.buf.code_action)
+register_normal('<leader>ld', 'Diagnostic message', vim.diagnostic.open_float)
+register_normal('<leader>ll', 'CodeLens', vim.lsp.codelens.run)
+register_normal('<leader>lq', 'Open diagnostics quickfix list', vim.diagnostic.setqflist)
+register_normal('<leader>lr', 'Rename symbol', vim.lsp.buf.rename)
+register_normal('<leader>wa', 'Add folder', vim.lsp.buf.add_workspace_folder)
+register_normal('<leader>wl', 'List folders', function()
+  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+end)
+register_normal('<leader>wr', 'Remove folder', vim.lsp.buf.remove_workspace_folder)
+register_normal('K', 'Hover Documentation', function()
+  vim.lsp.buf.hover({
+    border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+    close_events = { 'CursorMoved', 'BufLeave', 'WinLeave', 'LSPDetach' },
+  })
+end)
+register_normal('J', 'Signature Documentation', vim.lsp.buf.signature_help)
 
 local servers = {
   -- this is installed with rustaceanvim
@@ -123,7 +73,7 @@ local servers = {
   'docker_compose_language_service',
   'dockerls',
   'html',
-  'htmx',
+  -- 'htmx',
   'tailwindcss',
   'zls',
   'emmet_ls',
@@ -199,6 +149,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(attach)
     local bufnr = attach.buf
     local client = vim.lsp.get_client_by_id(attach.data.client_id)
+    local register_buffer_normal = utils.create_keymap_setter('n', bufnr)
+
     if client then
       -- Completion
       if client:supports_method('textDocument/completion') then
@@ -218,13 +170,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
       -- Inlay Hint
       if client:supports_method('textDocument/inlayHint') then
-        keymaps.add({
-          '<leader>th',
-          function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = attach.buf })
-          end,
-          desc = '[T]oggle Inlay [H]ints',
-        })
+        register_buffer_normal('<leader>th', '[T]oggle Inlay [H]ints', function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = attach.buf })
+        end)
       end
     end
 

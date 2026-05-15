@@ -5,6 +5,8 @@ vim.pack.add({
   },
 })
 
+local utils = require('utils')
+
 vim.g.rustaceanvim = function()
   local mason_path = vim.fn.glob(vim.fn.stdpath('data') .. '/mason/')
   local codelldb_path = mason_path .. 'bin/codelldb'
@@ -31,16 +33,17 @@ vim.g.rustaceanvim = function()
     },
     server = {
       on_attach = function(client, bufnr)
-        require('which-key').add({
-          { '<leader>c', group = 'RustCoding' },
-          { '<leader>cc', '<cmd>RustLsp openCargo<Cr>', desc = 'Open Cargo' },
-          { '<leader>cd', '<cmd>RustLsp debuggables<Cr>', desc = 'Debuggables' },
-          { '<leader>cm', '<cmd>RustLsp expandMacro<Cr>', desc = 'Expand Macro' },
-          { '<leader>co', '<cmd>RustLsp openDocs<Cr>', desc = 'Open External Docs' },
-          { '<leader>cr', '<cmd>RustLsp runnables<Cr>', desc = 'Runnables' },
-          { '<leader>ct', '<cmd>RustLsp testables<cr>', desc = 'Cargo Test' },
-          { '<leader>cv', '<cmd>RustLsp crateGraph<Cr>', desc = 'View Crate Graph' },
-        }, { bufn = bufnr })
+        local register_normal = utils.create_keymap_setter('n', bufnr)
+
+        utils.register_keymap_group('<leader>c', 'RustCoding', bufnr)
+        register_normal('<leader>cc', 'Open Cargo', '<cmd>RustLsp openCargo<Cr>')
+        register_normal('<leader>cd', 'Debuggables', '<cmd>RustLsp debuggables<Cr>')
+        register_normal('<leader>cm', 'Expand Macro', '<cmd>RustLsp expandMacro<Cr>')
+        register_normal('<leader>co', 'Open External Docs', '<cmd>RustLsp openDocs<Cr>')
+        register_normal('<leader>cr', 'Runnables', '<cmd>RustLsp runnables<Cr>')
+        register_normal('<leader>ct', 'Cargo Test', '<cmd>RustLsp testables<Cr>')
+        register_normal('<leader>cv', 'View Crate Graph', '<cmd>RustLsp crateGraph<Cr>')
+
         if client:supports_method('textDocument/codeLens') then
           vim.lsp.codelens.enable(true, { bufnr = bufnr })
           vim.api.nvim_create_autocmd('BufWritePost', {

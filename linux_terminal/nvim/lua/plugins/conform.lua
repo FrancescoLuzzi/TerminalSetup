@@ -5,7 +5,8 @@ vim.pack.add({
   },
 })
 
-local keymaps = require('keymaps')
+local utils = require('utils')
+local register_normal = utils.create_keymap_setter('n')
 
 require('conform').setup({
   formatters_by_ft = {
@@ -53,11 +54,4 @@ vim.api.nvim_create_user_command('FormatToggle', function()
   print('Setting autoformatting to: ' .. tostring(not vim.g.disable_autoformat))
 end, {})
 
-keymaps.add({
-  {
-    '<leader>tf',
-    ':FormatToggle<CR>',
-    desc = 'Toggle Formatting',
-    silent = true,
-  },
-})
+register_normal('<leader>tf', 'Toggle Formatting', ':FormatToggle<CR>', { silent = true })
