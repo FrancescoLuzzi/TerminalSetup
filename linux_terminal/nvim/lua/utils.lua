@@ -29,8 +29,15 @@ Utils.once = function(func)
   end
 end
 
+--- @param name string
 Utils.create_augroup = function(name)
   return vim.api.nvim_create_augroup('fluzzi_custom_agroup_' .. name, { clear = true })
+end
+
+--- @param name string
+--- @param func fun()
+Utils.create_usrcmd = function(name, func)
+  vim.api.nvim_create_user_command(name, func, { desc = 'usercmd for' .. name })
 end
 
 return Utils
