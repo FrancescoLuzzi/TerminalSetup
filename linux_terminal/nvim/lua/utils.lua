@@ -1,3 +1,10 @@
+vim.pack.add({
+  {
+    src = 'https://github.com/folke/which-key.nvim',
+    version = 'main',
+  },
+})
+
 local Utils = {}
 
 Utils.is_windows = vim.fn.has('win32') == 1
