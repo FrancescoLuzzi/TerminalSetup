@@ -17,4 +17,6 @@ todo_comments.setup({ signs = false })
 register_normal('[t', 'previous todo comment', todo_comments.jump_prev)
 register_normal(']t', 'next todo comment', todo_comments.jump_next)
 -- todo_comments function is injected by 'todo-comments'
-register_normal('<leader>st', 'search todos', snacks.picker.todo_comments())
+register_normal('<leader>st', 'search todos', function()
+  Snacks.picker.todo_comments()
+end)

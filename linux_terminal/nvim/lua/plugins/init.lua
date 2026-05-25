@@ -2,6 +2,7 @@ require('plugins.mini')
 require('plugins.alpha')
 require('plugins.snacks')
 
+require('plugins.undotree')
 require('plugins.blink')
 require('plugins.conform')
 require('plugins.crates-nvim')
