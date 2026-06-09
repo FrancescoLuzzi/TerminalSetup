@@ -10,6 +10,7 @@ local snacks = require('snacks')
 
 snacks.setup({
   bigfile = { enabled = true },
+  input = { enabled = true },
   notifier = {
     enabled = true,
     timeout = 3000,
