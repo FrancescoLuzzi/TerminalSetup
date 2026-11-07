@@ -228,28 +228,62 @@ function install_lazygit() {
     rm -r "$artifact_file" "$td"
 }
 
+function configure_alacritty_appimage_apparmor() {
+    local aa_profile=/etc/apparmor.d/fusermount3
+    local aa_local=/etc/apparmor.d/local/fusermount3
+    local aa_label
+    aa_label=$(cat /proc/self/attr/current 2>/dev/null)
+
+    # Only apply this workaround from the affected terminal, using the local
+    # override included by Ubuntu's default fusermount3 profile.
+    [ -f "$aa_profile" ] || return 0
+    if [[ "$aa_label" != 'snap.alacritty.alacritty' && "$aa_label" != 'snap.alacritty.alacritty ('* ]]; then
+        return 0
+    fi
+    if ! command -v apparmor_parser >/dev/null 2>&1; then
+        echo "Cannot configure the AppImage workaround: apparmor_parser is missing." >&2
+        return 1
+    fi
+
+    # Install the embedded override instead of editing existing policy rules.
+    sudo install -D -o root -g root -m 0644 /dev/stdin "$aa_local" <<'EOF' || return 1
+# Local override for Ubuntu's default fusermount3 AppArmor profile.
+# Allow the anonymous stream socket used to pass the FUSE file descriptor
+# when an AppImage is launched from Snap Alacritty; keep all other defaults.
+unix (send receive) type=stream addr=none peer=(label=snap.alacritty.alacritty addr=none),
+EOF
+    if ! sudo apparmor_parser -r "$aa_profile"; then
+        echo "Failed to reload fusermount3 AppArmor policy; the previous policy may still be active." >&2
+        return 1
+    fi
+}
+
 function install_nvim() {
     local url=$(get_github_release_artifact_url neovim neovim "stable" "nvim-linux-x86_64.appimage")
-    echo $url
-    local file=$(download_github_release_artifact $url)
-    echo $file
+    echo "$url"
+    local file=$(download_github_release_artifact "$url")
     if in_docker; then
-        mkdir -p /tmp/nvim
-        chmod a+x ./$file
-        mv ./$file /tmp/nvim
-        cd /tmp/nvim
-        ./nvim.appimage --appimage-extract
-        sudo ln -sf /tmp/nvim/squashfs-root/AppRun /usr/local/bin/nvim
-        cd -
+        # AppImages usually cannot mount themselves inside containers.
+        local td=$(mktemp -d || mktemp -d -t tmp)
+        chmod a+x "./$file"
+        (cd "$td" && "${_pwd}/$file" --appimage-extract >/dev/null)
+        sudo rm -rf /usr/local/lib/nvim
+        sudo mv "$td/squashfs-root" /usr/local/lib/nvim
+        sudo ln -sfn /usr/local/lib/nvim/AppRun /usr/local/bin/nvim
+        rm -rf "$file" "$td"
     else
-        if ! sudo apt list | grep -q "fuse3"; then
-            sudo apt install fuse3 -y
+        if ! dpkg -s fuse3 >/dev/null 2>&1; then
+            sudo apt install -y fuse3
         fi
-        if ! sudo apt list | grep -q "libfuse2t64"; then
-            sudo apt install libfuse2t64 -y
+        if ! dpkg -s libfuse2t64 >/dev/null 2>&1; then
+            sudo apt install -y libfuse2t64
         fi
-        chmod u+x ./$file
-        sudo mv ./$file /usr/local/bin/nvim
+        chmod u+x "./$file"
+        sudo mv "./$file" /usr/local/bin/nvim
+        # Ubuntu 26.04's fusermount3 profile can deny the anonymous socket
+        # inherited from Snap Alacritty. AppImages launched there can fail with:
+        #   fusermount: file descriptor N is not a socket, can't send fuse fd
+        configure_alacritty_appimage_apparmor || return 1
     fi
     # backup old nvim config
     if file ~/.config/nvim | grep -q 'directory'; then
@@ -334,7 +368,7 @@ declare -a programs
 
 mkdir -p ~/.config
 
-while getopts ':IUghnprze:w:' OPTION; do
+while getopts ':IUghnprzde:w:' OPTION; do
     case $OPTION in
     h)
         showHelp
@@ -437,15 +471,13 @@ function __wait() {
     # launch it in bg and kill it with "kill %1"
     local output=$1
     shift
-    local i=0
+    local i=1
     while true; do
-        # go up one line
-        echo -e "\r$output$(dots $(($i + 1)))"
-        i=$((++i % 3))
+        # redraw on the same line, cycling ., .., ...
+        # pad with spaces so leftover dots from a longer frame are overwritten
+        printf "\r%s%s%*s" "$output" "$(dots "$i")" $((3 - i)) ""
+        i=$((i % 3 + 1))
         sleep 0.5
-        tput el
-        tput cuu1
-        tput el
     done
 }
 
@@ -617,6 +649,8 @@ if [ "$UP_TO_DATE" != "up to date" ]; then
     install_lazygit
     # kill __wait
     kill %1
+    wait %1 2>/dev/null
+    echo
 fi
 
 # interactive install
@@ -687,7 +721,7 @@ done
 if [ "$editor" = "vim" ]; then
     install_vim
 elif [ "$editor" = "nvim" ]; then
-    install_nvim
+    install_nvim || exit 1
 fi
 
 if [ "$terminal_multiplexer" = "tmux" ]; then
