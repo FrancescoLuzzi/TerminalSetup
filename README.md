@@ -78,9 +78,104 @@ Download and install [Windows Terminal](https://aka.ms/terminal), then edit the 
             },
             "opacity": 100,
             "bellStyle": "none"
-        },
+        }
         //...
-    }
+    },
+    "actions": [
+        {
+            "id": "User.splitPane.horizontalDuplicate",
+            "command": {
+                "action": "splitPane",
+                "split": "horizontal",
+                "splitMode": "duplicate"
+            }
+        },
+        {
+            "id": "User.splitPane.verticalDuplicate",
+            "command": {
+                "action": "splitPane",
+                "split": "vertical",
+                "splitMode": "duplicate"
+            }
+        },
+        {
+            "id": "User.splitPane.autoDuplicate",
+            "command": {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            }
+        },
+        {
+            "id": "User.tab.duplicate",
+            "command": "duplicateTab"
+        },
+        {
+            "id": "User.pane.close",
+            "command": "closePane"
+        },
+        {
+            "id": "User.moveFocus.left",
+            "command": { "action": "moveFocus", "direction": "left" }
+        },
+        {
+            "id": "User.moveFocus.down",
+            "command": { "action": "moveFocus", "direction": "down" }
+        },
+        {
+            "id": "User.moveFocus.up",
+            "command": { "action": "moveFocus", "direction": "up" }
+        },
+        {
+            "id": "User.moveFocus.right",
+            "command": { "action": "moveFocus", "direction": "right" }
+        },
+        {
+            "id": "User.clipboard.copy",
+            "command": { "action": "copy", "singleLine": false }
+        },
+        {
+            "id": "User.clipboard.paste",
+            "command": "paste"
+        },
+        {
+            "id": "User.search.find",
+            "command": "find"
+        }
+    ],
+    "keybindings": [
+        { "id": "User.splitPane.horizontalDuplicate", "keys": "alt+minus" },
+        { "id": "User.splitPane.verticalDuplicate",   "keys": "alt+\\" },
+        { "id": "User.splitPane.autoDuplicate",       "keys": "alt+shift+d" },
+        { "id": "User.tab.duplicate",                 "keys": "ctrl+shift+d" },
+        { "id": "User.pane.close",                    "keys": "alt+w" },
+
+        { "id": "User.moveFocus.left",                "keys": "alt+h" },
+        { "id": "User.moveFocus.down",                "keys": "alt+j" },
+        { "id": "User.moveFocus.up",                  "keys": "alt+k" },
+        { "id": "User.moveFocus.right",               "keys": "alt+l" },
+
+        { "id": "User.clipboard.copy",                "keys": "ctrl+shift+c" },
+        { "id": "User.clipboard.paste",               "keys": "ctrl+shift+v" },
+        { "id": "User.search.find",                   "keys": "ctrl+shift+f" },
+
+        { "id": null, "keys": "ctrl+shift+n" },
+        { "id": null, "keys": "ctrl+shift+minus" },
+        { "id": null, "keys": "ctrl+shift+\\" },
+        { "id": null, "keys": "ctrl+shift+w" },
+        { "id": null, "keys": "alt+shift+plus" },
+        { "id": null, "keys": "alt+shift+minus" },
+        { "id": null, "keys": "alt+left" },
+        { "id": null, "keys": "alt+down" },
+        { "id": null, "keys": "alt+up" },
+        { "id": null, "keys": "alt+right" },
+        { "id": null, "keys": "alt+space" },
+        { "id": null, "keys": "alt+enter" },
+        { "id": null, "keys": "ctrl+h" },
+        { "id": null, "keys": "ctrl+j" },
+        { "id": null, "keys": "ctrl+k" },
+        { "id": null, "keys": "ctrl+l" }
+    ]
     //...
 }
 ```
